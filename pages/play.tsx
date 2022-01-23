@@ -78,7 +78,7 @@ const Page: React.FC<PageProps> = ({ card, audio }) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   try {
     const { Items } = await dynamoDb.scan({
       FilterExpression: "attribute_exists(title)",

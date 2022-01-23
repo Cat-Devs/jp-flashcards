@@ -54,7 +54,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   const { Item } = await dynamoDb.get({
     Key: {
       id: params.id,

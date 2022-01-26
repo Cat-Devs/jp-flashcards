@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ThemeProvider } from "@mui/material/styles";
@@ -6,10 +6,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { theme } from "../src/theme";
 import { LoadingPage } from "../src/Components/Loading";
+import { useShuffleCards } from "../src/use-shuffle-cards";
+import { Application } from "../src/AppContext";
 
 const App = (props) => {
   const { Component, pageProps } = props;
   const [loading, setLoading] = useState(false);
+  const { state, dispatch } = useShuffleCards();
 
   const router = useRouter();
 
@@ -31,7 +34,7 @@ const App = (props) => {
   }, [router]);
 
   return (
-    <React.Fragment>
+    <Application.Provider value={{ state, dispatch }}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
@@ -40,7 +43,7 @@ const App = (props) => {
         <CssBaseline />
         {loading ? <LoadingPage /> : <Component {...pageProps} />}
       </ThemeProvider>
-    </React.Fragment>
+    </Application.Provider>
   );
 };
 

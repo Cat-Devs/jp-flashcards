@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
 import { Flashcard, FlashCardItem } from "../../src/Components/Flashcard";
+import { Application } from "../../src/AppContext";
 
 interface WordsProps {
   card: FlashCardItem;
@@ -14,21 +15,18 @@ interface WordsProps {
 }
 
 const CardPage: React.FC<WordsProps> = ({ card, audio, cardIds }) => {
-  // console.warn(cardIds);
-
   const router = useRouter();
+  const { state, dispatch } = useContext(Application);
 
-  const nextCard = (cardId: string) => {
-    const random = Math.floor(Math.random() * cardIds.length);
-    const nextCard = cardIds[random];
-
-    router.push(`${nextCard}`);
+  const playNextCard = () => {
+    dispatch({ type: "nextCard" });
+    router.push(`/cards/${state.nextCard}`);
   };
 
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
-        <Flashcard card={card} audio={audio} onNext={nextCard} />
+        <Flashcard card={card} audio={audio} onNext={playNextCard} />
       </Box>
     </Container>
   );

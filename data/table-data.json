@@ -42,7 +42,7 @@
     "kanji": "四",
     "hiragana": "よん / し",
     "katakana": "",
-    "romaji": "yon, shi"
+    "romaji": "yon / shi"
   },
   {
     "title": "5",
@@ -83,9 +83,9 @@
   {
     "title": "9",
     "type": "numbers",
-    "jp": "く, きゅう",
+    "jp": "く / きゅう",
     "kanji": "九",
-    "hiragana": "く, きゅう",
+    "hiragana": "く / きゅう",
     "katakana": "",
     "romaji": "ku / kyuu"
   },
@@ -101,8 +101,8 @@
   {
     "title": "11",
     "type": "numbers",
-    "jp": "xxx",
-    "kanji": "xxx",
+    "jp": "十一",
+    "kanji": "十一",
     "hiragana": "じゅういち",
     "katakana": "",
     "romaji": "juu-ichi"
@@ -252,15 +252,6 @@
     "romaji": "oku"
   },
   {
-    "title": "LAST",
-    "type": "color",
-    "jp": "LAST",
-    "kanji": "LAST",
-    "hiragana": "LAST",
-    "katakana": "LAST",
-    "romaji": "LAST"
-  },
-  {
     "title": "red",
     "type": "color",
     "jp": "赤",
@@ -335,11 +326,11 @@
   {
     "title": "pink",
     "type": "color",
-    "jp": "桃色",
+    "jp": "桃色 / ピンク",
     "kanji": "桃色",
     "hiragana": "ももいろ",
-    "katakana": "XXX",
-    "romaji": "momoiro"
+    "katakana": "ピンク",
+    "romaji": "momoiro / pinku"
   },
   {
     "title": "gray",
@@ -353,11 +344,11 @@
   {
     "title": "orange",
     "type": "color",
-    "jp": "橙色",
+    "jp": "橙色 / オレンジ",
     "kanji": "橙色",
     "hiragana": "だいだいいろ",
-    "katakana": "XXX",
-    "romaji": "daidaiiro"
+    "katakana": "オレンジ",
+    "romaji": "daidaiiro / orenji"
   },
   {
     "title": "light blue",
@@ -450,12 +441,309 @@
     "romaji": "inu"
   },
   {
-    "title": "LAST",
-    "type": "LAST",
-    "jp": "LAST",
-    "kanji": "LAST",
-    "hiragana": "LAST",
+    "title": "monkey",
+    "type": "animal",
+    "jp": "猿",
+    "kanji": "猿",
+    "hiragana": "さる",
+    "katakana": "",
+    "romaji": "saru"
+  },
+  {
+    "title": "swan",
+    "type": "animal",
+    "jp": "白鳥",
+    "kanji": "白鳥",
+    "hiragana": "はくちょう",
+    "katakana": "",
+    "romaji": "hakuchou"
+  },
+  {
+    "title": "horse",
+    "type": "animal",
+    "jp": "馬",
+    "kanji": "馬",
+    "hiragana": "うま",
+    "katakana": "",
+    "romaji": "uma"
+  },
+  {
+    "title": "octopus",
+    "type": "animal",
+    "jp": "蛸",
+    "kanji": "蛸",
+    "hiragana": "たこ",
+    "katakana": "",
+    "romaji": "tako"
+  },
+  {
+    "title": "fish",
+    "type": "animal",
+    "jp": "魚",
+    "kanji": "魚",
+    "hiragana": "さかな",
+    "katakana": "",
+    "romaji": "sakana"
+  },
+  {
+    "title": "duck",
+    "type": "animal",
+    "jp": "鴨",
+    "kanji": "鴨",
+    "hiragana": "かも",
+    "katakana": "",
+    "romaji": "kamo"
+  },
+  {
+    "title": "bear",
+    "type": "animal",
+    "jp": "熊",
+    "kanji": "熊",
+    "hiragana": "くま",
     "katakana": "LAST",
-    "romaji": "LAST"
+    "romaji": "kuma"
+  },
+  {
+    "title": "bird",
+    "type": "animal",
+    "jp": "鳥",
+    "kanji": "鳥",
+    "hiragana": "とり",
+    "katakana": "",
+    "romaji": "tori"
+  },
+  {
+    "title": "goat",
+    "type": "animal",
+    "jp": "山羊",
+    "kanji": "山羊",
+    "hiragana": "やぎ",
+    "katakana": "LAST",
+    "romaji": "yagi"
+  },
+  {
+    "title": "ant",
+    "type": "animal",
+    "jp": "蟻",
+    "kanji": "蟻",
+    "hiragana": "あり",
+    "katakana": "",
+    "romaji": "ari"
+  },
+  {
+    "title": "rabbit",
+    "type": "animal",
+    "jp": "兎",
+    "kanji": "兎",
+    "hiragana": "うさぎ",
+    "katakana": "",
+    "romaji": "usagi"
+  },
+  {
+    "title": "lizard",
+    "type": "animal",
+    "jp": "蜥蜴",
+    "kanji": "蜥蜴",
+    "hiragana": "とかげ",
+    "katakana": "",
+    "romaji": "tokage"
+  },
+  {
+    "title": "mouse",
+    "type": "animal",
+    "jp": "鼠",
+    "kanji": "鼠",
+    "hiragana": "ねずみ",
+    "katakana": "",
+    "romaji": "nezumi"
+  },
+  {
+    "title": "bee",
+    "type": "animal",
+    "jp": "蜂",
+    "kanji": "蜂",
+    "hiragana": "はち",
+    "katakana": "",
+    "romaji": "hachi"
+  },
+  {
+    "title": "goose",
+    "type": "animal",
+    "jp": "鵞鳥",
+    "kanji": "鵞鳥",
+    "hiragana": "がちょう",
+    "katakana": "",
+    "romaji": "gachou"
+  },
+  {
+    "title": "turkey",
+    "type": "animal",
+    "jp": "七面鳥",
+    "kanji": "七面鳥",
+    "hiragana": "しちめんちょう",
+    "katakana": "",
+    "romaji": "shichimencho"
+  },
+  {
+    "title": "frog",
+    "type": "animal",
+    "jp": "蛙",
+    "kanji": "蛙",
+    "hiragana": "かえる",
+    "katakana": "",
+    "romaji": "kaeru"
+  },
+  {
+    "title": "crab",
+    "type": "animal",
+    "jp": "蟹",
+    "kanji": "蟹",
+    "hiragana": "かに",
+    "katakana": "",
+    "romaji": "kani"
+  },
+  {
+    "title": "chicken",
+    "type": "animal",
+    "jp": "鶏",
+    "kanji": "鶏",
+    "hiragana": "にわとり",
+    "katakana": "",
+    "romaji": "niwatori"
+  },
+  {
+    "title": "snake",
+    "type": "animal",
+    "jp": "蛇",
+    "kanji": "蛇",
+    "hiragana": "へび",
+    "katakana": "",
+    "romaji": "hebi"
+  },
+  {
+    "title": "whale",
+    "type": "animal",
+    "jp": "鯨",
+    "kanji": "鯨",
+    "hiragana": "くじら",
+    "katakana": "",
+    "romaji": "kujira"
+  },
+  {
+    "title": "camel",
+    "type": "animal",
+    "jp": "駱駝",
+    "kanji": "駱駝",
+    "hiragana": "らくだ",
+    "katakana": "",
+    "romaji": "rakuda"
+  },
+  {
+    "title": "deer",
+    "type": "animal",
+    "jp": "鹿",
+    "kanji": "鹿",
+    "hiragana": "しか",
+    "katakana": "",
+    "romaji": "shika"
+  },
+  {
+    "title": "fly",
+    "type": "animal",
+    "jp": "蠅",
+    "kanji": "蠅",
+    "hiragana": "はえ",
+    "katakana": "",
+    "romaji": "hae"
+  },
+  {
+    "title": "squid",
+    "type": "animal",
+    "jp": "烏賊",
+    "kanji": "烏賊",
+    "hiragana": "イカ",
+    "katakana": "",
+    "romaji": "ika"
+  },
+  {
+    "title": "Duck",
+    "type": "animal",
+    "jp": "家鴨",
+    "kanji": "家鴨",
+    "hiragana": "",
+    "katakana": "アヒル",
+    "romaji": "Ahiru"
+  },
+  {
+    "title": "Wolf",
+    "type": "animal",
+    "jp": "狼",
+    "kanji": "狼",
+    "hiragana": "",
+    "katakana": "オオカミ",
+    "romaji": "Ookami"
+  },
+  {
+    "title": "Elephant",
+    "type": "animal",
+    "jp": "象",
+    "kanji": "象",
+    "hiragana": "",
+    "katakana": "ゾウ",
+    "romaji": "Zou"
+  },
+  {
+    "title": "Giraffe",
+    "type": "animal",
+    "jp": "麒麟",
+    "kanji": "麒麟",
+    "hiragana": "",
+    "katakana": "キリン",
+    "romaji": "Kirin"
+  },
+  {
+    "title": "Dolphin",
+    "type": "animal",
+    "jp": "海豚",
+    "kanji": "海豚",
+    "hiragana": "",
+    "katakana": "イルカ",
+    "romaji": "Iruka"
+  },
+  {
+    "title": "Koala",
+    "type": "animal",
+    "jp": "",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "コアラ",
+    "romaji": "Koara"
+  },
+  {
+    "title": "Tiger",
+    "type": "animal",
+    "jp": "虎",
+    "kanji": "虎",
+    "hiragana": "",
+    "katakana": "トラ",
+    "romaji": "Tora"
+  },
+  {
+    "title": "Lion",
+    "type": "animal",
+    "jp": "獅子",
+    "kanji": "獅子",
+    "hiragana": "しし",
+    "katakana": "ライオン",
+    "romaji": "Shishi / Raion"
+  },
+  {
+    "title": "Fox",
+    "type": "animal",
+    "jp": "狐",
+    "kanji": "狐",
+    "hiragana": "",
+    "katakana": "キツネ",
+    "romaji": "Kitzune"
   }
 ]

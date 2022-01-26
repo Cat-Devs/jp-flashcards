@@ -11,14 +11,12 @@ import Avatar from "@mui/material/Avatar";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 
 export interface FlashCardItem {
-  kanji: string;
-  hiragana: string;
-  katakana: string;
+  kanji?: string;
+  hiragana?: string;
+  katakana?: string;
   jp: string;
-  examples: string[];
-  romaji: string;
+  romaji?: string;
   id: string;
-  pictureId: string;
   title: string;
 }
 interface FlashcardProps {

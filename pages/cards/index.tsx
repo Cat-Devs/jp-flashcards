@@ -40,6 +40,7 @@ export async function getStaticProps() {
       cardIds,
       cardId: item.id,
     },
+    revalidate: 600,
   };
 }
 

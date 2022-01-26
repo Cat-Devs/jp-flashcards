@@ -486,21 +486,12 @@
     "romaji": "sakana"
   },
   {
-    "title": "duck",
-    "type": "animal",
-    "jp": "鴨",
-    "kanji": "鴨",
-    "hiragana": "かも",
-    "katakana": "",
-    "romaji": "kamo"
-  },
-  {
     "title": "bear",
     "type": "animal",
     "jp": "熊",
     "kanji": "熊",
     "hiragana": "くま",
-    "katakana": "",
+    "katakana": "クマ",
     "romaji": "kuma"
   },
   {
@@ -518,7 +509,7 @@
     "jp": "山羊",
     "kanji": "山羊",
     "hiragana": "やぎ",
-    "katakana": "LAST",
+    "katakana": "",
     "romaji": "yagi"
   },
   {
@@ -536,7 +527,7 @@
     "jp": "兎",
     "kanji": "兎",
     "hiragana": "うさぎ",
-    "katakana": "",
+    "katakana": "ウサギ",
     "romaji": "usagi"
   },
   {
@@ -554,7 +545,7 @@
     "jp": "鼠",
     "kanji": "鼠",
     "hiragana": "ねずみ",
-    "katakana": "",
+    "katakana": "ネズミ",
     "romaji": "nezumi"
   },
   {
@@ -590,7 +581,7 @@
     "jp": "蛙",
     "kanji": "蛙",
     "hiragana": "かえる",
-    "katakana": "",
+    "katakana": "カエル",
     "romaji": "kaeru"
   },
   {
@@ -605,19 +596,19 @@
   {
     "title": "chicken",
     "type": "animal",
-    "jp": "鶏",
+    "jp": "にわとり",
     "kanji": "鶏",
     "hiragana": "にわとり",
-    "katakana": "",
+    "katakana": "ニワトリ",
     "romaji": "niwatori"
   },
   {
     "title": "snake",
     "type": "animal",
-    "jp": "蛇",
+    "jp": "へび",
     "kanji": "蛇",
     "hiragana": "へび",
-    "katakana": "",
+    "katakana": "ヘビ",
     "romaji": "hebi"
   },
   {
@@ -666,84 +657,84 @@
     "romaji": "ika"
   },
   {
-    "title": "Duck",
+    "title": "duck",
     "type": "animal",
     "jp": "家鴨",
     "kanji": "家鴨",
     "hiragana": "",
     "katakana": "アヒル",
-    "romaji": "Ahiru"
+    "romaji": "ahiru"
   },
   {
-    "title": "Wolf",
+    "title": "wolf",
     "type": "animal",
     "jp": "狼",
     "kanji": "狼",
     "hiragana": "",
     "katakana": "オオカミ",
-    "romaji": "Ookami"
+    "romaji": "ookami"
   },
   {
-    "title": "Elephant",
+    "title": "elephant",
     "type": "animal",
     "jp": "象",
     "kanji": "象",
     "hiragana": "",
     "katakana": "ゾウ",
-    "romaji": "Zou"
+    "romaji": "zou"
   },
   {
-    "title": "Giraffe",
+    "title": "giraffe",
     "type": "animal",
     "jp": "麒麟",
     "kanji": "麒麟",
     "hiragana": "",
     "katakana": "キリン",
-    "romaji": "Kirin"
+    "romaji": "kirin"
   },
   {
-    "title": "Dolphin",
+    "title": "dolphin",
     "type": "animal",
     "jp": "海豚",
     "kanji": "海豚",
     "hiragana": "",
     "katakana": "イルカ",
-    "romaji": "Iruka"
+    "romaji": "iruka"
   },
   {
-    "title": "Koala",
+    "title": "koala",
     "type": "animal",
     "jp": "コアラ",
     "kanji": "",
     "hiragana": "",
     "katakana": "コアラ",
-    "romaji": "Koara"
+    "romaji": "koara"
   },
   {
-    "title": "Tiger",
+    "title": "tiger",
     "type": "animal",
     "jp": "虎",
     "kanji": "虎",
     "hiragana": "",
     "katakana": "トラ",
-    "romaji": "Tora"
+    "romaji": "tora"
   },
   {
-    "title": "Lion",
+    "title": "lion",
     "type": "animal",
     "jp": "獅子",
     "kanji": "獅子",
     "hiragana": "しし",
     "katakana": "ライオン",
-    "romaji": "Shishi / Raion"
+    "romaji": "shishi / raion"
   },
   {
-    "title": "Fox",
+    "title": "fox",
     "type": "animal",
     "jp": "狐",
     "kanji": "狐",
     "hiragana": "",
     "katakana": "キツネ",
-    "romaji": "Kitzune"
+    "romaji": "kitzune"
   }
 ]

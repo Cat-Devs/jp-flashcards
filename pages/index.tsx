@@ -1,10 +1,11 @@
 import React from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Copyright from "../src/Copyright";
 import Link from "next/link";
-import { Button } from "@mui/material";
+
+import Copyright from "../src/Components/Copyright";
 
 const Index: React.FC = () => {
   return (
@@ -16,10 +17,10 @@ const Index: React.FC = () => {
         <Link
           passHref
           href={{
-            pathname: "/play",
+            pathname: "/cards",
           }}
         >
-          <Button variant="outlined">Start</Button>
+          <Button variant="outlined">Play Words flashcards</Button>
         </Link>
         <Copyright />
       </Box>

@@ -1,0 +1,461 @@
+[
+  {
+    "title": "0",
+    "type": "numbers",
+    "jp": "零",
+    "kanji": "零",
+    "hiragana": "れい",
+    "katakana": "",
+    "romaji": "rei"
+  },
+  {
+    "title": "1",
+    "type": "numbers",
+    "jp": "一",
+    "kanji": "一",
+    "hiragana": "いち",
+    "katakana": "",
+    "romaji": "ichi"
+  },
+  {
+    "title": "2",
+    "type": "numbers",
+    "jp": "二",
+    "kanji": "二",
+    "hiragana": "に",
+    "katakana": "",
+    "romaji": "ni"
+  },
+  {
+    "title": "3",
+    "type": "numbers",
+    "jp": "三",
+    "kanji": "三",
+    "hiragana": "さん",
+    "katakana": "",
+    "romaji": "san"
+  },
+  {
+    "title": "4",
+    "type": "numbers",
+    "jp": "よん / し",
+    "kanji": "四",
+    "hiragana": "よん / し",
+    "katakana": "",
+    "romaji": "yon, shi"
+  },
+  {
+    "title": "5",
+    "type": "numbers",
+    "jp": "五",
+    "kanji": "五",
+    "hiragana": "ご",
+    "katakana": "",
+    "romaji": "go"
+  },
+  {
+    "title": "6",
+    "type": "numbers",
+    "jp": "六",
+    "kanji": "六",
+    "hiragana": "ろく",
+    "katakana": "",
+    "romaji": "roku"
+  },
+  {
+    "title": "7",
+    "type": "numbers",
+    "jp": "なな / しち",
+    "kanji": "七",
+    "hiragana": "なな / しち",
+    "katakana": "",
+    "romaji": "nana / shichi"
+  },
+  {
+    "title": "8",
+    "type": "numbers",
+    "jp": "八",
+    "kanji": "八",
+    "hiragana": "はち",
+    "katakana": "",
+    "romaji": "hachi"
+  },
+  {
+    "title": "9",
+    "type": "numbers",
+    "jp": "く, きゅう",
+    "kanji": "九",
+    "hiragana": "く, きゅう",
+    "katakana": "",
+    "romaji": "ku / kyuu"
+  },
+  {
+    "title": "10",
+    "type": "numbers",
+    "jp": "十",
+    "kanji": "十",
+    "hiragana": "とお",
+    "katakana": "",
+    "romaji": "juu"
+  },
+  {
+    "title": "11",
+    "type": "numbers",
+    "jp": "xxx",
+    "kanji": "xxx",
+    "hiragana": "じゅういち",
+    "katakana": "",
+    "romaji": "juu-ichi"
+  },
+  {
+    "title": "12",
+    "type": "numbers",
+    "jp": "十二",
+    "kanji": "十二",
+    "hiragana": "じゅうに",
+    "katakana": "",
+    "romaji": "juu-ni"
+  },
+  {
+    "title": "14",
+    "type": "numbers",
+    "jp": "十四",
+    "kanji": "十四",
+    "hiragana": "じゅうよん",
+    "katakana": "",
+    "romaji": "juu-yon"
+  },
+  {
+    "title": "17",
+    "type": "numbers",
+    "jp": "十七",
+    "kanji": "十七",
+    "hiragana": "じゅうなな",
+    "katakana": "",
+    "romaji": "juu-nana"
+  },
+  {
+    "title": "19",
+    "type": "numbers",
+    "jp": "十九",
+    "kanji": "十九",
+    "hiragana": "じゅうきゅう",
+    "katakana": "",
+    "romaji": "juu-kyu"
+  },
+  {
+    "title": "20",
+    "type": "numbers",
+    "jp": "二十",
+    "kanji": "二十",
+    "hiragana": "にじゅう",
+    "katakana": "",
+    "romaji": "ni-juu"
+  },
+  {
+    "title": "30",
+    "type": "numbers",
+    "jp": "三十",
+    "kanji": "三十",
+    "hiragana": "さんじゅう",
+    "katakana": "",
+    "romaji": "san-juu"
+  },
+  {
+    "title": "40",
+    "type": "numbers",
+    "jp": "四十",
+    "kanji": "四十",
+    "hiragana": "しじゅう",
+    "katakana": "",
+    "romaji": "shi-juu"
+  },
+  {
+    "title": "99",
+    "type": "numbers",
+    "jp": "九十九",
+    "kanji": "九十九",
+    "hiragana": "きゅうじゅうきゅう",
+    "katakana": "",
+    "romaji": "kyu-juu kyu"
+  },
+  {
+    "title": "100",
+    "type": "numbers",
+    "jp": "百",
+    "kanji": "百",
+    "hiragana": "ひゃく",
+    "katakana": "",
+    "romaji": "hyaku"
+  },
+  {
+    "title": "500",
+    "type": "numbers",
+    "jp": "五百",
+    "kanji": "五百",
+    "hiragana": "ごひゃく",
+    "katakana": "",
+    "romaji": "go-hyaku"
+  },
+  {
+    "title": "1,000",
+    "type": "numbers",
+    "jp": "千",
+    "kanji": "千",
+    "hiragana": "せん",
+    "katakana": "",
+    "romaji": "sen"
+  },
+  {
+    "title": "10,000",
+    "type": "numbers",
+    "jp": "万",
+    "kanji": "万",
+    "hiragana": "まん",
+    "katakana": "",
+    "romaji": "man"
+  },
+  {
+    "title": "100,000",
+    "type": "numbers",
+    "jp": "十万",
+    "kanji": "十万",
+    "hiragana": "じゅうまん",
+    "katakana": "",
+    "romaji": "juu-man"
+  },
+  {
+    "title": "1,000,000",
+    "type": "numbers",
+    "jp": "百万",
+    "kanji": "百万",
+    "hiragana": "ひゃくまん",
+    "katakana": "",
+    "romaji": "hyaku-man"
+  },
+  {
+    "title": "10,000,000",
+    "type": "numbers",
+    "jp": "千万",
+    "kanji": "千万",
+    "hiragana": "せんまん",
+    "katakana": "",
+    "romaji": "sen-man"
+  },
+  {
+    "title": "100,000,000",
+    "type": "numbers",
+    "jp": "億",
+    "kanji": "億",
+    "hiragana": "おく",
+    "katakana": "",
+    "romaji": "oku"
+  },
+  {
+    "title": "LAST",
+    "type": "color",
+    "jp": "LAST",
+    "kanji": "LAST",
+    "hiragana": "LAST",
+    "katakana": "LAST",
+    "romaji": "LAST"
+  },
+  {
+    "title": "red",
+    "type": "color",
+    "jp": "赤",
+    "kanji": "赤",
+    "hiragana": "あか",
+    "katakana": "",
+    "romaji": "aka"
+  },
+  {
+    "title": "green",
+    "type": "color",
+    "jp": "緑",
+    "kanji": "緑",
+    "hiragana": "みどり",
+    "katakana": "",
+    "romaji": "midori"
+  },
+  {
+    "title": "yellow",
+    "type": "color",
+    "jp": "黄色",
+    "kanji": "黄色",
+    "hiragana": "きいろ",
+    "katakana": "",
+    "romaji": "kiiro"
+  },
+  {
+    "title": "blue",
+    "type": "color",
+    "jp": "青",
+    "kanji": "青",
+    "hiragana": "あお",
+    "katakana": "",
+    "romaji": "ao"
+  },
+  {
+    "title": "black",
+    "type": "color",
+    "jp": "黒",
+    "kanji": "黒",
+    "hiragana": "くろ",
+    "katakana": "",
+    "romaji": "kuro"
+  },
+  {
+    "title": "white",
+    "type": "color",
+    "jp": "白",
+    "kanji": "白",
+    "hiragana": "しろ",
+    "katakana": "",
+    "romaji": "shiro"
+  },
+  {
+    "title": "purple",
+    "type": "color",
+    "jp": "紫",
+    "kanji": "紫",
+    "hiragana": "むらさき",
+    "katakana": "",
+    "romaji": "murasaki"
+  },
+  {
+    "title": "brown",
+    "type": "color",
+    "jp": "茶色",
+    "kanji": "茶色",
+    "hiragana": "ちゃいろ",
+    "katakana": "",
+    "romaji": "chairo"
+  },
+  {
+    "title": "pink",
+    "type": "color",
+    "jp": "桃色",
+    "kanji": "桃色",
+    "hiragana": "ももいろ",
+    "katakana": "XXX",
+    "romaji": "momoiro"
+  },
+  {
+    "title": "gray",
+    "type": "color",
+    "jp": "灰色",
+    "kanji": "灰色",
+    "hiragana": "はいいろ",
+    "katakana": "",
+    "romaji": "haiiro"
+  },
+  {
+    "title": "orange",
+    "type": "color",
+    "jp": "橙色",
+    "kanji": "橙色",
+    "hiragana": "だいだいいろ",
+    "katakana": "XXX",
+    "romaji": "daidaiiro"
+  },
+  {
+    "title": "light blue",
+    "type": "color",
+    "jp": "水色",
+    "kanji": "水色",
+    "hiragana": "みずいろ",
+    "katakana": "",
+    "romaji": "mizuiro"
+  },
+  {
+    "title": "silver",
+    "type": "color",
+    "jp": "銀",
+    "kanji": "銀",
+    "hiragana": "ぎん",
+    "katakana": "",
+    "romaji": "gin"
+  },
+  {
+    "title": "gold",
+    "type": "color",
+    "jp": "金",
+    "kanji": "金",
+    "hiragana": "きん",
+    "katakana": "",
+    "romaji": "kin"
+  },
+  {
+    "title": "sheep",
+    "type": "animal",
+    "jp": "羊",
+    "kanji": "羊",
+    "hiragana": "ひつじ",
+    "katakana": "",
+    "romaji": "hitsuji"
+  },
+  {
+    "title": "pig",
+    "type": "animal",
+    "jp": "豚",
+    "kanji": "豚",
+    "hiragana": "ぶた",
+    "katakana": "",
+    "romaji": "buta"
+  },
+  {
+    "title": "cow",
+    "type": "animal",
+    "jp": "うし",
+    "kanji": "牛",
+    "hiragana": "うし",
+    "katakana": "",
+    "romaji": "ushi"
+  },
+  {
+    "title": "spider",
+    "type": "animal",
+    "jp": "蜘蛛",
+    "kanji": "蜘蛛",
+    "hiragana": "くも",
+    "katakana": "",
+    "romaji": "kumo"
+  },
+  {
+    "title": "cat",
+    "type": "animal",
+    "jp": "猫",
+    "kanji": "猫",
+    "hiragana": "ねこ",
+    "katakana": "",
+    "romaji": "neko"
+  },
+  {
+    "title": "butterfly",
+    "type": "animal",
+    "jp": "蝶",
+    "kanji": "蝶",
+    "hiragana": "ちょう",
+    "katakana": "",
+    "romaji": "chou"
+  },
+  {
+    "title": "dog",
+    "type": "animal",
+    "jp": "犬",
+    "kanji": "犬",
+    "hiragana": "いぬ",
+    "katakana": "",
+    "romaji": "inu"
+  },
+  {
+    "title": "LAST",
+    "type": "LAST",
+    "jp": "LAST",
+    "kanji": "LAST",
+    "hiragana": "LAST",
+    "katakana": "LAST",
+    "romaji": "LAST"
+  }
+]

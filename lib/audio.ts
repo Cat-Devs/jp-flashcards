@@ -7,12 +7,12 @@ const synthesizeSpeech = async (
   return new Promise((resolve, reject) => {
     const pollyParams: AWS.Polly.Types.SynthesizeSpeechInput = {
       OutputFormat: "mp3",
-      SampleRate: "22050",
-      Text: `<speak><prosody rate="80%">${text}</prosody></speak>`,
+      SampleRate: "24000",
+      Text: `<speak><prosody rate="70%">${text}</prosody></speak>`,
       TextType: "ssml",
       LanguageCode: "ja-JP",
-      VoiceId: "Mizuki",
-      Engine: "standard",
+      VoiceId: "Takumi",
+      Engine: "neural",
     };
 
     const polly = new Polly({ region: process.env.NEXT_PUBLIC_REGION });

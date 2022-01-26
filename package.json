@@ -6,11 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:create": "START_ID=$START_ID AWS_USERS_TABLE=$AWS_USERS_TABLE AWS_REGION=$AWS_REGION node ./data/upload.js"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.3.0",
     "@mui/material": "^5.3.0",
     "@mui/styled-engine-sc": "^5.3.0",
     "aws-sdk": "^2.1062.0",

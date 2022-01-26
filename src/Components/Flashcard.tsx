@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import CardActionArea from "@mui/material/CardActionArea";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 
-import { dynamoDb } from "../lib/dynamo-db";
-import { createAudioData } from "../lib/audio";
-
-interface FlashCard {
+export interface FlashCardItem {
   kanji: string;
   hiragana: string;
   katakana: string;
@@ -21,21 +21,24 @@ interface FlashCard {
   pictureId: string;
   title: string;
 }
-interface PageProps {
-  card: FlashCard;
-  audio: any;
+interface FlashcardProps {
+  card: FlashCardItem;
+  audio: string;
+  onNext?: (cardId: string) => void;
 }
 
-const Page: React.FC<PageProps> = ({ card, audio }) => {
+export const Flashcard: React.FC<FlashcardProps> = ({
+  card,
+  audio,
+  onNext,
+}) => {
   const [showAnswer, setShowAnswer] = useState(false);
 
-  const click = async () => {
-    setShowAnswer((answer) => !answer);
+  useEffect(() => {
+    setShowAnswer(false);
+  }, [card]);
 
-    if (showAnswer) {
-      return;
-    }
-
+  const playAudio = async () => {
     const audioData = Buffer.from(audio, "hex");
     const blob = new Blob([audioData], { type: "audio/mpeg" });
     const url = webkitURL.createObjectURL(blob);
@@ -44,15 +47,33 @@ const Page: React.FC<PageProps> = ({ card, audio }) => {
     audioEl.play();
   };
 
+  const click = async () => {
+    setShowAnswer((answer) => !answer);
+
+    if (showAnswer) {
+      return;
+    }
+
+    playAudio();
+  };
+
+  const buttonClick = () => {
+    onNext && onNext(card.id);
+  };
+
   return (
     <Card>
       <CardActionArea onClick={click}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="audio">
+              <VolumeUpIcon />
+            </Avatar>
+          }
+          title={card.title}
+        ></CardHeader>
         <CardContent>
-          {(!showAnswer && (
-            <Typography gutterBottom variant="h5" component="div">
-              {card.title}
-            </Typography>
-          )) || (
+          {showAnswer && (
             <>
               <Typography gutterBottom variant="h5" component="div">
                 {card.kanji}
@@ -71,42 +92,13 @@ const Page: React.FC<PageProps> = ({ card, audio }) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small">Wrong</Button>
-        <Button size="small">Correct</Button>
+        <Button size="small" onClick={buttonClick}>
+          Wrong
+        </Button>
+        <Button size="small" onClick={buttonClick}>
+          Correct
+        </Button>
       </CardActions>
     </Card>
   );
 };
-
-export async function getServerSideProps() {
-  try {
-    const { Items } = await dynamoDb.scan({
-      FilterExpression: "attribute_exists(title)",
-    });
-
-    const random = Math.floor(Math.random() * Items.length);
-    const item = Items[random];
-
-    const audio = await createAudioData(item.jp);
-
-    // const { Item } = await dynamoDb.get({
-    //   Key: {
-    //     id: params.id,
-    //   },
-    // });
-
-    // Pass data to the page via props
-    return {
-      props: {
-        card: item,
-        audio: audio.toString("hex"),
-      },
-    };
-  } catch (err) {
-    console.warn("ERROR", err);
-
-    return { props: {} };
-  }
-}
-
-export default Page;

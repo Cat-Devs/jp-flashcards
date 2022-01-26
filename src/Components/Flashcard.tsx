@@ -76,16 +76,16 @@ export const Flashcard: React.FC<FlashcardProps> = ({
           {showAnswer && (
             <>
               <Typography gutterBottom variant="h5" component="div">
-                {card.kanji}
+                {card?.kanji}
               </Typography>
               <Typography gutterBottom variant="h5" component="div">
-                {card.hiragana}
+                {card?.hiragana}
               </Typography>
               <Typography gutterBottom variant="h5" component="div">
-                {card.katakana}
+                {card?.katakana}
               </Typography>
               <Typography gutterBottom variant="h5" component="div">
-                {card.romaji}
+                {card?.romaji}
               </Typography>
             </>
           )}

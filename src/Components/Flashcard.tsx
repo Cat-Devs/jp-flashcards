@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -7,9 +7,13 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Box from "@mui/material/Box";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export interface FlashCardItem {
   kanji?: string;
@@ -31,8 +35,6 @@ export const Flashcard: React.FC<FlashcardProps> = ({
   audio,
   onNext,
 }) => {
-  const [showAnswer, setShowAnswer] = useState(false);
-
   const playAudio = async () => {
     const audioData = Buffer.from(audio, "hex");
     const blob = new Blob([audioData], { type: "audio/mpeg" });
@@ -42,9 +44,10 @@ export const Flashcard: React.FC<FlashcardProps> = ({
     audioEl.play();
   };
 
-  const revealSolution = () => {
-    setShowAnswer(true);
-    playAudio();
+  const toggleSolution = (event: React.SyntheticEvent, expanded: boolean) => {
+    if (expanded) {
+      playAudio();
+    }
   };
 
   const buttonClick = () => {
@@ -54,62 +57,59 @@ export const Flashcard: React.FC<FlashcardProps> = ({
   return (
     <Card>
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {card?.title}
-        </Typography>
-
-        {!showAnswer && (
-          <IconButton
-            color="default"
-            aria-label="listen audio"
-            component="button"
-            onClick={revealSolution}
-          >
-            <KeyboardArrowDownIcon />
-          </IconButton>
-        )}
-
-        {showAnswer && (
-          <>
-            <Typography gutterBottom variant="h5" component="div">
-              {card?.kanji}
-            </Typography>
-            <Typography gutterBottom variant="h5" component="div">
-              {card?.hiragana}
-            </Typography>
-            <Typography gutterBottom variant="h5" component="div">
-              {card?.katakana}
-            </Typography>
-            <Typography gutterBottom variant="h5" component="div">
-              {card?.romaji}
-            </Typography>
-            <IconButton
-              color="default"
-              aria-label="listen audio"
-              component="button"
-              size="large"
-              onClick={playAudio}
-            >
-              <VolumeUpIcon />
-            </IconButton>
-          </>
-        )}
-      </CardContent>
-      <CardActions>
-        <Button
-          variant="contained"
-          color="warning"
-          endIcon={<ClearIcon />}
-          onClick={buttonClick}
+        <Accordion
+          disableGutters
+          square
+          elevation={0}
+          classes={{ root: `background:red` }}
+          onChange={toggleSolution}
         >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography gutterBottom variant="h5" component="div">
+              {card?.title}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Box sx={{ display: "flex" }}>
+              <Box sx={{ flex: "1 1 auto" }}>
+                <Typography gutterBottom variant="h5" component="div">
+                  {card?.kanji}
+                </Typography>
+                <Typography gutterBottom variant="h5" component="div">
+                  {card?.hiragana}
+                </Typography>
+                <Typography gutterBottom variant="h5" component="div">
+                  {card?.katakana}
+                </Typography>
+                <Typography gutterBottom variant="h5" component="div">
+                  {card?.romaji}
+                </Typography>
+              </Box>
+              <Box>
+                <IconButton
+                  color="primary"
+                  aria-label="listen audio"
+                  component="button"
+                  size="large"
+                  onClick={playAudio}
+                >
+                  <VolumeUpIcon />
+                </IconButton>
+              </Box>
+            </Box>
+          </AccordionDetails>
+        </Accordion>
+      </CardContent>
+
+      <CardActions>
+        <Button color="warning" endIcon={<ClearIcon />} onClick={buttonClick}>
           Wrong
         </Button>
-        <Button
-          variant="contained"
-          color="success"
-          endIcon={<CheckIcon />}
-          onClick={buttonClick}
-        >
+        <Button color="success" endIcon={<CheckIcon />} onClick={buttonClick}>
           Correct
         </Button>
       </CardActions>

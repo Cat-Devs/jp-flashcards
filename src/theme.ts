@@ -5,13 +5,36 @@ export const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#556cd6",
+      main: "#2196f3",
     },
     secondary: {
-      main: "#19857b",
+      main: "#ff1744",
     },
     error: {
       main: red.A400,
+    },
+    background: {
+      paper: "#0a1929",
+      default: "#0a1929",
+    },
+  },
+  components: {
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "transparent",
+        },
+      },
+    },
+    MuiCard: {
+      defaultProps: {
+        variant: "outlined",
+      },
+    },
+    MuiButton: {
+      defaultProps: {
+        variant: "outlined",
+      },
     },
   },
 });

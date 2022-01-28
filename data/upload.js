@@ -2,8 +2,6 @@ const AWS = require("aws-sdk");
 const fs = require("fs");
 const path = require("path");
 
-const startId = process.env.START_ID;
-
 AWS.config.update({
   region: process.env.AWS_REGION,
   accessKeyId: process.env.AWS_ACCESS_KEY,
@@ -26,11 +24,9 @@ const put = (params) => dynamoDb.put(params).promise();
 
   console.log("Creating data...");
 
-  for (const [index, data] of tableData.entries()) {
-    const itemId = `${Number(startId) + Number(index)}`;
-
+  for (const data of tableData) {
     const params = {
-      Item: { id: itemId, ...data },
+      Item: data,
     };
 
     try {

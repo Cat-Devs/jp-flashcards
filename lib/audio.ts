@@ -37,6 +37,6 @@ export const createAudioData = async (
   if (data) {
     return synthesizeSpeech(data);
   } else {
-    return undefined;
+    return "";
   }
 };

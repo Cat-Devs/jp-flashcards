@@ -1,4 +1,3 @@
-import { WrappedBuildError } from "next/dist/server/next-server";
 import { useEffect, useReducer } from "react";
 
 function reducer(state, action) {
@@ -32,18 +31,15 @@ function reducer(state, action) {
       return state;
   }
 }
-export const useShuffleCards = (cardIds: string[] = []) => {
-  const initialState = {
-    remainingCards: cardIds,
-    usedCards: [],
-    nextCard: "",
-  };
 
+const initialState = {
+  remainingCards: [],
+  usedCards: [],
+  nextCard: "",
+};
+
+export const useShuffleCards = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  useEffect(() => {
-    console.warn(state);
-  }, [state]);
 
   const nextCard = () => {
     dispatch({ type: "nextCard" });

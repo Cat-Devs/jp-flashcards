@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import CardActionArea from "@mui/material/CardActionArea";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export interface FlashCardItem {
   kanji?: string;
@@ -32,10 +33,6 @@ export const Flashcard: React.FC<FlashcardProps> = ({
 }) => {
   const [showAnswer, setShowAnswer] = useState(false);
 
-  useEffect(() => {
-    setShowAnswer(false);
-  }, [card]);
-
   const playAudio = async () => {
     const audioData = Buffer.from(audio, "hex");
     const blob = new Blob([audioData], { type: "audio/mpeg" });
@@ -45,13 +42,8 @@ export const Flashcard: React.FC<FlashcardProps> = ({
     audioEl.play();
   };
 
-  const click = async () => {
-    setShowAnswer((answer) => !answer);
-
-    if (showAnswer) {
-      return;
-    }
-
+  const revealSolution = () => {
+    setShowAnswer(true);
     playAudio();
   };
 
@@ -61,39 +53,63 @@ export const Flashcard: React.FC<FlashcardProps> = ({
 
   return (
     <Card>
-      <CardActionArea onClick={click}>
-        <CardHeader
-          avatar={
-            <Avatar aria-label="audio">
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {card?.title}
+        </Typography>
+
+        {!showAnswer && (
+          <IconButton
+            color="default"
+            aria-label="listen audio"
+            component="button"
+            onClick={revealSolution}
+          >
+            <KeyboardArrowDownIcon />
+          </IconButton>
+        )}
+
+        {showAnswer && (
+          <>
+            <Typography gutterBottom variant="h5" component="div">
+              {card?.kanji}
+            </Typography>
+            <Typography gutterBottom variant="h5" component="div">
+              {card?.hiragana}
+            </Typography>
+            <Typography gutterBottom variant="h5" component="div">
+              {card?.katakana}
+            </Typography>
+            <Typography gutterBottom variant="h5" component="div">
+              {card?.romaji}
+            </Typography>
+            <IconButton
+              color="default"
+              aria-label="listen audio"
+              component="button"
+              size="large"
+              onClick={playAudio}
+            >
               <VolumeUpIcon />
-            </Avatar>
-          }
-          title={card.title}
-        ></CardHeader>
-        <CardContent>
-          {showAnswer && (
-            <>
-              <Typography gutterBottom variant="h5" component="div">
-                {card?.kanji}
-              </Typography>
-              <Typography gutterBottom variant="h5" component="div">
-                {card?.hiragana}
-              </Typography>
-              <Typography gutterBottom variant="h5" component="div">
-                {card?.katakana}
-              </Typography>
-              <Typography gutterBottom variant="h5" component="div">
-                {card?.romaji}
-              </Typography>
-            </>
-          )}
-        </CardContent>
-      </CardActionArea>
+            </IconButton>
+          </>
+        )}
+      </CardContent>
       <CardActions>
-        <Button size="small" onClick={buttonClick}>
+        <Button
+          variant="contained"
+          color="warning"
+          endIcon={<ClearIcon />}
+          onClick={buttonClick}
+        >
           Wrong
         </Button>
-        <Button size="small" onClick={buttonClick}>
+        <Button
+          variant="contained"
+          color="success"
+          endIcon={<CheckIcon />}
+          onClick={buttonClick}
+        >
           Correct
         </Button>
       </CardActions>

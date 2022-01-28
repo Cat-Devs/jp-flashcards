@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { useRouter } from "next/router";
@@ -7,11 +7,12 @@ import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
 import { Flashcard, FlashCardItem } from "../../src/Components/Flashcard";
 import { Application } from "../../src/AppContext";
+import { useEffect } from "react";
 
 interface WordsProps {
-  card: FlashCardItem;
-  cardIds: string[];
-  audio: any;
+  card?: FlashCardItem;
+  cardIds?: string[];
+  audio?: any;
 }
 
 const CardPage: React.FC<WordsProps> = ({ card, audio, cardIds }) => {
@@ -22,6 +23,13 @@ const CardPage: React.FC<WordsProps> = ({ card, audio, cardIds }) => {
     dispatch({ type: "nextCard" });
     router.push(`/cards/${state.nextCard}`);
   };
+
+  useEffect(() => {
+    if (!card) {
+      dispatch({ type: "nextCard" });
+      router.push(`/cards/${state.nextCard}`);
+    }
+  }, [card, dispatch, router, state.nextCard]);
 
   return (
     <Container maxWidth="sm">
@@ -43,8 +51,16 @@ export async function getStaticProps({ params }) {
     },
   });
 
-  const audio = await createAudioData(item.jp);
+  if (!item) {
+    return {
+      props: {},
+      // Refresh cache every hour
+      revalidate: 600,
+    };
+  }
+
   const cardIds = items.map((item) => item.id);
+  const audio = await createAudioData(item.jp);
 
   // Pass data to the page via props
   return {
@@ -53,26 +69,15 @@ export async function getStaticProps({ params }) {
       card: item,
       audio: audio.toString("hex"),
     },
+    // Refresh cache every hour
+    revalidate: 600,
   };
 }
 
 export async function getStaticPaths() {
-  const { Items: items } = await dynamoDb.scan({
-    FilterExpression: "attribute_exists(title)",
-  });
-
-  const paths = items.map((item) => {
-    // Pass data to the page via props
-    return {
-      params: {
-        id: item.id,
-      },
-    };
-  });
-
   return {
-    paths,
-    fallback: false,
+    paths: [],
+    fallback: true,
   };
 }
 

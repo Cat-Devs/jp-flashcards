@@ -1,5 +1,6 @@
 [
   {
+    "id": "10000",
     "title": "0",
     "type": "numbers",
     "jp": "零",
@@ -9,6 +10,7 @@
     "romaji": "rei"
   },
   {
+    "id": "10001",
     "title": "1",
     "type": "numbers",
     "jp": "一",
@@ -18,6 +20,7 @@
     "romaji": "ichi"
   },
   {
+    "id": "10002",
     "title": "2",
     "type": "numbers",
     "jp": "二",
@@ -27,6 +30,7 @@
     "romaji": "ni"
   },
   {
+    "id": "10003",
     "title": "3",
     "type": "numbers",
     "jp": "三",
@@ -36,6 +40,7 @@
     "romaji": "san"
   },
   {
+    "id": "10004",
     "title": "4",
     "type": "numbers",
     "jp": "よん / し",
@@ -45,6 +50,7 @@
     "romaji": "yon / shi"
   },
   {
+    "id": "10005",
     "title": "5",
     "type": "numbers",
     "jp": "五",
@@ -54,6 +60,7 @@
     "romaji": "go"
   },
   {
+    "id": "10006",
     "title": "6",
     "type": "numbers",
     "jp": "六",
@@ -63,6 +70,7 @@
     "romaji": "roku"
   },
   {
+    "id": "10007",
     "title": "7",
     "type": "numbers",
     "jp": "なな / しち",
@@ -72,6 +80,7 @@
     "romaji": "nana / shichi"
   },
   {
+    "id": "10008",
     "title": "8",
     "type": "numbers",
     "jp": "八",
@@ -81,6 +90,7 @@
     "romaji": "hachi"
   },
   {
+    "id": "10009",
     "title": "9",
     "type": "numbers",
     "jp": "く / きゅう",
@@ -90,6 +100,7 @@
     "romaji": "ku / kyuu"
   },
   {
+    "id": "10010",
     "title": "10",
     "type": "numbers",
     "jp": "十",
@@ -99,6 +110,7 @@
     "romaji": "juu"
   },
   {
+    "id": "10011",
     "title": "11",
     "type": "numbers",
     "jp": "十一",
@@ -108,6 +120,7 @@
     "romaji": "juu-ichi"
   },
   {
+    "id": "10012",
     "title": "12",
     "type": "numbers",
     "jp": "十二",
@@ -117,6 +130,7 @@
     "romaji": "juu-ni"
   },
   {
+    "id": "10013",
     "title": "14",
     "type": "numbers",
     "jp": "十四",
@@ -126,6 +140,7 @@
     "romaji": "juu-yon"
   },
   {
+    "id": "10014",
     "title": "17",
     "type": "numbers",
     "jp": "十七",
@@ -135,6 +150,7 @@
     "romaji": "juu-nana"
   },
   {
+    "id": "10015",
     "title": "19",
     "type": "numbers",
     "jp": "十九",
@@ -144,6 +160,7 @@
     "romaji": "juu-kyu"
   },
   {
+    "id": "10016",
     "title": "20",
     "type": "numbers",
     "jp": "二十",
@@ -153,6 +170,7 @@
     "romaji": "ni-juu"
   },
   {
+    "id": "10017",
     "title": "30",
     "type": "numbers",
     "jp": "三十",
@@ -162,6 +180,7 @@
     "romaji": "san-juu"
   },
   {
+    "id": "10018",
     "title": "40",
     "type": "numbers",
     "jp": "四十",
@@ -171,6 +190,7 @@
     "romaji": "shi-juu"
   },
   {
+    "id": "10019",
     "title": "99",
     "type": "numbers",
     "jp": "九十九",
@@ -180,6 +200,7 @@
     "romaji": "kyu-juu kyu"
   },
   {
+    "id": "10020",
     "title": "100",
     "type": "numbers",
     "jp": "百",
@@ -189,6 +210,7 @@
     "romaji": "hyaku"
   },
   {
+    "id": "10021",
     "title": "500",
     "type": "numbers",
     "jp": "五百",
@@ -198,6 +220,7 @@
     "romaji": "go-hyaku"
   },
   {
+    "id": "10022",
     "title": "1,000",
     "type": "numbers",
     "jp": "千",
@@ -207,6 +230,7 @@
     "romaji": "sen"
   },
   {
+    "id": "10023",
     "title": "10,000",
     "type": "numbers",
     "jp": "万",
@@ -216,6 +240,7 @@
     "romaji": "man"
   },
   {
+    "id": "10024",
     "title": "100,000",
     "type": "numbers",
     "jp": "十万",
@@ -225,6 +250,7 @@
     "romaji": "juu-man"
   },
   {
+    "id": "10025",
     "title": "1,000,000",
     "type": "numbers",
     "jp": "百万",
@@ -234,6 +260,7 @@
     "romaji": "hyaku-man"
   },
   {
+    "id": "10026",
     "title": "10,000,000",
     "type": "numbers",
     "jp": "千万",
@@ -243,6 +270,7 @@
     "romaji": "sen-man"
   },
   {
+    "id": "10027",
     "title": "100,000,000",
     "type": "numbers",
     "jp": "億",
@@ -252,6 +280,7 @@
     "romaji": "oku"
   },
   {
+    "id": "10028",
     "title": "red",
     "type": "color",
     "jp": "赤",
@@ -261,6 +290,7 @@
     "romaji": "aka"
   },
   {
+    "id": "10029",
     "title": "green",
     "type": "color",
     "jp": "緑",
@@ -270,6 +300,7 @@
     "romaji": "midori"
   },
   {
+    "id": "10030",
     "title": "yellow",
     "type": "color",
     "jp": "黄色",
@@ -279,6 +310,7 @@
     "romaji": "kiiro"
   },
   {
+    "id": "10031",
     "title": "blue",
     "type": "color",
     "jp": "青",
@@ -288,6 +320,7 @@
     "romaji": "ao"
   },
   {
+    "id": "10032",
     "title": "black",
     "type": "color",
     "jp": "黒",
@@ -297,6 +330,7 @@
     "romaji": "kuro"
   },
   {
+    "id": "10033",
     "title": "white",
     "type": "color",
     "jp": "白",
@@ -306,6 +340,7 @@
     "romaji": "shiro"
   },
   {
+    "id": "10034",
     "title": "purple",
     "type": "color",
     "jp": "紫",
@@ -315,6 +350,7 @@
     "romaji": "murasaki"
   },
   {
+    "id": "10035",
     "title": "brown",
     "type": "color",
     "jp": "茶色",
@@ -324,6 +360,7 @@
     "romaji": "chairo"
   },
   {
+    "id": "10036",
     "title": "pink",
     "type": "color",
     "jp": "桃色 / ピンク",
@@ -333,6 +370,7 @@
     "romaji": "momoiro / pinku"
   },
   {
+    "id": "10037",
     "title": "gray",
     "type": "color",
     "jp": "灰色",
@@ -342,6 +380,7 @@
     "romaji": "haiiro"
   },
   {
+    "id": "10038",
     "title": "orange",
     "type": "color",
     "jp": "橙色 / オレンジ",
@@ -351,6 +390,7 @@
     "romaji": "daidaiiro / orenji"
   },
   {
+    "id": "10039",
     "title": "light blue",
     "type": "color",
     "jp": "水色",
@@ -360,6 +400,7 @@
     "romaji": "mizuiro"
   },
   {
+    "id": "10040",
     "title": "silver",
     "type": "color",
     "jp": "銀",
@@ -369,6 +410,7 @@
     "romaji": "gin"
   },
   {
+    "id": "10041",
     "title": "gold",
     "type": "color",
     "jp": "金",
@@ -378,6 +420,7 @@
     "romaji": "kin"
   },
   {
+    "id": "10042",
     "title": "sheep",
     "type": "animal",
     "jp": "羊",
@@ -387,6 +430,7 @@
     "romaji": "hitsuji"
   },
   {
+    "id": "10043",
     "title": "pig",
     "type": "animal",
     "jp": "豚",
@@ -396,6 +440,7 @@
     "romaji": "buta"
   },
   {
+    "id": "10044",
     "title": "cow",
     "type": "animal",
     "jp": "うし",
@@ -405,6 +450,7 @@
     "romaji": "ushi"
   },
   {
+    "id": "10045",
     "title": "spider",
     "type": "animal",
     "jp": "蜘蛛",
@@ -414,6 +460,7 @@
     "romaji": "kumo"
   },
   {
+    "id": "10046",
     "title": "cat",
     "type": "animal",
     "jp": "猫",
@@ -423,6 +470,7 @@
     "romaji": "neko"
   },
   {
+    "id": "10047",
     "title": "butterfly",
     "type": "animal",
     "jp": "蝶",
@@ -432,6 +480,7 @@
     "romaji": "chou"
   },
   {
+    "id": "10048",
     "title": "dog",
     "type": "animal",
     "jp": "犬",
@@ -441,6 +490,7 @@
     "romaji": "inu"
   },
   {
+    "id": "10049",
     "title": "monkey",
     "type": "animal",
     "jp": "猿",
@@ -450,6 +500,7 @@
     "romaji": "saru"
   },
   {
+    "id": "10050",
     "title": "swan",
     "type": "animal",
     "jp": "白鳥",
@@ -459,6 +510,7 @@
     "romaji": "hakuchou"
   },
   {
+    "id": "10051",
     "title": "horse",
     "type": "animal",
     "jp": "馬",
@@ -468,6 +520,7 @@
     "romaji": "uma"
   },
   {
+    "id": "10052",
     "title": "octopus",
     "type": "animal",
     "jp": "蛸",
@@ -477,6 +530,7 @@
     "romaji": "tako"
   },
   {
+    "id": "10053",
     "title": "fish",
     "type": "animal",
     "jp": "魚",
@@ -486,6 +540,7 @@
     "romaji": "sakana"
   },
   {
+    "id": "10054",
     "title": "bear",
     "type": "animal",
     "jp": "熊",
@@ -495,6 +550,7 @@
     "romaji": "kuma"
   },
   {
+    "id": "10055",
     "title": "bird",
     "type": "animal",
     "jp": "鳥",
@@ -504,6 +560,7 @@
     "romaji": "tori"
   },
   {
+    "id": "10056",
     "title": "goat",
     "type": "animal",
     "jp": "山羊",
@@ -513,6 +570,7 @@
     "romaji": "yagi"
   },
   {
+    "id": "10057",
     "title": "ant",
     "type": "animal",
     "jp": "蟻",
@@ -522,6 +580,7 @@
     "romaji": "ari"
   },
   {
+    "id": "10058",
     "title": "rabbit",
     "type": "animal",
     "jp": "兎",
@@ -531,6 +590,7 @@
     "romaji": "usagi"
   },
   {
+    "id": "10059",
     "title": "lizard",
     "type": "animal",
     "jp": "蜥蜴",
@@ -540,6 +600,7 @@
     "romaji": "tokage"
   },
   {
+    "id": "10060",
     "title": "mouse",
     "type": "animal",
     "jp": "鼠",
@@ -549,6 +610,7 @@
     "romaji": "nezumi"
   },
   {
+    "id": "10061",
     "title": "bee",
     "type": "animal",
     "jp": "蜂",
@@ -558,6 +620,7 @@
     "romaji": "hachi"
   },
   {
+    "id": "10062",
     "title": "goose",
     "type": "animal",
     "jp": "鵞鳥",
@@ -567,33 +630,37 @@
     "romaji": "gachou"
   },
   {
+    "id": "10063",
     "title": "turkey",
     "type": "animal",
-    "jp": "七面鳥",
+    "jp": "しちめんちょう",
     "kanji": "七面鳥",
     "hiragana": "しちめんちょう",
     "katakana": "",
     "romaji": "shichimencho"
   },
   {
+    "id": "10064",
     "title": "frog",
     "type": "animal",
-    "jp": "蛙",
+    "jp": "かえる",
     "kanji": "蛙",
     "hiragana": "かえる",
     "katakana": "カエル",
     "romaji": "kaeru"
   },
   {
+    "id": "10065",
     "title": "crab",
     "type": "animal",
-    "jp": "蟹",
+    "jp": "かに",
     "kanji": "蟹",
     "hiragana": "かに",
     "katakana": "",
     "romaji": "kani"
   },
   {
+    "id": "10066",
     "title": "chicken",
     "type": "animal",
     "jp": "にわとり",
@@ -603,6 +670,7 @@
     "romaji": "niwatori"
   },
   {
+    "id": "10067",
     "title": "snake",
     "type": "animal",
     "jp": "へび",
@@ -612,24 +680,27 @@
     "romaji": "hebi"
   },
   {
+    "id": "10068",
     "title": "whale",
     "type": "animal",
-    "jp": "鯨",
+    "jp": "くじら",
     "kanji": "鯨",
     "hiragana": "くじら",
     "katakana": "",
     "romaji": "kujira"
   },
   {
+    "id": "10069",
     "title": "camel",
     "type": "animal",
-    "jp": "駱駝",
+    "jp": "らくだ",
     "kanji": "駱駝",
     "hiragana": "らくだ",
     "katakana": "",
     "romaji": "rakuda"
   },
   {
+    "id": "10070",
     "title": "deer",
     "type": "animal",
     "jp": "鹿",
@@ -639,6 +710,7 @@
     "romaji": "shika"
   },
   {
+    "id": "10071",
     "title": "fly",
     "type": "animal",
     "jp": "蠅",
@@ -648,6 +720,7 @@
     "romaji": "hae"
   },
   {
+    "id": "10072",
     "title": "squid",
     "type": "animal",
     "jp": "烏賊",
@@ -657,6 +730,7 @@
     "romaji": "ika"
   },
   {
+    "id": "10073",
     "title": "duck",
     "type": "animal",
     "jp": "家鴨",
@@ -666,6 +740,7 @@
     "romaji": "ahiru"
   },
   {
+    "id": "10074",
     "title": "wolf",
     "type": "animal",
     "jp": "狼",
@@ -675,6 +750,7 @@
     "romaji": "ookami"
   },
   {
+    "id": "10075",
     "title": "elephant",
     "type": "animal",
     "jp": "象",
@@ -684,6 +760,7 @@
     "romaji": "zou"
   },
   {
+    "id": "10076",
     "title": "giraffe",
     "type": "animal",
     "jp": "麒麟",
@@ -693,6 +770,7 @@
     "romaji": "kirin"
   },
   {
+    "id": "10077",
     "title": "dolphin",
     "type": "animal",
     "jp": "海豚",
@@ -702,6 +780,7 @@
     "romaji": "iruka"
   },
   {
+    "id": "10078",
     "title": "koala",
     "type": "animal",
     "jp": "コアラ",
@@ -711,6 +790,7 @@
     "romaji": "koara"
   },
   {
+    "id": "10079",
     "title": "tiger",
     "type": "animal",
     "jp": "虎",
@@ -720,21 +800,33 @@
     "romaji": "tora"
   },
   {
+    "id": "10080",
     "title": "lion",
     "type": "animal",
-    "jp": "獅子",
+    "jp": "ライオン",
     "kanji": "獅子",
-    "hiragana": "しし",
+    "hiragana": "",
     "katakana": "ライオン",
-    "romaji": "shishi / raion"
+    "romaji": "raion"
   },
   {
+    "id": "10081",
     "title": "fox",
     "type": "animal",
-    "jp": "狐",
+    "jp": "キツネ",
     "kanji": "狐",
     "hiragana": "",
     "katakana": "キツネ",
     "romaji": "kitzune"
+  },
+  {
+    "id": "LAST_ITEM",
+    "title": "LAST_ITEM",
+    "type": "LAST_ITEM",
+    "jp": "LAST_ITEM",
+    "kanji": "LAST_ITEM",
+    "hiragana": "LAST_ITEM",
+    "katakana": "LAST_ITEM",
+    "romaji": "LAST_ITEM"
   }
 ]

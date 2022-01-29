@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useAudio } from "../Hooks/use-audio";
 
 export interface FlashCardItem {
   id: string;
@@ -28,7 +29,7 @@ export interface FlashCardItem {
 interface FlashcardProps {
   card: FlashCardItem;
   audio: string;
-  onNext?: (cardId: string) => void;
+  onNext: (cardId: string) => void;
 }
 
 export const Flashcard: React.FC<FlashcardProps> = ({
@@ -36,41 +37,17 @@ export const Flashcard: React.FC<FlashcardProps> = ({
   audio,
   onNext,
 }) => {
-  const playAudio = async () => {
-    const audioData = Buffer.from(audio, "hex");
-    const blob = new Blob([audioData], { type: "audio/mpeg" });
-    const url = webkitURL.createObjectURL(blob);
-    const audioEl = new Audio(url);
-    audioEl.load();
-    audioEl.play();
-  };
+  const { play } = useAudio(audio);
 
   const toggleSolution = (_event: React.SyntheticEvent, expanded: boolean) => {
     if (expanded) {
-      playAudio();
+      play();
     }
   };
 
-  const buttonClick = () => {
-    onNext && onNext(card.id);
+  const nextCardClick = () => {
+    onNext(card.id);
   };
-
-  if (!(card && card.en)) {
-    return (
-      <Card>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Card Not Found
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button color="primary" onClick={buttonClick}>
-            Next
-          </Button>
-        </CardActions>
-      </Card>
-    );
-  }
 
   return (
     <Card>
@@ -112,7 +89,7 @@ export const Flashcard: React.FC<FlashcardProps> = ({
                   aria-label="listen audio"
                   component="button"
                   size="large"
-                  onClick={playAudio}
+                  onClick={play}
                 >
                   <VolumeUpIcon />
                 </IconButton>
@@ -123,10 +100,10 @@ export const Flashcard: React.FC<FlashcardProps> = ({
       </CardContent>
 
       <CardActions>
-        <Button color="warning" endIcon={<ClearIcon />} onClick={buttonClick}>
+        <Button color="warning" endIcon={<ClearIcon />} onClick={nextCardClick}>
           Wrong
         </Button>
-        <Button color="success" endIcon={<CheckIcon />} onClick={buttonClick}>
+        <Button color="success" endIcon={<CheckIcon />} onClick={nextCardClick}>
           Correct
         </Button>
       </CardActions>

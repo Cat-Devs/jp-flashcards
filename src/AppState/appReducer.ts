@@ -17,7 +17,6 @@ type AppAction = LoadDataAction | NextCardAction;
 export function appReducer(state: AppState, action: AppAction) {
   switch (action.type) {
     case ActionType.LOAD_DATA: {
-      console.warn("load data");
       const random = Math.floor(Math.random() * action.payload.cards.length);
       const nextCard = action.payload.cards[random];
 

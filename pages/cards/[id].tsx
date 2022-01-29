@@ -5,8 +5,9 @@ import Box from "@mui/material/Box";
 
 import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
-import { Flashcard, FlashCardItem } from "../../src/Components/Flashcard";
 import { useApp } from "../../src/AppState";
+import { FlashCardItem } from "../../src/Components/Flashcard";
+import { FlashcardPage } from "../../src/Pages/FlashcardPage";
 
 interface WordsProps {
   card?: FlashCardItem;
@@ -33,7 +34,7 @@ const CardPage: React.FC<WordsProps> = ({ card, audio, cardIds }) => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
-        <Flashcard card={card} audio={audio} onNext={playNextCard} />
+        <FlashcardPage card={card} audio={audio} onNext={playNextCard} />
       </Box>
     </Container>
   );

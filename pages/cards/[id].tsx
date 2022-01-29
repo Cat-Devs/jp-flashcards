@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import { useRouter } from "next/router";
 
 import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
 import { Flashcard, FlashCardItem } from "../../src/Components/Flashcard";
-import { Application } from "../../src/AppContext";
-import { useEffect } from "react";
+import { useApp } from "../../src/AppState";
 
 interface WordsProps {
   card?: FlashCardItem;
@@ -17,7 +16,7 @@ interface WordsProps {
 
 const CardPage: React.FC<WordsProps> = ({ card, audio, cardIds }) => {
   const router = useRouter();
-  const { state, dispatch } = useContext(Application);
+  const { state, dispatch } = useApp();
 
   const playNextCard = () => {
     dispatch({ type: "nextCard" });

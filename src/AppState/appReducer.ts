@@ -1,8 +1,22 @@
-import { useEffect, useReducer } from "react";
+import { AppState } from "./types";
 
-function reducer(state, action) {
+enum ActionType {
+  "LOAD_DATA",
+  "NEXT_CARD",
+}
+
+type LoadDataAction = {
+  type: ActionType.LOAD_DATA;
+  payload: { cards: string[]; currentCard: string };
+};
+
+type NextCardAction = { type: ActionType.NEXT_CARD };
+
+type AppAction = LoadDataAction | NextCardAction;
+
+export function appReducer(state: AppState, action: AppAction) {
   switch (action.type) {
-    case "loadData": {
+    case ActionType.LOAD_DATA: {
       console.warn("load data");
       const random = Math.floor(Math.random() * action.payload.cards.length);
       const nextCard = action.payload.cards[random];
@@ -13,7 +27,7 @@ function reducer(state, action) {
         usedCards: [action.payload.currentCard],
       };
     }
-    case "nextCard": {
+    case ActionType.NEXT_CARD: {
       const random = Math.floor(Math.random() * state.remainingCards.length);
       const nextCard = state.remainingCards.length
         ? state.remainingCards[random]
@@ -31,23 +45,3 @@ function reducer(state, action) {
       return state;
   }
 }
-
-const initialState = {
-  remainingCards: [],
-  usedCards: [],
-  nextCard: "",
-};
-
-export const useShuffleCards = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const nextCard = () => {
-    dispatch({ type: "nextCard" });
-  };
-
-  const getState = () => {
-    console.warn("getState");
-  };
-
-  return { nextCard, getState, state, dispatch };
-};

@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import { dynamoDb } from "../../lib/dynamo-db";
-import { useEffect } from "react";
-import { Application } from "../../src/AppContext";
+import { useApp } from "../../src/AppState";
 
 interface WordsProps {
   cardId?: string;
@@ -12,7 +11,7 @@ interface WordsProps {
 
 const CardPage: React.FC<WordsProps> = ({ cardId, cardIds }) => {
   const router = useRouter();
-  const { dispatch } = useContext(Application);
+  const { dispatch } = useApp();
 
   useEffect(() => {
     dispatch({

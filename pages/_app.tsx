@@ -6,13 +6,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { theme } from "../src/theme";
 import { LoadingPage } from "../src/Components/Loading";
-import { useShuffleCards } from "../src/use-shuffle-cards";
-import { Application } from "../src/AppContext";
+import { AppProvider } from "../src/AppState";
 
 const App = (props) => {
   const { Component, pageProps } = props;
   const [loading, setLoading] = useState(false);
-  const { state, dispatch } = useShuffleCards();
 
   const router = useRouter();
 
@@ -34,7 +32,7 @@ const App = (props) => {
   }, [router]);
 
   return (
-    <Application.Provider value={{ state, dispatch }}>
+    <AppProvider>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
@@ -43,7 +41,7 @@ const App = (props) => {
         <CssBaseline />
         {loading ? <LoadingPage /> : <Component {...pageProps} />}
       </ThemeProvider>
-    </Application.Provider>
+    </AppProvider>
   );
 };
 

@@ -16,13 +16,14 @@ import ClearIcon from "@mui/icons-material/Clear";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export interface FlashCardItem {
+  id: string;
+  category: string;
+  en: string;
+  jp: string;
   kanji?: string;
   hiragana?: string;
   katakana?: string;
-  jp: string;
   romaji?: string;
-  id: string;
-  title: string;
 }
 interface FlashcardProps {
   card: FlashCardItem;
@@ -44,7 +45,7 @@ export const Flashcard: React.FC<FlashcardProps> = ({
     audioEl.play();
   };
 
-  const toggleSolution = (event: React.SyntheticEvent, expanded: boolean) => {
+  const toggleSolution = (_event: React.SyntheticEvent, expanded: boolean) => {
     if (expanded) {
       playAudio();
     }
@@ -54,6 +55,23 @@ export const Flashcard: React.FC<FlashcardProps> = ({
     onNext && onNext(card.id);
   };
 
+  if (!(card && card.en)) {
+    return (
+      <Card>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            Card Not Found
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button color="primary" onClick={buttonClick}>
+            Next
+          </Button>
+        </CardActions>
+      </Card>
+    );
+  }
+
   return (
     <Card>
       <CardContent>
@@ -61,7 +79,6 @@ export const Flashcard: React.FC<FlashcardProps> = ({
           disableGutters
           square
           elevation={0}
-          classes={{ root: `background:red` }}
           onChange={toggleSolution}
         >
           <AccordionSummary
@@ -70,7 +87,7 @@ export const Flashcard: React.FC<FlashcardProps> = ({
             id="panel1a-header"
           >
             <Typography gutterBottom variant="h5" component="div">
-              {card?.title}
+              {card.en}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>

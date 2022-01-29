@@ -5,7 +5,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import { theme } from "../src/theme";
-import { LoadingPage } from "../src/Components/Loading";
 import { AppProvider } from "../src/AppState";
 
 const App = (props) => {
@@ -39,7 +38,7 @@ const App = (props) => {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        {loading ? <LoadingPage /> : <Component {...pageProps} />}
+        <Component {...pageProps} loading={loading} />
       </ThemeProvider>
     </AppProvider>
   );

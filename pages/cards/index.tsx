@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import { dynamoDb } from "../../lib/dynamo-db";
 import { useApp } from "../../src/AppState";
+import { FlashcardPage } from "../../src/Pages/FlashcardPage";
 
 interface WordsProps {
   cardId?: string;
@@ -15,7 +16,7 @@ const CardPage: React.FC<WordsProps> = ({ cardIds, cardId }) => {
     loadData(cardIds, cardId);
   }, []);
 
-  return null;
+  return <FlashcardPage loading={true} />;
 };
 
 export async function getStaticProps() {

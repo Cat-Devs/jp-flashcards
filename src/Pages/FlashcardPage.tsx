@@ -7,20 +7,27 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 import { Flashcard, FlashCardItem } from "../Components/Flashcard";
+import { LoadingPage } from "../Components/Loading";
 
 interface FlashcardPageProps {
   card?: FlashCardItem;
   audio?: string;
   quiz?: boolean;
-  onNext: () => void;
+  loading?: boolean;
+  onNext?: () => void;
 }
 
 export const FlashcardPage: React.FC<FlashcardPageProps> = ({
   card,
   audio,
   onNext,
+  loading,
   quiz,
 }) => {
+  if (loading) {
+    return <LoadingPage />;
+  }
+
   if (!(card && card.en)) {
     return (
       <Card>

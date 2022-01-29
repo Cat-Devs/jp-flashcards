@@ -7,13 +7,15 @@ import { createAudioData } from "../../lib/audio";
 import { useApp } from "../../src/AppState";
 import { FlashCardItem } from "../../src/Components/Flashcard";
 import { FlashcardPage } from "../../src/Pages/FlashcardPage";
+import { KeyboardHelper } from "../../src/Components/KeyboardHelper";
 
 interface WordsProps {
   card?: FlashCardItem;
   audio?: any;
+  loading?: boolean;
 }
 
-const CardPage: React.FC<WordsProps> = ({ card, audio }) => {
+const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
   const { nextCard, state } = useApp();
 
   return (
@@ -23,9 +25,11 @@ const CardPage: React.FC<WordsProps> = ({ card, audio }) => {
           card={card}
           audio={audio}
           onNext={nextCard}
+          loading={loading}
           quiz={Boolean(state.nextCard)}
         />
       </Box>
+      <KeyboardHelper />
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -6,15 +6,17 @@ import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import Accordion from "@mui/material/Accordion";
+import Box from "@mui/material/Box";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import Box from "@mui/material/Box";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import { useAudio } from "../Hooks/use-audio";
+import { useKeyPress } from "../Hooks/use-key-press";
 
 export interface FlashCardItem {
   id: string;
@@ -40,6 +42,7 @@ export const Flashcard: React.FC<FlashcardProps> = ({
   onNext,
 }) => {
   const { play } = useAudio(audio);
+  useKeyPress(onNext, onNext);
 
   const toggleSolution = (_event: React.SyntheticEvent, expanded: boolean) => {
     if (expanded) {

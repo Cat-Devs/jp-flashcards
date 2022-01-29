@@ -1,8 +1,11 @@
-import { createContext, useMemo, useReducer } from "react";
+import { createContext, useMemo, useReducer, Dispatch } from "react";
 import { appReducer } from "./appReducer";
-import { AppState } from "./types";
+import { AppState, AppAction } from "./types";
 
-export const AppContext = createContext({
+export const AppContext = createContext<{
+  state: AppState;
+  dispatch: Dispatch<AppAction>;
+}>({
   state: null,
   dispatch: null,
 });
@@ -14,10 +17,20 @@ const initialState: AppState = {
   correctCards: [],
   nextCard: "",
   gameMode: "",
+  currentCard: "",
 };
 
 export function AppProvider(props) {
-  const [state, dispatch] = useReducer(appReducer, initialState);
+  let appState = { ...initialState };
+
+  if (typeof window !== "undefined") {
+    const storedState = sessionStorage.getItem("app-state");
+    if (storedState) {
+      appState = JSON.parse(storedState);
+    }
+  }
+
+  const [state, dispatch] = useReducer(appReducer, appState);
 
   const value = useMemo(() => ({ state, dispatch }), [state]);
 

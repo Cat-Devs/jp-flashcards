@@ -1,7 +1,11 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+
 import { AppContext } from "./AppContext";
+import { AppActionType } from "./types";
 
 export function useApp() {
+  const router = useRouter();
   const context = useContext(AppContext);
 
   if (!context) {
@@ -10,11 +14,28 @@ export function useApp() {
 
   const { state, dispatch } = context;
 
+  useEffect(() => {
+    sessionStorage.setItem("app-state", JSON.stringify(state));
+  }, [state]);
+
   const nextCard = () => {
-    dispatch({ type: "nextCard" });
+    dispatch({ type: AppActionType.NEXT_CARD });
+    router.push(`/cards/${state.nextCard}`);
+  };
+
+  const loadData = (cardIds: string[], randomCard: string) => {
+    const nextCard = state.currentCard ? state.currentCard : randomCard;
+
+    dispatch({
+      type: AppActionType.LOAD_DATA,
+      payload: { randomCard, cardIds },
+    });
+
+    router.push(`/cards/${nextCard}`);
   };
 
   return {
+    loadData,
     nextCard,
     state,
     dispatch,

@@ -11,6 +11,7 @@ import { Flashcard, FlashCardItem } from "../Components/Flashcard";
 interface FlashcardPageProps {
   card?: FlashCardItem;
   audio?: string;
+  quiz?: boolean;
   onNext: () => void;
 }
 
@@ -18,6 +19,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({
   card,
   audio,
   onNext,
+  quiz,
 }) => {
   if (!(card && card.en)) {
     return (
@@ -36,5 +38,5 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({
     );
   }
 
-  return <Flashcard card={card} audio={audio} onNext={onNext} />;
+  return <Flashcard card={card} audio={audio} quiz={quiz} onNext={onNext} />;
 };

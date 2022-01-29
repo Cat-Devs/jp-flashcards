@@ -30,11 +30,13 @@ interface FlashcardProps {
   card: FlashCardItem;
   audio: string;
   onNext: (cardId: string) => void;
+  quiz?: boolean;
 }
 
 export const Flashcard: React.FC<FlashcardProps> = ({
   card,
   audio,
+  quiz,
   onNext,
 }) => {
   const { play } = useAudio(audio);
@@ -56,6 +58,7 @@ export const Flashcard: React.FC<FlashcardProps> = ({
           disableGutters
           square
           elevation={0}
+          defaultExpanded={!quiz}
           onChange={toggleSolution}
         >
           <AccordionSummary
@@ -99,14 +102,24 @@ export const Flashcard: React.FC<FlashcardProps> = ({
         </Accordion>
       </CardContent>
 
-      <CardActions>
-        <Button color="warning" endIcon={<ClearIcon />} onClick={nextCardClick}>
-          Wrong
-        </Button>
-        <Button color="success" endIcon={<CheckIcon />} onClick={nextCardClick}>
-          Correct
-        </Button>
-      </CardActions>
+      {quiz && (
+        <CardActions>
+          <Button
+            color="warning"
+            endIcon={<ClearIcon />}
+            onClick={nextCardClick}
+          >
+            Wrong
+          </Button>
+          <Button
+            color="success"
+            endIcon={<CheckIcon />}
+            onClick={nextCardClick}
+          >
+            Correct
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 };

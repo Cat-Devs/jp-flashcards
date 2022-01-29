@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useRouter } from "next/router";
 
 import { dynamoDb } from "../../lib/dynamo-db";
 import { useApp } from "../../src/AppState";
@@ -9,17 +8,12 @@ interface WordsProps {
   cardIds: string[];
 }
 
-const CardPage: React.FC<WordsProps> = ({ cardId, cardIds }) => {
-  const router = useRouter();
-  const { dispatch } = useApp();
+const CardPage: React.FC<WordsProps> = ({ cardIds, cardId }) => {
+  const { loadData } = useApp();
 
   useEffect(() => {
-    dispatch({
-      type: "loadData",
-      payload: { cards: cardIds, currentCard: cardId },
-    });
-    router.push(`/cards/${cardId}`);
-  }, [router, dispatch, cardId, cardIds]);
+    loadData(cardIds, cardId);
+  }, []);
 
   return null;
 };

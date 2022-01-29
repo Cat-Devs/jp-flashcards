@@ -1,32 +1,24 @@
-import { AppState } from "./types";
-
-enum ActionType {
-  "LOAD_DATA",
-  "NEXT_CARD",
-}
-
-type LoadDataAction = {
-  type: ActionType.LOAD_DATA;
-  payload: { cards: string[]; currentCard: string };
-};
-
-type NextCardAction = { type: ActionType.NEXT_CARD };
-
-type AppAction = LoadDataAction | NextCardAction;
+import { AppState, AppAction, AppActionType } from "./types";
 
 export function appReducer(state: AppState, action: AppAction) {
   switch (action.type) {
-    case ActionType.LOAD_DATA: {
-      const random = Math.floor(Math.random() * action.payload.cards.length);
-      const nextCard = action.payload.cards[random];
+    case AppActionType.LOAD_DATA: {
+      if (state.currentCard) {
+        return state;
+      }
+
+      const random = Math.floor(Math.random() * action.payload.cardIds.length);
+      const nextCard = action.payload.cardIds[random];
 
       return {
         nextCard: `${nextCard}`,
-        remainingCards: action.payload.cards,
-        usedCards: [action.payload.currentCard],
+        currentCard: `${action.payload.randomCard}`,
+        remainingCards: action.payload.cardIds,
+        usedCards: [],
       };
     }
-    case ActionType.NEXT_CARD: {
+
+    case AppActionType.NEXT_CARD: {
       const random = Math.floor(Math.random() * state.remainingCards.length);
       const nextCard = state.remainingCards.length
         ? state.remainingCards[random]
@@ -35,10 +27,14 @@ export function appReducer(state: AppState, action: AppAction) {
       state.remainingCards.splice(random, 1);
 
       if (state.nextCard) {
-        state.usedCards.push(state.nextCard);
+        state.usedCards.push(state.currentCard);
       }
 
-      return { ...state, nextCard: `${nextCard}` };
+      return {
+        ...state,
+        currentCard: `${state.nextCard}`,
+        nextCard: `${nextCard}`,
+      };
     }
     default:
       return state;

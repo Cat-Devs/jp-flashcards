@@ -5,7 +5,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Skeleton from "@mui/material/Skeleton";
 
-export const LoadingPage: React.FC = () => {
+export const LoadingCard: React.FC = () => {
   return (
     <Card>
       <CardHeader

@@ -17,7 +17,7 @@ const Index: React.FC = () => {
         <Link
           passHref
           href={{
-            pathname: "/cards",
+            pathname: "/shuffle",
           }}
         >
           <Button variant="outlined">Play Words flashcards</Button>

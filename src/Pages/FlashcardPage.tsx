@@ -5,9 +5,11 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 
 import { Flashcard, FlashCardItem } from "../Components/Flashcard";
-import { LoadingPage } from "../Components/Loading";
+import { LoadingCard } from "../Components/LoadingCard";
 
 interface FlashcardPageProps {
   card?: FlashCardItem;
@@ -25,7 +27,13 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({
   quiz,
 }) => {
   if (loading) {
-    return <LoadingPage />;
+    return (
+      <Container maxWidth="sm">
+        <Box sx={{ my: 4 }}>
+          <LoadingCard />
+        </Box>
+      </Container>
+    );
   }
 
   if (!(card && card.en)) {

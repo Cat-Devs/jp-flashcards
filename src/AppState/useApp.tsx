@@ -20,7 +20,7 @@ export function useApp() {
 
   const nextCard = () => {
     dispatch({ type: AppActionType.NEXT_CARD });
-    router.push(`/cards/${state.nextCard}`);
+    router.push(`/shuffle/${state.nextCard}`);
   };
 
   const loadData = (cardIds: string[], randomCard: string) => {
@@ -31,7 +31,7 @@ export function useApp() {
       payload: { randomCard, cardIds },
     });
 
-    router.push(`/cards/${nextCard}`);
+    router.push(`/shuffle/${nextCard}`);
   };
 
   return {

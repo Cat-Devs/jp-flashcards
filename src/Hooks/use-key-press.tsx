@@ -3,10 +3,10 @@ import { useEffect } from "react";
 export function useKeyPress(onArrowRight: any, onArrowLeft: any) {
   function upHandler({ key }: KeyboardEvent) {
     if (key === "ArrowRight") {
-      onArrowRight();
+      onArrowRight && onArrowRight();
     }
     if (key === "ArrowLeft") {
-      onArrowLeft();
+      onArrowLeft && onArrowLeft();
     }
   }
 

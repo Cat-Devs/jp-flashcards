@@ -31,7 +31,7 @@ export interface FlashCardItem {
 interface FlashcardProps {
   card: FlashCardItem;
   audio: string;
-  onNext: (cardId: string) => void;
+  onNext?: (cardId: string) => void;
   quiz?: boolean;
 }
 

@@ -1,11 +1,14 @@
 import React from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import { isMobile } from "react-device-detect";
 
 import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
+import { useApp } from "../../src/AppState";
 import { FlashCardItem } from "../../src/Components/Flashcard";
 import { FlashcardPage } from "../../src/Pages/FlashcardPage";
+import { KeyboardHelper } from "../../src/Components/KeyboardHelper";
 
 interface WordsProps {
   card?: FlashCardItem;
@@ -14,15 +17,19 @@ interface WordsProps {
 }
 
 const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
+  const { nextCard, state } = useApp();
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
         <FlashcardPage
           card={card}
           audio={audio}
+          onNext={nextCard}
           loading={loading}
-          quiz={false}
+          quiz={Boolean(state.nextCard)}
         />
+        {!isMobile && <KeyboardHelper />}
       </Box>
     </Container>
   );

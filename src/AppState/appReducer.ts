@@ -19,6 +19,8 @@ export function appReducer(state: AppState, action: AppAction) {
     }
 
     case AppActionType.NEXT_CARD: {
+      console.warn("Next card");
+
       const random = Math.floor(Math.random() * state.remainingCards.length);
       const nextCard = state.remainingCards.length
         ? state.remainingCards[random]

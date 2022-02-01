@@ -1,6 +1,7 @@
 import React from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import { isMobile } from "react-device-detect";
 
 import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
@@ -28,8 +29,8 @@ const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
           loading={loading}
           quiz={Boolean(state.nextCard)}
         />
+        {!isMobile && <KeyboardHelper />}
       </Box>
-      <KeyboardHelper />
     </Container>
   );
 };

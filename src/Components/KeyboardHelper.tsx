@@ -11,9 +11,11 @@ export const KeyboardHelper = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        textAlign: "center",
       }}
     >
       <Typography gutterBottom variant="h6">

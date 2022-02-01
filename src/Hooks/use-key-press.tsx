@@ -14,7 +14,7 @@ export function useKeyPress(onArrowRight: any, onArrowLeft: any) {
     window.addEventListener("keyup", upHandler);
 
     return () => {
-      window.addEventListener("keyup", upHandler);
+      window.removeEventListener("keyup", upHandler);
     };
   }, []); // Empty array ensures that effect is only run on mount and unmount
 }

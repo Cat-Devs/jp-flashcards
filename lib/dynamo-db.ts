@@ -1,6 +1,8 @@
 import "./aws";
 import { DynamoDB } from "aws-sdk";
-import localDB from "../data/table-data.json";
+const localDB = require(`../data/${
+  process.env.TABLE_NAME || "table-data-large"
+}.json`);
 
 const isProd = process.env.NODE_ENV !== "production";
 

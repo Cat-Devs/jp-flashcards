@@ -23,7 +23,7 @@ const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
     return (
       <Container maxWidth="sm">
         <Box sx={{ my: 4 }}>
-          <FlashcardPage />
+          <FlashcardPage onNext={nextCard} />
         </Box>
       </Container>
     );

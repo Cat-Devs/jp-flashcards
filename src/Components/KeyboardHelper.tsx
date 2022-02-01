@@ -1,5 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
+import Icon from "@mui/material/Icon";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import ArrowLeft from "@mui/icons-material/ArrowLeft";
@@ -10,11 +11,11 @@ export const KeyboardHelper = () => {
   return (
     <Box
       sx={{
-        width: "100%",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
         textAlign: "center",
+        position: "absolute",
+        left: 0,
+        bottom: 0,
+        width: "100%",
       }}
     >
       <Typography gutterBottom variant="h6">

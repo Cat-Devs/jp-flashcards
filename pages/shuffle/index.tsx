@@ -20,9 +20,7 @@ const CardPage: React.FC<WordsProps> = ({ cardIds, cardId }) => {
 };
 
 export async function getStaticProps() {
-  const { Items: items } = await dynamoDb.scan({
-    FilterExpression: "attribute_exists(title)",
-  });
+  const { Items: items } = await dynamoDb.scan({});
 
   const random = Math.floor(Math.random() * items.length);
   const item = items[random];

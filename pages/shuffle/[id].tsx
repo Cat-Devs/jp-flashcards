@@ -19,6 +19,16 @@ interface WordsProps {
 const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
   const { nextCard, state } = useApp();
 
+  if (!Boolean(state.nextCard)) {
+    return (
+      <Container maxWidth="sm">
+        <Box sx={{ my: 4 }}>
+          <FlashcardPage />
+        </Box>
+      </Container>
+    );
+  }
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
@@ -27,10 +37,10 @@ const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
           audio={audio}
           onNext={nextCard}
           loading={loading}
-          quiz={Boolean(state.nextCard)}
+          quiz={true}
         />
-        {!isMobile && <KeyboardHelper />}
       </Box>
+      <KeyboardHelper />
     </Container>
   );
 };

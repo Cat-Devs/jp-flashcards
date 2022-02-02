@@ -40,6 +40,16 @@
     "romaji": "san"
   },
   {
+    "id": "10004",
+    "category": "numbers",
+    "en": "4",
+    "jp": "よん / し",
+    "kanji": "四",
+    "hiragana": "よん / し",
+    "katakana": "",
+    "romaji": "yon / shi"
+  },
+  {
     "id": "LAST_ITEM",
     "category": "LAST_ITEM",
     "en": "LAST_ITEM",

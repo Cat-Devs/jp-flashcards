@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "TABLE_NAME=table-data-small next dev",
+    "dev:large": "TABLE_NAME=table-data-large next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

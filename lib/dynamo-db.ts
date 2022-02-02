@@ -28,7 +28,7 @@ export const dynamoDb = {
   scan: (params) => {
     if (isProd) {
       return {
-        Items: localDB,
+        Items: localDB.filter((itemDb) => itemDb.id !== "LAST_ITEM"),
       };
     }
 

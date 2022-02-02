@@ -1,15 +1,15 @@
 {
-  "name": "nextjs",
+  "name": "jp-flashcards",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "TABLE_NAME=table-data-small next dev",
-    "dev:large": "TABLE_NAME=table-data-large next dev",
+    "dev:small": "TABLE_NAME=table-data-small next dev",
+    "dev": "TABLE_NAME=table-data next dev",
     "test": "jest --watch",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:create": "START_ID=$START_ID AWS_USERS_TABLE=$AWS_USERS_TABLE AWS_REGION=$AWS_REGION node ./data/upload.js"
+    "db:create": "AWS_USERS_TABLE=$AWS_USERS_TABLE AWS_REGION=$AWS_REGION node ./data/upload.js"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",

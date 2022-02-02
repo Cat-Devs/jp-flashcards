@@ -1,6 +1,5 @@
 [
   {
-    "id": "10000",
     "category": "numbers",
     "en": "0",
     "jp": "零",
@@ -10,7 +9,6 @@
     "romaji": "rei"
   },
   {
-    "id": "10001",
     "category": "numbers",
     "en": "1",
     "jp": "一",
@@ -20,7 +18,6 @@
     "romaji": "ichi"
   },
   {
-    "id": "10002",
     "category": "numbers",
     "en": "2",
     "jp": "二",
@@ -30,7 +27,6 @@
     "romaji": "ni"
   },
   {
-    "id": "10003",
     "category": "numbers",
     "en": "3",
     "jp": "三",
@@ -40,7 +36,6 @@
     "romaji": "san"
   },
   {
-    "id": "10004",
     "category": "numbers",
     "en": "4",
     "jp": "よん / し",
@@ -50,7 +45,6 @@
     "romaji": "yon / shi"
   },
   {
-    "id": "LAST_ITEM",
     "category": "LAST_ITEM",
     "en": "LAST_ITEM",
     "jp": "LAST_ITEM",

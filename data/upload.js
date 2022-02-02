@@ -24,16 +24,19 @@ const put = (params) => dynamoDb.put(params).promise();
 
   console.log("Creating data...");
 
-  for (const data of tableData) {
+  for (const [dataId, data] of tableData.entries()) {
+    const cardId = 10000 + Number(dataId);
     const params = {
-      Item: data,
+      Item: {
+        id: String(cardId),
+        ...data,
+      },
     };
 
     try {
-      put(params).catch(() => {
-        throw new Error(`Unable to add ${data.title}`);
-      });
+      put(params);
     } catch (error) {
+      console.error("failed to put", data.en);
       console.error(error);
       process.exit(1);
     }

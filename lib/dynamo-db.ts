@@ -1,7 +1,7 @@
 import "./aws";
 import { DynamoDB } from "aws-sdk";
 const localDB = require(`../data/${
-  process.env.TABLE_NAME || "table-data-large"
+  process.env.TABLE_NAME || "table-data"
 }.json`);
 
 const isProd = process.env.NODE_ENV !== "production";
@@ -16,7 +16,9 @@ const client = new DynamoDB.DocumentClient({
 export const dynamoDb = {
   get: (params) => {
     if (isProd) {
-      const item = localDB.find((itemDb) => itemDb.id === params.Key.id);
+      const item = localDB.find(
+        (itemDb, index) => `${Number(10000 + index)}` === params.Key.id
+      );
 
       return {
         Item: item,
@@ -28,7 +30,12 @@ export const dynamoDb = {
   scan: (params) => {
     if (isProd) {
       return {
-        Items: localDB.filter((itemDb) => itemDb.id !== "LAST_ITEM"),
+        Items: localDB
+          .map((itemDb, index) => ({
+            id: `${Number(10000 + index)}`,
+            ...itemDb,
+          }))
+          .filter((itemDb) => itemDb.category !== "LAST_ITEM"),
       };
     }
 

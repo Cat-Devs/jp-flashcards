@@ -23,8 +23,6 @@ export function useApp() {
 
     if (state.nextCard) {
       router.push(`/shuffle/${state.nextCard}`);
-    } else {
-      router.push(`/shuffle/${state.currentCard}`);
     }
   };
 

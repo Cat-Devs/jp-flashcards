@@ -9,6 +9,7 @@ import { useApp } from "../../src/AppState";
 import { FlashCardItem } from "../../src/Components/Flashcard";
 import { FlashcardPage } from "../../src/Pages/FlashcardPage";
 import { KeyboardHelper } from "../../src/Components/KeyboardHelper";
+import { ResultPage } from "../../src/Pages/ResultPage";
 
 interface WordsProps {
   card?: FlashCardItem;
@@ -17,13 +18,13 @@ interface WordsProps {
 }
 
 const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
-  const { nextCard, state } = useApp();
+  const { state, nextCard, goHome } = useApp();
 
-  if (!Boolean(state.nextCard)) {
+  if (!Boolean(state.currentCard)) {
     return (
       <Container maxWidth="sm">
         <Box sx={{ my: 4 }}>
-          <FlashcardPage onNext={nextCard} />
+          <ResultPage onHome={goHome} loading={loading} />
         </Box>
       </Container>
     );
@@ -40,7 +41,7 @@ const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
           quiz={true}
         />
       </Box>
-      <KeyboardHelper />
+      {!isMobile && <KeyboardHelper />}
     </Container>
   );
 };

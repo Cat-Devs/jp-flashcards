@@ -20,11 +20,16 @@ export function useApp() {
 
   const nextCard = () => {
     dispatch({ type: AppActionType.NEXT_CARD });
-    router.push(`/shuffle/${state.nextCard}`);
+
+    if (state.nextCard) {
+      router.push(`/shuffle/${state.nextCard}`);
+    } else {
+      router.push(`/shuffle/${state.currentCard}`);
+    }
   };
 
   const loadData = (cardIds: string[], randomCard: string) => {
-    const nextCard = state.currentCard ? state.currentCard : randomCard;
+    const nextCard = state.currentCard || randomCard;
 
     dispatch({
       type: AppActionType.LOAD_DATA,
@@ -34,10 +39,14 @@ export function useApp() {
     router.push(`/shuffle/${nextCard}`);
   };
 
+  const goHome = () => {
+    router.push(`/`);
+  };
+
   return {
+    state,
     loadData,
     nextCard,
-    state,
-    dispatch,
+    goHome,
   };
 }

@@ -1,31 +1,20 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 export function useAudio(audioBuffer: string) {
-  const audioEl = useRef<HTMLAudioElement>();
-
-  useEffect(() => {
-    audioEl.current = new Audio();
-
-    return () => {
-      if (audioEl.current.readyState) {
-        audioEl.current.pause();
-      }
-      audioEl.current = undefined;
-    };
-  }, []);
+  const [audioEl, setAudio] = useState<HTMLAudioElement>();
 
   useEffect(() => {
     if (audioBuffer) {
       const audioData = Buffer.from(audioBuffer, "hex");
       const blob = new Blob([audioData], { type: "audio/mpeg" });
       const audioSrc = webkitURL.createObjectURL(blob);
-      audioEl.current.src = audioSrc;
+      setAudio(new Audio(audioSrc));
     }
   }, [audioBuffer]);
 
   const play = () => {
-    if (audioEl.current.readyState) {
-      audioEl.current.play();
+    if (audioEl.readyState === 4) {
+      audioEl.play();
     }
   };
 

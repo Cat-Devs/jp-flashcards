@@ -1,6 +1,6 @@
 import { createContext, useMemo, useReducer, Dispatch } from "react";
 import { appReducer } from "./appReducer";
-import { AppState, AppAction } from "./types";
+import { AppState, AppAction, GameMode } from "./types";
 
 export const AppContext = createContext<{
   state: AppState;
@@ -16,7 +16,7 @@ const initialState: AppState = {
   wrongCards: [],
   correctCards: [],
   nextCard: "",
-  gameMode: "",
+  gameMode: "en",
   currentCard: "",
 };
 

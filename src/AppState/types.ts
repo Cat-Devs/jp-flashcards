@@ -1,3 +1,5 @@
+export type GameMode = "en" | "hiragana" | "kanji" | "kana";
+
 export interface AppState {
   currentCard: string;
   remainingCards: string[];
@@ -5,19 +7,25 @@ export interface AppState {
   wrongCards: string[];
   correctCards: string[];
   nextCard: string;
-  gameMode: string;
+  gameMode: GameMode;
 }
 
 export enum AppActionType {
   "LOAD_DATA",
   "NEXT_CARD",
+  "SET_GAME",
 }
 
 type LoadDataAction = {
   type: AppActionType.LOAD_DATA;
-  payload: { cardIds: string[]; randomCard: string };
+  payload: { cardIds: string[]; nextCard: string };
 };
 
 type NextCardAction = { type: AppActionType.NEXT_CARD };
 
-export type AppAction = LoadDataAction | NextCardAction;
+type SetGameAction = {
+  type: AppActionType.SET_GAME;
+  payload: { gameMode: GameMode };
+};
+
+export type AppAction = LoadDataAction | NextCardAction | SetGameAction;

@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 
 import { AppContext } from "./AppContext";
-import { AppActionType } from "./types";
+import { AppActionType, GameMode } from "./types";
 
 export function useApp() {
   const router = useRouter();
@@ -26,15 +26,51 @@ export function useApp() {
     }
   };
 
-  const loadData = (cardIds: string[], randomCard: string) => {
-    const nextCard = state.currentCard || randomCard;
+  const loadData = (
+    cards: string[],
+    hiraganaIds: string[],
+    kanjiIds: string[]
+  ) => {
+    if (state.gameMode === "hiragana") {
+      const cardIds = hiraganaIds.sort(() => Math.random() - 0.5);
+      const nextCard =
+        hiraganaIds[String(Math.floor(Math.random() * cardIds.length))];
+
+      dispatch({
+        type: AppActionType.LOAD_DATA,
+        payload: { cardIds, nextCard },
+      });
+
+      return router.push(`/shuffle/${nextCard}`);
+    } else if (state.gameMode === "kanji") {
+      const cardIds = kanjiIds.sort(() => Math.random() - 0.5);
+      const nextCard =
+        kanjiIds[String(Math.floor(Math.random() * cardIds.length))];
+
+      dispatch({
+        type: AppActionType.LOAD_DATA,
+        payload: { cardIds, nextCard },
+      });
+
+      return router.push(`/shuffle/${nextCard}`);
+    }
+
+    const cardIds = cards.sort(() => Math.random() - 0.5);
+    const nextCard = cards[String(Math.floor(Math.random() * cardIds.length))];
 
     dispatch({
       type: AppActionType.LOAD_DATA,
-      payload: { randomCard, cardIds },
+      payload: { cardIds, nextCard },
     });
 
-    router.push(`/shuffle/${nextCard}`);
+    return router.push(`/shuffle/${nextCard}`);
+  };
+
+  const setGame = (gameMode: GameMode) => {
+    dispatch({
+      type: AppActionType.SET_GAME,
+      payload: { gameMode },
+    });
   };
 
   const goHome = () => {
@@ -42,7 +78,9 @@ export function useApp() {
   };
 
   return {
-    state,
+    currentCard: state.currentCard,
+    gameMode: state.gameMode,
+    setGame,
     loadData,
     nextCard,
     goHome,

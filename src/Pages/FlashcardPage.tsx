@@ -10,9 +10,21 @@ import Box from "@mui/material/Box";
 
 import { Flashcard, FlashCardItem } from "../Components/Flashcard";
 import { LoadingCard } from "../Components/LoadingCard";
+import { useApp } from "../AppState";
+
+export interface FlashCardData {
+  id: string;
+  category: string;
+  en: string;
+  jp: string;
+  kanji?: string;
+  hiragana?: string;
+  katakana?: string;
+  romaji?: string;
+}
 
 interface FlashcardPageProps {
-  card?: FlashCardItem;
+  card?: FlashCardData;
   audio?: string;
   quiz?: boolean;
   loading?: boolean;
@@ -26,6 +38,8 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({
   loading,
   quiz,
 }) => {
+  const { gameMode } = useApp();
+
   if (loading) {
     return (
       <Container maxWidth="sm">
@@ -53,5 +67,36 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({
     );
   }
 
-  return <Flashcard card={card} audio={audio} quiz={quiz} onNext={onNext} />;
+  let cardData: FlashCardItem;
+  if (gameMode === "hiragana") {
+    cardData = {
+      firstLine: card.hiragana,
+      solution: [card.katakana, card.kanji, card.romaji, card.en],
+    };
+  } else if (gameMode === "kanji") {
+    cardData = {
+      firstLine: card.kanji,
+      solution: [card.hiragana, card.katakana, card.romaji, card.en],
+    };
+  } else if (gameMode === "kana") {
+    cardData = {
+      firstLine: card.hiragana || card.katakana,
+      solution: [
+        card.hiragana,
+        card.katakana,
+        card.kanji,
+        card.romaji,
+        card.en,
+      ],
+    };
+  } else {
+    cardData = {
+      firstLine: card.en,
+      solution: [card.hiragana, card.katakana, card.kanji, card.romaji],
+    };
+  }
+
+  return (
+    <Flashcard card={cardData} audio={audio} quiz={quiz} onNext={onNext} />
+  );
 };

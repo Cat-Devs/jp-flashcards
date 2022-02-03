@@ -8,7 +8,7 @@ describe(appReducer, () => {
     wrongCards: [],
     correctCards: [],
     nextCard: "",
-    gameMode: "",
+    gameMode: "en",
     currentCard: "",
   };
 
@@ -24,7 +24,7 @@ describe(appReducer, () => {
         wrongCards: [],
         correctCards: [],
         nextCard: "6",
-        gameMode: "",
+        gameMode: "en",
       };
 
       const res = appReducer(
@@ -112,7 +112,7 @@ describe(appReducer, () => {
         usedCards: [],
         wrongCards: [],
         correctCards: [],
-        gameMode: "",
+        gameMode: "en",
       };
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
@@ -130,7 +130,7 @@ describe(appReducer, () => {
         usedCards: [],
         wrongCards: [],
         correctCards: [],
-        gameMode: "",
+        gameMode: "en",
       };
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
@@ -151,7 +151,7 @@ describe(appReducer, () => {
         usedCards: [],
         wrongCards: [],
         correctCards: [],
-        gameMode: "",
+        gameMode: "en",
       };
 
       expect(appState.remainingCards).toContain(nextCard);
@@ -174,7 +174,7 @@ describe(appReducer, () => {
         usedCards: [],
         wrongCards: [],
         correctCards: [],
-        gameMode: "",
+        gameMode: "en",
       };
 
       expect(appState.usedCards).not.toContain(currentCard);
@@ -197,7 +197,7 @@ describe(appReducer, () => {
         usedCards: [],
         wrongCards: [],
         correctCards: [],
-        gameMode: "",
+        gameMode: "en",
       };
 
       const res = appReducer(appState, {
@@ -218,7 +218,7 @@ describe(appReducer, () => {
         usedCards: [],
         wrongCards: [],
         correctCards: [],
-        gameMode: "",
+        gameMode: "en",
       };
 
       const res = appReducer(appState, {

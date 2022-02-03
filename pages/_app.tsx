@@ -10,8 +10,12 @@ import { AppProvider } from "../src/AppState";
 const App = (props) => {
   const { Component, pageProps } = props;
   const [loading, setLoading] = useState(false);
-
+  const [ready, setReady] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setReady(true);
+  }, []);
 
   useEffect(() => {
     const handleRouteChangeStart = () => {
@@ -29,6 +33,10 @@ const App = (props) => {
       router.events.off("routeChangeComplete", handleRouteChangeEnd);
     };
   }, [router]);
+
+  if (!ready) {
+    return null;
+  }
 
   return (
     <>

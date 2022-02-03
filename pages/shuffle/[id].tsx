@@ -6,21 +6,20 @@ import { isMobile } from "react-device-detect";
 import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
 import { useApp } from "../../src/AppState";
-import { FlashCardItem } from "../../src/Components/Flashcard";
-import { FlashcardPage } from "../../src/Pages/FlashcardPage";
+import { FlashCardData, FlashcardPage } from "../../src/Pages/FlashcardPage";
 import { KeyboardHelper } from "../../src/Components/KeyboardHelper";
 import { ResultPage } from "../../src/Pages/ResultPage";
 
-interface WordsProps {
-  card?: FlashCardItem;
+interface CardPageProps {
+  card?: FlashCardData;
   audio?: any;
   loading?: boolean;
 }
 
-const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
-  const { state, nextCard, goHome } = useApp();
+const CardPage: React.FC<CardPageProps> = ({ card, audio, loading }) => {
+  const { currentCard, nextCard, goHome } = useApp();
 
-  if (!Boolean(state.currentCard)) {
+  if (!loading && !Boolean(currentCard)) {
     return (
       <Container maxWidth="sm">
         <Box sx={{ my: 4 }}>

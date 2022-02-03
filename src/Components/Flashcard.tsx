@@ -19,19 +19,14 @@ import { useAudio } from "../Hooks/use-audio";
 import { useKeyPress } from "../Hooks/use-key-press";
 
 export interface FlashCardItem {
-  id: string;
-  category: string;
-  en: string;
-  jp: string;
-  kanji?: string;
-  hiragana?: string;
-  katakana?: string;
-  romaji?: string;
+  firstLine: string;
+  solution: string[];
 }
+
 interface FlashcardProps {
   card: FlashCardItem;
   audio: string;
-  onNext?: (cardId: string) => void;
+  onNext?: () => void;
   quiz?: boolean;
 }
 
@@ -51,7 +46,7 @@ export const Flashcard: React.FC<FlashcardProps> = ({
   };
 
   const nextCardClick = () => {
-    onNext(card.id);
+    onNext();
   };
 
   return (
@@ -70,24 +65,22 @@ export const Flashcard: React.FC<FlashcardProps> = ({
             id="panel1a-header"
           >
             <Typography gutterBottom variant="h5" component="div">
-              {card.en}
+              {card.firstLine}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Box sx={{ display: "flex" }}>
               <Box sx={{ flex: "1 1 auto" }}>
-                <Typography gutterBottom variant="h5" component="div">
-                  {card?.kanji}
-                </Typography>
-                <Typography gutterBottom variant="h5" component="div">
-                  {card?.hiragana}
-                </Typography>
-                <Typography gutterBottom variant="h5" component="div">
-                  {card?.katakana}
-                </Typography>
-                <Typography gutterBottom variant="h5" component="div">
-                  {card?.romaji}
-                </Typography>
+                {card.solution.map((solutionItem, index) => (
+                  <Typography
+                    key={`solution-item-${index}`}
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                  >
+                    {solutionItem}
+                  </Typography>
+                ))}
               </Box>
               <Box>
                 <IconButton

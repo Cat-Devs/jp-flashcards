@@ -5,15 +5,16 @@ import { useApp } from "../../src/AppState";
 import { FlashcardPage } from "../../src/Pages/FlashcardPage";
 
 interface WordsProps {
-  cardId?: string;
   cardIds: string[];
+  hiraganaIds: string[];
+  kanjiIds: string[];
 }
 
-const CardPage: React.FC<WordsProps> = ({ cardIds, cardId }) => {
+const CardPage: React.FC<WordsProps> = ({ cardIds, hiraganaIds, kanjiIds }) => {
   const { loadData } = useApp();
 
   useEffect(() => {
-    loadData(cardIds, cardId);
+    loadData(cardIds, hiraganaIds, kanjiIds);
   }, []);
 
   return <FlashcardPage loading={true} />;
@@ -28,15 +29,22 @@ export async function getStaticProps() {
     },
   });
 
-  const random = Math.floor(Math.random() * items.length);
-  const item = items[random];
-  const cardIds = items.map((item) => item.id);
+  const cards = items.map((item) => item.id);
+  const kanjis = items.filter((item) => item.kanji).map((item) => item.id);
+  const hiraganas = items
+    .filter((item) => item.hiragana)
+    .map((item) => item.id);
+
+  const cardIds = cards.splice(0, 30);
+  const hiraganaIds = hiraganas.splice(0, 30);
+  const kanjiIds = kanjis.splice(0, 30);
 
   // Pass data to the page via props
   return {
     props: {
       cardIds,
-      cardId: item.id,
+      hiraganaIds,
+      kanjiIds,
     },
     // Refresh cache every hour
     revalidate: 600,

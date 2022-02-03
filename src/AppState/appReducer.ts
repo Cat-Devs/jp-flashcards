@@ -3,12 +3,8 @@ import { AppState, AppAction, AppActionType } from "./types";
 export function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case AppActionType.LOAD_DATA: {
-      if (state.currentCard) {
-        return state;
-      }
-
       const remainingCards = action.payload.cardIds.filter(
-        (cardId) => cardId !== action.payload.randomCard
+        (cardId) => cardId !== action.payload.nextCard
       );
       const random = Math.floor(Math.random() * remainingCards.length);
       const nextCard = remainingCards[random];
@@ -17,7 +13,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         ...state,
         remainingCards,
         nextCard: `${nextCard}`,
-        currentCard: `${action.payload.randomCard}`,
+        currentCard: `${action.payload.nextCard}`,
         usedCards: [],
       };
     }
@@ -42,6 +38,13 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         nextCard: `${nextCard}`,
         remainingCards: newRemainingCards,
         usedCards: newUsedCards,
+      };
+    }
+
+    case AppActionType.SET_GAME: {
+      return {
+        ...state,
+        gameMode: action.payload.gameMode,
       };
     }
 

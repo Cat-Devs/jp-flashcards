@@ -41,7 +41,7 @@ export const Flashcard: React.FC<FlashcardProps> = ({
 
   const toggleSolution = (_event: React.SyntheticEvent, expanded: boolean) => {
     if (expanded) {
-      play();
+      // play();
     }
   };
 

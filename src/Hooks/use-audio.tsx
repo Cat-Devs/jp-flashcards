@@ -25,8 +25,6 @@ export function useAudio(audioBuffer: string) {
 
   const play = () => {
     if (audioEl.current.readyState) {
-      audioEl.current.pause();
-      audioEl.current.load();
       audioEl.current.play();
     }
   };

@@ -3,7 +3,7 @@ import { red } from "@mui/material/colors";
 
 export const theme = createTheme({
   typography: {
-    fontSize: 18,
+    fontSize: 16,
   },
   palette: {
     mode: "dark",

@@ -20,7 +20,6 @@ export function useAudio(audioBuffer: string) {
       const blob = new Blob([audioData], { type: "audio/mpeg" });
       const audioSrc = webkitURL.createObjectURL(blob);
       audioEl.current.src = audioSrc;
-      audioEl.current.load();
     }
   }, [audioBuffer]);
 

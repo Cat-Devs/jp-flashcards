@@ -13,9 +13,7 @@ export function useAudio(audioBuffer: string) {
   }, [audioBuffer]);
 
   const play = () => {
-    if (audioEl.readyState === 4) {
-      audioEl.play();
-    }
+    audioEl.play();
   };
 
   return { play };

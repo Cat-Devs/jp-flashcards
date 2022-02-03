@@ -4,11 +4,10 @@ import Box from "@mui/material/Box";
 
 import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
-import { FlashCardItem } from "../../src/Components/Flashcard";
-import { FlashcardPage } from "../../src/Pages/FlashcardPage";
+import { FlashCardData, FlashcardPage } from "../../src/Pages/FlashcardPage";
 
 interface WordsProps {
-  card?: FlashCardItem;
+  card?: FlashCardData;
   audio?: any;
   loading?: boolean;
 }

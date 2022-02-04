@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -36,11 +36,13 @@ export const Flashcard: React.FC<FlashcardProps> = ({
   quiz,
   onNext,
 }) => {
+  const [expanded, setExpanded] = useState(!quiz);
   const { play } = useAudio(audio);
   useKeyPress(onNext, onNext);
 
-  const toggleSolution = (_event: React.SyntheticEvent, expanded: boolean) => {
-    if (expanded) {
+  const handleCheckAnswer = () => {
+    if (!expanded) {
+      setExpanded(true);
       play();
     }
   };
@@ -57,7 +59,8 @@ export const Flashcard: React.FC<FlashcardProps> = ({
           square
           elevation={0}
           defaultExpanded={!quiz}
-          onChange={toggleSolution}
+          expanded={expanded}
+          onChange={handleCheckAnswer}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -98,7 +101,14 @@ export const Flashcard: React.FC<FlashcardProps> = ({
         </Accordion>
       </CardContent>
 
-      {quiz && (
+      {!expanded && (
+        <CardActions>
+          <Button color="primary" onClick={handleCheckAnswer}>
+            Check answer
+          </Button>
+        </CardActions>
+      )}
+      {quiz && expanded && (
         <CardActions>
           <Button
             color="warning"

@@ -15,6 +15,19 @@ export function useApp() {
   const { state, dispatch } = context;
 
   useEffect(() => {
+    // While playing the flashcard game
+    // Check if the user navigated back in the browser history or the url was manually altered
+    if (
+      router.route === "/shuffle/[id]" &&
+      router.query?.id &&
+      state.currentCard &&
+      state.currentCard !== router.query.id
+    ) {
+      router.push(`/shuffle/${state.currentCard}`);
+    }
+  }, [router]);
+
+  useEffect(() => {
     sessionStorage.setItem("app-state", JSON.stringify(state));
   }, [state]);
 

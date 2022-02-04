@@ -4,7 +4,7 @@ const localDB = require(`../data/${
   process.env.TABLE_NAME || "table-data"
 }.json`);
 
-const isProd = process.env.NODE_ENV !== "production";
+const isDev = process.env.NODE_ENV !== "production";
 
 const client = new DynamoDB.DocumentClient({
   region: process.env.NEXT_PUBLIC_REGION,
@@ -15,7 +15,7 @@ const client = new DynamoDB.DocumentClient({
 
 export const dynamoDb = {
   get: (params) => {
-    if (isProd) {
+    if (isDev) {
       const item = localDB.find(
         (itemDb, index) => `${Number(10000 + index)}` === params.Key.id
       );
@@ -28,7 +28,7 @@ export const dynamoDb = {
     return client.get(params).promise();
   },
   scan: (params) => {
-    if (isProd) {
+    if (isDev) {
       return {
         Items: localDB
           .map((itemDb, index) => ({

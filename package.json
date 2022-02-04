@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev:small": "TABLE_NAME=table-data-small next dev",
-    "dev": "TABLE_NAME=table-data next dev",
+    "dev:small": "PORT=3000 TABLE_NAME=table-data-small next dev",
+    "dev": "PORT=3000 TABLE_NAME=table-data next dev",
+    "prod": "next dev",
     "test": "jest --watch",
     "build": "next build",
     "start": "next start",

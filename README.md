@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+- [Getting Started](#getting-started)
+- [Testing with a smaller database](#testing-with-a-smaller-database)
+- [Testing against a production backend](#testing-against-a-production-backend)
+- [Environment variables](#environment-variables)
+- [Learn More](#learn-more)
+- [Deploy on Vercel](#deploy-on-vercel)
+
 ## Getting Started
 
 First, run the development server:
@@ -12,11 +19,55 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+This command will run the project in development mode and without using any real resource.
+
+The mock database is present in a JSON format under the `data/table-data.json` folder.
+The mock audio file is available under the `public/test-sound.mp3` file.
+
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Testing with a smaller database
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+npm run dev:small
+# or
+yarn dev:small
+```
+
+While developing your application, you might want to run the project with a small database.
+Instead of manually modify your `table-data.json`, you can just run the above npm script.
+This script will make use of the `table-data-small.json` file under the `data` folder.
+
+## Testing against a production backend
+
+```bash
+npm run prod
+# or
+yarn prod
+```
+
+This will serve your local application using the real back-end services.
+
+Note: It is required to have an AWS account with a DynamoDB table.
+
+Also, make sure to provide your AWS access detail under the .env file.
+Read more about this file in the following section.
+
+## Environment variables
+
+If you want to run the project against a real back-backed, you will need to create some resources
+under your personal AWS account.
+
+Copy the `env.sample` to `.env` and fill in the missing informations according to your AWS account.
+You will need to create a DynamoDB table and put the name under the `NEXT_PUBLIC_TABLE_NAME` variable.
+You will also need to create an IAM under your AWS account, give permissions to AWS Polly and read
+permissions to your AWS Dynamo table.
+Then populate the access key and secret using the following variables under your `.env` file:
+`NEXT_PUBLIC_DYNAMO_ACCESS_KEY` and `NEXT_PUBLIC_SECRET_KEY`.
+Finally, make sure the `NEXT_PUBLIC_REGION` variable is correctly set according to your table region.
+
+You should now be able to run the [production script](#testing-against-a-production-backend)
+against your AWS account.
 
 ## Learn More
 

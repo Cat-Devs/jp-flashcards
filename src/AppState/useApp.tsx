@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { useRouter } from "next/router";
 
 import { AppContext } from "./AppContext";
@@ -14,18 +14,40 @@ export function useApp() {
 
   const { state, dispatch } = context;
 
-  const nextCard = () => {
+  const nextCard = useCallback(() => {
     dispatch({ type: AppActionType.NEXT_CARD });
 
     if (state.nextCard) {
       router.push(`/shuffle/${state.nextCard}`);
     }
-  };
+  }, [dispatch, router, state.nextCard]);
 
-  const loadData = (cards: string[], hiraganaIds: string[], kanjiIds: string[]) => {
-    if (state.gameMode === "hiragana") {
-      const cardIds = hiraganaIds.sort(() => Math.random() - 0.5);
-      const nextCard = hiraganaIds[String(Math.floor(Math.random() * cardIds.length))];
+  const loadData = useCallback(
+    (cards: string[], hiraganaIds: string[], kanjiIds: string[]) => {
+      if (state.gameMode === "hiragana") {
+        const cardIds = hiraganaIds.sort(() => Math.random() - 0.5);
+        const nextCard = hiraganaIds[String(Math.floor(Math.random() * cardIds.length))];
+
+        dispatch({
+          type: AppActionType.LOAD_DATA,
+          payload: { cardIds, nextCard },
+        });
+
+        return router.push(`/shuffle/${nextCard}`);
+      } else if (state.gameMode === "kanji") {
+        const cardIds = kanjiIds.sort(() => Math.random() - 0.5);
+        const nextCard = kanjiIds[String(Math.floor(Math.random() * cardIds.length))];
+
+        dispatch({
+          type: AppActionType.LOAD_DATA,
+          payload: { cardIds, nextCard },
+        });
+
+        return router.push(`/shuffle/${nextCard}`);
+      }
+
+      const cardIds = cards.sort(() => Math.random() - 0.5);
+      const nextCard = cards[String(Math.floor(Math.random() * cardIds.length))];
 
       dispatch({
         type: AppActionType.LOAD_DATA,
@@ -33,35 +55,19 @@ export function useApp() {
       });
 
       return router.push(`/shuffle/${nextCard}`);
-    } else if (state.gameMode === "kanji") {
-      const cardIds = kanjiIds.sort(() => Math.random() - 0.5);
-      const nextCard = kanjiIds[String(Math.floor(Math.random() * cardIds.length))];
+    },
+    [dispatch, router, state.gameMode]
+  );
 
+  const setGame = useCallback(
+    (gameMode: GameMode) => {
       dispatch({
-        type: AppActionType.LOAD_DATA,
-        payload: { cardIds, nextCard },
+        type: AppActionType.SET_GAME,
+        payload: { gameMode },
       });
-
-      return router.push(`/shuffle/${nextCard}`);
-    }
-
-    const cardIds = cards.sort(() => Math.random() - 0.5);
-    const nextCard = cards[String(Math.floor(Math.random() * cardIds.length))];
-
-    dispatch({
-      type: AppActionType.LOAD_DATA,
-      payload: { cardIds, nextCard },
-    });
-
-    return router.push(`/shuffle/${nextCard}`);
-  };
-
-  const setGame = (gameMode: GameMode) => {
-    dispatch({
-      type: AppActionType.SET_GAME,
-      payload: { gameMode },
-    });
-  };
+    },
+    [dispatch]
+  );
 
   const goHome = () => {
     router.push(`/`);

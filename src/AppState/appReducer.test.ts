@@ -10,12 +10,13 @@ describe(appReducer, () => {
     nextCard: "",
     gameMode: "en",
     currentCard: "",
+    loading: false,
   };
 
   describe("LOAD_DATA", () => {
     const cardIds = ["1", "2", "3", "4", "5"];
 
-    it("should preserve the current state", () => {
+    it("should create a new state", () => {
       const currentCard = "1";
       const testState: AppState = {
         currentCard,
@@ -25,6 +26,7 @@ describe(appReducer, () => {
         correctCards: [],
         nextCard: "6",
         gameMode: "en",
+        loading: false,
       };
 
       const res = appReducer(
@@ -33,25 +35,25 @@ describe(appReducer, () => {
           type: AppActionType.LOAD_DATA,
           payload: {
             cardIds,
-            randomCard: currentCard,
+            nextCard: currentCard,
           },
         }
       );
 
-      expect(res).toEqual(testState);
+      expect(res).not.toEqual(testState);
     });
 
     it("should correctly set the current card to be displayed", () => {
-      const randomCard = "1";
+      const nextCard = "1";
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
           cardIds,
-          randomCard,
+          nextCard,
         },
       });
 
-      expect(res.currentCard).toBe(randomCard);
+      expect(res.currentCard).toBe(nextCard);
     });
 
     it("should correctly set the next card to use", () => {
@@ -61,12 +63,10 @@ describe(appReducer, () => {
         type: AppActionType.LOAD_DATA,
         payload: {
           cardIds: testCardIds,
-          randomCard: currentCard,
+          nextCard: currentCard,
         },
       });
-      const expectedNextCard = testCardIds.filter(
-        (cardId) => cardId !== currentCard
-      )[0];
+      const expectedNextCard = testCardIds.filter((cardId) => cardId !== currentCard)[0];
 
       expect(res.nextCard).toBe(expectedNextCard);
     });
@@ -77,7 +77,7 @@ describe(appReducer, () => {
         type: AppActionType.LOAD_DATA,
         payload: {
           cardIds,
-          randomCard: currentCard,
+          nextCard: currentCard,
         },
       });
       const remainingCards = cardIds.filter((cardId) => cardId !== currentCard);
@@ -92,7 +92,7 @@ describe(appReducer, () => {
         type: AppActionType.LOAD_DATA,
         payload: {
           cardIds,
-          randomCard: currentCard,
+          nextCard: currentCard,
         },
       });
 
@@ -113,6 +113,7 @@ describe(appReducer, () => {
         wrongCards: [],
         correctCards: [],
         gameMode: "en",
+        loading: false,
       };
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
@@ -131,6 +132,7 @@ describe(appReducer, () => {
         wrongCards: [],
         correctCards: [],
         gameMode: "en",
+        loading: false,
       };
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
@@ -152,6 +154,7 @@ describe(appReducer, () => {
         wrongCards: [],
         correctCards: [],
         gameMode: "en",
+        loading: false,
       };
 
       expect(appState.remainingCards).toContain(nextCard);
@@ -175,6 +178,7 @@ describe(appReducer, () => {
         wrongCards: [],
         correctCards: [],
         gameMode: "en",
+        loading: false,
       };
 
       expect(appState.usedCards).not.toContain(currentCard);
@@ -198,6 +202,7 @@ describe(appReducer, () => {
         wrongCards: [],
         correctCards: [],
         gameMode: "en",
+        loading: false,
       };
 
       const res = appReducer(appState, {
@@ -214,11 +219,12 @@ describe(appReducer, () => {
       const appState: AppState = {
         currentCard,
         nextCard,
+        gameMode: "en",
+        loading: false,
         remainingCards: [],
         usedCards: [],
         wrongCards: [],
         correctCards: [],
-        gameMode: "en",
       };
 
       const res = appReducer(appState, {

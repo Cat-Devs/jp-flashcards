@@ -17,13 +17,12 @@ const CardPage: React.FC<WordsProps> = ({ cardIds, hiraganaIds, kanjiIds }) => {
     loadData(cardIds, hiraganaIds, kanjiIds);
   }, []);
 
-  return <FlashcardPage loading={true} />;
+  return <FlashcardPage />;
 };
 
 export async function getStaticProps() {
   const { Items: items } = await dynamoDb.scan({
-    FilterExpression:
-      "attribute_exists(category) AND NOT contains(category, :last)",
+    FilterExpression: "attribute_exists(category) AND NOT contains(category, :last)",
     ExpressionAttributeValues: {
       ":last": "LAST_ITEM",
     },
@@ -31,9 +30,7 @@ export async function getStaticProps() {
 
   const cards = items.map((item) => item.id);
   const kanjis = items.filter((item) => item.kanji).map((item) => item.id);
-  const hiraganas = items
-    .filter((item) => item.hiragana)
-    .map((item) => item.id);
+  const hiraganas = items.filter((item) => item.hiragana).map((item) => item.id);
 
   const cardIds = cards.splice(0, 30);
   const hiraganaIds = hiraganas.splice(0, 30);

@@ -7,13 +7,10 @@ import { FlashCardData, FlashcardPage } from "../../src/Pages/FlashcardPage";
 interface WordsProps {
   card?: FlashCardData;
   audio?: any;
-  loading?: boolean;
 }
 
-const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
-  return (
-    <FlashcardPage card={card} audio={audio} loading={loading} quiz={false} />
-  );
+const CardPage: React.FC<WordsProps> = ({ card, audio }) => {
+  return <FlashcardPage card={card} audio={audio} quiz={false} />;
 };
 
 export async function getStaticProps({ params }) {

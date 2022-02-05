@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/router";
 
 import { AppContext } from "./AppContext";
@@ -14,23 +14,6 @@ export function useApp() {
 
   const { state, dispatch } = context;
 
-  useEffect(() => {
-    // While playing the flashcard game
-    // Check if the user navigated back in the browser history or the url was manually altered
-    if (
-      router.route === "/shuffle/[id]" &&
-      router.query?.id &&
-      state.currentCard &&
-      state.currentCard !== router.query.id
-    ) {
-      router.push(`/shuffle/${state.currentCard}`);
-    }
-  }, [router]);
-
-  useEffect(() => {
-    sessionStorage.setItem("app-state", JSON.stringify(state));
-  }, [state]);
-
   const nextCard = () => {
     dispatch({ type: AppActionType.NEXT_CARD });
 
@@ -39,15 +22,10 @@ export function useApp() {
     }
   };
 
-  const loadData = (
-    cards: string[],
-    hiraganaIds: string[],
-    kanjiIds: string[]
-  ) => {
+  const loadData = (cards: string[], hiraganaIds: string[], kanjiIds: string[]) => {
     if (state.gameMode === "hiragana") {
       const cardIds = hiraganaIds.sort(() => Math.random() - 0.5);
-      const nextCard =
-        hiraganaIds[String(Math.floor(Math.random() * cardIds.length))];
+      const nextCard = hiraganaIds[String(Math.floor(Math.random() * cardIds.length))];
 
       dispatch({
         type: AppActionType.LOAD_DATA,
@@ -57,8 +35,7 @@ export function useApp() {
       return router.push(`/shuffle/${nextCard}`);
     } else if (state.gameMode === "kanji") {
       const cardIds = kanjiIds.sort(() => Math.random() - 0.5);
-      const nextCard =
-        kanjiIds[String(Math.floor(Math.random() * cardIds.length))];
+      const nextCard = kanjiIds[String(Math.floor(Math.random() * cardIds.length))];
 
       dispatch({
         type: AppActionType.LOAD_DATA,
@@ -91,6 +68,7 @@ export function useApp() {
   };
 
   return {
+    loading: Boolean(state.loading),
     currentCard: state.currentCard,
     gameMode: state.gameMode,
     setGame,

@@ -11,12 +11,8 @@ import Box from "@mui/material/Box";
 import { LoadingCard } from "../Components/LoadingCard";
 import { useApp } from "../AppState";
 
-interface ResultPageProps {
-  loading: boolean;
-}
-
-export const ResultPage: React.FC<ResultPageProps> = ({ loading }) => {
-  const { goHome } = useApp();
+export const ResultPage: React.FC = () => {
+  const { goHome, loading } = useApp();
 
   if (loading) {
     return (

@@ -9,37 +9,13 @@ export const LoadingCard: React.FC = () => {
   return (
     <Card>
       <CardHeader
-        avatar={
-          <Skeleton
-            animation="wave"
-            variant="circular"
-            width={40}
-            height={40}
-          />
-        }
-        title={
-          <Skeleton
-            animation="wave"
-            height={10}
-            width="50%"
-            style={{ marginBottom: 6 }}
-          />
-        }
+        avatar={<Skeleton animation="wave" variant="circular" width={40} height={40} />}
+        title={<Skeleton animation="wave" height={10} width="50%" style={{ marginBottom: 6 }} />}
       ></CardHeader>
       <CardContent>
         <React.Fragment>
-          <Skeleton
-            animation="wave"
-            height={10}
-            width="80%"
-            style={{ marginBottom: 12 }}
-          />
-          <Skeleton
-            animation="wave"
-            height={10}
-            width="50%"
-            style={{ marginBottom: 6 }}
-          />
+          <Skeleton animation="wave" height={10} width="80%" style={{ marginBottom: 12 }} />
+          <Skeleton animation="wave" height={10} width="50%" style={{ marginBottom: 6 }} />
         </React.Fragment>
       </CardContent>
     </Card>

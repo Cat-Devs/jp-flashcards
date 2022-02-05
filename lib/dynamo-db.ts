@@ -1,8 +1,6 @@
 import "./aws";
 import { DynamoDB } from "aws-sdk";
-const localDB = require(`../data/${
-  process.env.TABLE_NAME || "table-data"
-}.json`);
+const localDB = require(`../data/${process.env.TABLE_NAME || "table-data"}.json`);
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -16,9 +14,7 @@ const client = new DynamoDB.DocumentClient({
 export const dynamoDb = {
   get: (params) => {
     if (isDev) {
-      const item = localDB.find(
-        (itemDb, index) => `${Number(10000 + index)}` === params.Key.id
-      );
+      const item = localDB.find((itemDb, index) => `${Number(10000 + index)}` === params.Key.id);
 
       return {
         Item: item,

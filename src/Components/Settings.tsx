@@ -28,11 +28,7 @@ export const Settings: React.FC = () => {
           onChange={handleSetGame}
         >
           <FormControlLabel value="en" control={<Radio />} label="English" />
-          <FormControlLabel
-            value="hiragana"
-            control={<Radio />}
-            label="Hiragana"
-          />
+          <FormControlLabel value="hiragana" control={<Radio />} label="Hiragana" />
           <FormControlLabel value="kana" control={<Radio />} label="Kana" />
           <FormControlLabel value="kanji" control={<Radio />} label="Kanji" />
         </RadioGroup>

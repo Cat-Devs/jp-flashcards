@@ -2,10 +2,15 @@ import { AppState, AppAction, AppActionType } from "./types";
 
 export function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
+    case AppActionType.LOADING: {
+      return {
+        ...state,
+        loading: Boolean(action.payload),
+      };
+    }
+
     case AppActionType.LOAD_DATA: {
-      const remainingCards = action.payload.cardIds.filter(
-        (cardId) => cardId !== action.payload.nextCard
-      );
+      const remainingCards = action.payload.cardIds.filter((cardId) => cardId !== action.payload.nextCard);
       const random = Math.floor(Math.random() * remainingCards.length);
       const nextCard = remainingCards[random];
 
@@ -20,15 +25,11 @@ export function appReducer(state: AppState, action: AppAction): AppState {
 
     case AppActionType.NEXT_CARD: {
       const newCurrentCard = state.nextCard;
-      const newRemainingCards = state.remainingCards.filter(
-        (card) => card !== newCurrentCard
-      );
+      const newRemainingCards = state.remainingCards.filter((card) => card !== newCurrentCard);
 
       const random = Math.floor(Math.random() * newRemainingCards.length);
 
-      const nextCard = newRemainingCards.length
-        ? newRemainingCards[random]
-        : "";
+      const nextCard = newRemainingCards.length ? newRemainingCards[random] : "";
 
       const newUsedCards = [...state.usedCards, state.currentCard];
 

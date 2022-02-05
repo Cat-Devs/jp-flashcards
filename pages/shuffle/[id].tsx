@@ -1,32 +1,24 @@
 import React from "react";
-import { isMobile } from "react-device-detect";
 
 import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
 import { useApp } from "../../src/AppState";
 import { FlashCardData, FlashcardPage } from "../../src/Pages/FlashcardPage";
-import { KeyboardHelper } from "../../src/Components/KeyboardHelper";
 import { ResultPage } from "../../src/Pages/ResultPage";
 
 interface CardPageProps {
   card?: FlashCardData;
   audio?: any;
-  loading?: boolean;
 }
 
-const CardPage: React.FC<CardPageProps> = ({ card, audio, loading }) => {
-  const { currentCard } = useApp();
+const CardPage: React.FC<CardPageProps> = ({ card, audio }) => {
+  const { currentCard, loading } = useApp();
 
   if (!loading && !Boolean(currentCard)) {
-    return <ResultPage loading={loading} />;
+    return <ResultPage />;
   }
 
-  return (
-    <>
-      <FlashcardPage card={card} audio={audio} loading={loading} quiz={true} />
-      {!isMobile && <KeyboardHelper />}
-    </>
-  );
+  return <FlashcardPage card={card} audio={audio} quiz={true} />;
 };
 
 export async function getStaticProps({ params }) {

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { isMobile } from "react-device-detect";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -11,6 +11,7 @@ import Box from "@mui/material/Box";
 import { Flashcard, FlashCardItem } from "../Components/Flashcard";
 import { LoadingCard } from "../Components/LoadingCard";
 import { useApp } from "../AppState";
+import { KeyboardHelper } from "../Components/KeyboardHelper";
 
 export interface FlashCardData {
   id: string;
@@ -27,17 +28,10 @@ interface FlashcardPageProps {
   card?: FlashCardData;
   audio?: string;
   quiz?: boolean;
-  loading?: boolean;
 }
 
-export const FlashcardPage: React.FC<FlashcardPageProps> = ({
-  card,
-  audio,
-  loading,
-  quiz,
-}) => {
-  const { gameMode, nextCard, goHome } = useApp();
-
+export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz }) => {
+  const { gameMode, nextCard, goHome, loading } = useApp();
   if (loading) {
     return (
       <Container maxWidth="md" disableGutters>
@@ -123,13 +117,9 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({
   return (
     <Container maxWidth="md" disableGutters>
       <Box sx={{ p: 2 }}>
-        <Flashcard
-          card={cardData}
-          audio={audio}
-          quiz={quiz}
-          onNext={nextCard}
-        />
+        <Flashcard card={cardData} audio={audio} quiz={quiz} onNext={nextCard} />
       </Box>
+      {!isMobile && <KeyboardHelper />}
     </Container>
   );
 };

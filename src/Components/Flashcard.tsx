@@ -33,9 +33,12 @@ export const Flashcard: React.FC<FlashcardProps> = ({ card, audio, quiz, onNext 
   const [expanded, setExpanded] = useState(!quiz);
   const { play } = useAudio(audio);
 
-  const handleShow = useCallback(() => {
-    setExpanded(true);
-  }, []);
+  const handleCheckAnswer = useCallback(() => {
+    if (!expanded) {
+      setExpanded(true);
+      play();
+    }
+  }, [expanded, play]);
 
   const handleWrong = useCallback(() => {
     if (expanded) {
@@ -49,18 +52,11 @@ export const Flashcard: React.FC<FlashcardProps> = ({ card, audio, quiz, onNext 
     }
   }, [expanded, onNext]);
 
-  useKeyPress({ onArrowLeft: handleWrong, onArrowRight: handleCorrect, onSpace: handleShow });
-
-  const handleCheckAnswer = () => {
-    if (!expanded) {
-      setExpanded(true);
-      play();
-    }
-  };
-
-  const nextCardClick = () => {
+  const nextCardClick = useCallback(() => {
     onNext();
-  };
+  }, [onNext]);
+
+  useKeyPress({ onArrowLeft: handleWrong, onArrowRight: handleCorrect, onSpace: handleCheckAnswer });
 
   return (
     <Card>

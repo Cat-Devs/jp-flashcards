@@ -21,13 +21,11 @@ const App = (props) => {
         <title>jp-flashcards</title>
       </Head>
       <AppProvider>
-        {ready && (
-          <ThemeProvider theme={theme}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            <Component {...pageProps} />
-          </ThemeProvider>
-        )}
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          {ready && <Component {...pageProps} />}
+        </ThemeProvider>
       </AppProvider>
     </>
   );

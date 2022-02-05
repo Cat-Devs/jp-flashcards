@@ -48,7 +48,7 @@ export function AppProvider(props) {
       router.events.off("routeChangeStart", handleRouteChangeStart);
       router.events.off("routeChangeComplete", handleRouteChangeEnd);
     };
-  }, [router.events]);
+  }, [router]);
 
   useEffect(() => {
     // While playing the flashcard game

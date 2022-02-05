@@ -11,8 +11,11 @@ const App = (props) => {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    console.warn("app ready");
     setReady(true);
   }, []);
+
+  console.warn("app");
 
   return (
     <>
@@ -21,11 +24,13 @@ const App = (props) => {
         <title>jp-flashcards</title>
       </Head>
       <AppProvider>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          {ready && <Component {...pageProps} />}
-        </ThemeProvider>
+        {ready && (
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
+        )}
       </AppProvider>
     </>
   );

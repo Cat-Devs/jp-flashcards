@@ -12,7 +12,7 @@ export const AppContext = createContext<{
 });
 
 const initialState: AppState = {
-  loading: true,
+  loading: false,
   nextCard: "",
   currentCard: "",
   gameMode: "en",
@@ -23,22 +23,15 @@ const initialState: AppState = {
 };
 
 export function AppProvider(props) {
-  const sessionState = typeof window !== "undefined" && sessionStorage.getItem("app-state");
-  const storedState = JSON.parse(sessionState || "{}");
-  const appState = { ...initialState, ...storedState };
-
-  const [state, dispatch] = useReducer(appReducer, appState);
   const router = useRouter();
 
   useEffect(() => {
-    console.warn("router event", router);
-    const handleRouteChangeStart = () => {
-      console.warn("loading true");
+    console.warn("app provider ready");
 
+    const handleRouteChangeStart = () => {
       dispatch({ type: AppActionType.LOADING, payload: true });
     };
     const handleRouteChangeEnd = () => {
-      console.warn("loading false");
       dispatch({ type: AppActionType.LOADING, payload: false });
     };
 
@@ -50,6 +43,11 @@ export function AppProvider(props) {
       router.events.off("routeChangeComplete", handleRouteChangeEnd);
     };
   }, [router]);
+
+  const sessionState = typeof window !== "undefined" && sessionStorage.getItem("app-state");
+  const storedState = JSON.parse(sessionState || "{}");
+  const appState = { ...initialState, ...storedState };
+  const [state, dispatch] = useReducer(appReducer, appState);
 
   useEffect(() => {
     // While playing the flashcard game

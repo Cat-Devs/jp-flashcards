@@ -19,8 +19,8 @@ import { useAudio } from "../Hooks/use-audio";
 import { useKeyPress } from "../Hooks/use-key-press";
 
 export interface FlashCardItem {
-  firstLine: string;
-  solution: string[];
+  firstLine: { text: string; lang: string };
+  solution: { text: string; lang: string }[];
 }
 
 interface FlashcardProps {
@@ -67,8 +67,13 @@ export const Flashcard: React.FC<FlashcardProps> = ({
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography gutterBottom variant="h5" component="div">
-              {card.firstLine}
+            <Typography
+              fontWeight={500}
+              lang={card.firstLine.lang}
+              gutterBottom
+              variant="h4"
+            >
+              {card.firstLine.text}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -77,11 +82,11 @@ export const Flashcard: React.FC<FlashcardProps> = ({
                 {card.solution.map((solutionItem, index) => (
                   <Typography
                     key={`solution-item-${index}`}
+                    lang={solutionItem.lang}
                     gutterBottom
                     variant="h5"
-                    component="div"
                   >
-                    {solutionItem}
+                    {solutionItem.text}
                   </Typography>
                 ))}
               </Box>

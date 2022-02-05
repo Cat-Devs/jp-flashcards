@@ -28,22 +28,20 @@ interface FlashcardPageProps {
   audio?: string;
   quiz?: boolean;
   loading?: boolean;
-  onNext?: () => void;
 }
 
 export const FlashcardPage: React.FC<FlashcardPageProps> = ({
   card,
   audio,
-  onNext,
   loading,
   quiz,
 }) => {
-  const { gameMode } = useApp();
+  const { gameMode, nextCard, goHome } = useApp();
 
   if (loading) {
     return (
-      <Container maxWidth="sm">
-        <Box sx={{ my: 4 }}>
+      <Container maxWidth="md" disableGutters>
+        <Box sx={{ p: 2 }}>
           <LoadingCard />
         </Box>
       </Container>
@@ -52,51 +50,86 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({
 
   if (!(card && card.en)) {
     return (
-      <Card>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Card Not Found
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button color="primary" onClick={onNext}>
-            Next
-          </Button>
-        </CardActions>
-      </Card>
+      <Container maxWidth="md" disableGutters>
+        <Box sx={{ p: 2 }}>
+          <Card>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                Card Not Found
+              </Typography>
+            </CardContent>
+            <CardActions>
+              {quiz ? (
+                <Button color="primary" onClick={nextCard}>
+                  Next
+                </Button>
+              ) : (
+                <Button color="primary" onClick={goHome}>
+                  Go Home
+                </Button>
+              )}
+            </CardActions>
+          </Card>
+        </Box>
+      </Container>
     );
   }
 
   let cardData: FlashCardItem;
+
   if (gameMode === "hiragana") {
     cardData = {
-      firstLine: card.hiragana,
-      solution: [card.katakana, card.kanji, card.romaji, card.en],
+      firstLine: { text: card.hiragana, lang: "ja-jp" },
+      solution: [
+        { text: card.katakana, lang: "ja-jp" },
+        { text: card.kanji, lang: "ja-jp" },
+        { text: card.romaji, lang: "ja-jp" },
+        { text: card.en, lang: "en-us" },
+      ],
     };
   } else if (gameMode === "kanji") {
     cardData = {
-      firstLine: card.kanji,
-      solution: [card.hiragana, card.katakana, card.romaji, card.en],
+      firstLine: { text: card.kanji, lang: "ja-jp" },
+      solution: [
+        { text: card.hiragana, lang: "ja-jp" },
+        { text: card.katakana, lang: "ja-jp" },
+        { text: card.romaji, lang: "ja-jp" },
+        { text: card.en, lang: "en-us" },
+      ],
     };
   } else if (gameMode === "kana") {
     cardData = {
-      firstLine: card.hiragana || card.katakana,
+      firstLine: { text: card.hiragana || card.katakana, lang: "ja-jp" },
       solution: [
-        card.hiragana,
-        card.katakana,
-        card.kanji,
-        card.romaji,
-        card.en,
+        { text: card.hiragana, lang: "ja-jp" },
+        { text: card.katakana, lang: "ja-jp" },
+        { text: card.kanji, lang: "ja-jp" },
+        { text: card.romaji, lang: "ja-jp" },
+        { text: card.en, lang: "en-us" },
       ],
     };
   } else {
     cardData = {
-      firstLine: card.en,
-      solution: [card.hiragana, card.katakana, card.kanji, card.romaji],
+      firstLine: { text: card.en, lang: "en-us" },
+      solution: [
+        { text: card.hiragana, lang: "ja-jp" },
+        { text: card.katakana, lang: "ja-jp" },
+        { text: card.kanji, lang: "ja-jp" },
+        { text: card.romaji, lang: "ja-jp" },
+      ],
     };
   }
 
   return (
-    <Flashcard card={cardData} audio={audio} quiz={quiz} onNext={onNext} />
+    <Container maxWidth="md" disableGutters>
+      <Box sx={{ p: 2 }}>
+        <Flashcard
+          card={cardData}
+          audio={audio}
+          quiz={quiz}
+          onNext={nextCard}
+        />
+      </Box>
+    </Container>
   );
 };

@@ -1,6 +1,4 @@
 import React from "react";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
 import { isMobile } from "react-device-detect";
 
 import { dynamoDb } from "../../lib/dynamo-db";
@@ -17,31 +15,17 @@ interface CardPageProps {
 }
 
 const CardPage: React.FC<CardPageProps> = ({ card, audio, loading }) => {
-  const { currentCard, nextCard, goHome } = useApp();
+  const { currentCard } = useApp();
 
   if (!loading && !Boolean(currentCard)) {
-    return (
-      <Container maxWidth="sm">
-        <Box sx={{ my: 4 }}>
-          <ResultPage onHome={goHome} loading={loading} />
-        </Box>
-      </Container>
-    );
+    return <ResultPage loading={loading} />;
   }
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <FlashcardPage
-          card={card}
-          audio={audio}
-          onNext={nextCard}
-          loading={loading}
-          quiz={true}
-        />
-      </Box>
+    <>
+      <FlashcardPage card={card} audio={audio} loading={loading} quiz={true} />
       {!isMobile && <KeyboardHelper />}
-    </Container>
+    </>
   );
 };
 

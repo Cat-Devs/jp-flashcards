@@ -1,6 +1,4 @@
 import React from "react";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
 
 import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
@@ -14,16 +12,7 @@ interface WordsProps {
 
 const CardPage: React.FC<WordsProps> = ({ card, audio, loading }) => {
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <FlashcardPage
-          card={card}
-          audio={audio}
-          loading={loading}
-          quiz={false}
-        />
-      </Box>
-    </Container>
+    <FlashcardPage card={card} audio={audio} loading={loading} quiz={false} />
   );
 };
 

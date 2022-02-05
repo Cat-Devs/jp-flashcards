@@ -1,20 +1,45 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export function useKeyPress(onArrowRight: any, onArrowLeft: any) {
-  function upHandler({ key }: KeyboardEvent) {
-    if (key === "ArrowRight") {
-      onArrowRight && onArrowRight();
-    }
-    if (key === "ArrowLeft") {
-      onArrowLeft && onArrowLeft();
-    }
-  }
+interface KeyHandlers {
+  onArrowLeft?: () => void;
+  onArrowRight?: () => void;
+  onSpace?: () => void;
+}
+
+export function useKeyPress(keyHandlers: KeyHandlers = {}) {
+  const [keyPressed, setKeyPressed] = useState<string>(null);
 
   useEffect(() => {
+    function downHandler({ code }: KeyboardEvent) {
+      if (!keyPressed && code) {
+        setKeyPressed(code);
+      }
+    }
+
+    function upHandler({ code }: KeyboardEvent) {
+      if (!keyPressed || keyPressed !== code) {
+        return;
+      }
+
+      if (code === "ArrowRight") {
+        keyHandlers.onArrowRight && keyHandlers.onArrowRight();
+      }
+      if (code === "ArrowLeft") {
+        keyHandlers.onArrowLeft && keyHandlers.onArrowLeft();
+      }
+      if (code === "Space") {
+        keyHandlers.onSpace && keyHandlers.onSpace();
+      }
+
+      setKeyPressed(null);
+    }
+
+    window.addEventListener("keydown", downHandler);
     window.addEventListener("keyup", upHandler);
 
     return () => {
+      window.removeEventListener("keydown", downHandler);
       window.removeEventListener("keyup", upHandler);
     };
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, [keyHandlers, keyPressed]);
 }

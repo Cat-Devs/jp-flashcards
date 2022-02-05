@@ -38,10 +38,7 @@ export const KeyboardHelper = () => {
             alignItems: "center",
           }}
         >
-          <Avatar
-            variant="rounded"
-            sx={{ bgcolor: blueGrey[600], marginBottom: "4px" }}
-          >
+          <Avatar variant="rounded" sx={{ bgcolor: blueGrey[600], marginBottom: "4px" }}>
             <ArrowLeft />
           </Avatar>
           <Typography>Wrong</Typography>
@@ -54,10 +51,7 @@ export const KeyboardHelper = () => {
             alignItems: "center",
           }}
         >
-          <Avatar
-            variant="rounded"
-            sx={{ bgcolor: blueGrey[600], marginBottom: "4px" }}
-          >
+          <Avatar variant="rounded" sx={{ bgcolor: blueGrey[600], marginBottom: "4px" }}>
             <ArrowRight />
           </Avatar>
           <Typography>Correct</Typography>

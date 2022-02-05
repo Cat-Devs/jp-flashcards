@@ -2,9 +2,9 @@
   "extends": ["next/core-web-vitals", "prettier"],
   "plugins": ["prettier"],
   "rules": {
+    "no-unused-vars": "error",
     "prettier/prettier": "error",
     "arrow-body-style": "off",
-    "prefer-arrow-callback": "off",
-    "no-unused-vars": "error"
+    "prefer-arrow-callback": "off"
   }
 }

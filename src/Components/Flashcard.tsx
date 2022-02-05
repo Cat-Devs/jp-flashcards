@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -30,15 +29,10 @@ interface FlashcardProps {
   quiz?: boolean;
 }
 
-export const Flashcard: React.FC<FlashcardProps> = ({
-  card,
-  audio,
-  quiz,
-  onNext,
-}) => {
+export const Flashcard: React.FC<FlashcardProps> = ({ card, audio, quiz, onNext }) => {
   const [expanded, setExpanded] = useState(!quiz);
   const { play } = useAudio(audio);
-  useKeyPress(onNext, onNext);
+  useKeyPress({ onArrowLeft: onNext, onArrowRight: onNext });
 
   const handleCheckAnswer = () => {
     if (!expanded) {
@@ -62,17 +56,8 @@ export const Flashcard: React.FC<FlashcardProps> = ({
           expanded={expanded}
           onChange={handleCheckAnswer}
         >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography
-              fontWeight={500}
-              lang={card.firstLine.lang}
-              gutterBottom
-              variant="h4"
-            >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+            <Typography fontWeight={500} lang={card.firstLine.lang} gutterBottom variant="h4">
               {card.firstLine.text}
             </Typography>
           </AccordionSummary>
@@ -80,24 +65,13 @@ export const Flashcard: React.FC<FlashcardProps> = ({
             <Box sx={{ display: "flex" }}>
               <Box sx={{ flex: "1 1 auto" }}>
                 {card.solution.map((solutionItem, index) => (
-                  <Typography
-                    key={`solution-item-${index}`}
-                    lang={solutionItem.lang}
-                    gutterBottom
-                    variant="h5"
-                  >
+                  <Typography key={`solution-item-${index}`} lang={solutionItem.lang} gutterBottom variant="h5">
                     {solutionItem.text}
                   </Typography>
                 ))}
               </Box>
               <Box>
-                <IconButton
-                  color="primary"
-                  aria-label="listen audio"
-                  component="button"
-                  size="large"
-                  onClick={play}
-                >
+                <IconButton color="primary" aria-label="listen audio" component="button" size="large" onClick={play}>
                   <VolumeUpIcon />
                 </IconButton>
               </Box>
@@ -115,18 +89,10 @@ export const Flashcard: React.FC<FlashcardProps> = ({
       )}
       {quiz && expanded && (
         <CardActions>
-          <Button
-            color="warning"
-            endIcon={<ClearIcon />}
-            onClick={nextCardClick}
-          >
+          <Button color="warning" endIcon={<ClearIcon />} onClick={nextCardClick}>
             Wrong
           </Button>
-          <Button
-            color="success"
-            endIcon={<CheckIcon />}
-            onClick={nextCardClick}
-          >
+          <Button color="success" endIcon={<CheckIcon />} onClick={nextCardClick}>
             Correct
           </Button>
         </CardActions>

@@ -5,39 +5,14 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { theme } from "../src/theme";
 import { AppProvider } from "../src/AppState";
-import { useRouter } from "next/router";
 
 const App = (props) => {
   const { Component, pageProps } = props;
   const [ready, setReady] = useState(false);
 
-  const router = useRouter();
-
   useEffect(() => {
-    console.warn("app provider ready");
-
-    const handleRouteChangeStart = () => {
-      console.warn("handleRouteChangeStart");
-    };
-    const handleRouteChangeEnd = () => {
-      console.warn("handleRouteChangeEnd");
-    };
-
-    router.events.on("routeChangeStart", handleRouteChangeStart);
-    router.events.on("routeChangeComplete", handleRouteChangeEnd);
-
-    return () => {
-      router.events.off("routeChangeStart", handleRouteChangeStart);
-      router.events.off("routeChangeComplete", handleRouteChangeEnd);
-    };
-  }, [router]);
-
-  useEffect(() => {
-    console.warn("app ready");
     setReady(true);
   }, []);
-
-  console.warn("app");
 
   return (
     <>

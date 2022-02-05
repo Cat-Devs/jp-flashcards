@@ -15,7 +15,7 @@ const CardPage: React.FC<WordsProps> = ({ cardIds, hiraganaIds, kanjiIds }) => {
 
   useEffect(() => {
     loadData(cardIds, hiraganaIds, kanjiIds);
-  }, []);
+  }, [loadData, cardIds, hiraganaIds, kanjiIds]);
 
   return <FlashcardPage />;
 };

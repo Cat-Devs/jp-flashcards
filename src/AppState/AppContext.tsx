@@ -26,8 +26,6 @@ export function AppProvider(props) {
   const router = useRouter();
 
   useEffect(() => {
-    console.warn("app provider ready");
-
     const handleRouteChangeStart = () => {
       dispatch({ type: AppActionType.LOADING, payload: true });
     };

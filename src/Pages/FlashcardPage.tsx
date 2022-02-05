@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { isMobile } from "react-device-detect";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -33,6 +33,59 @@ interface FlashcardPageProps {
 export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz }) => {
   const { gameMode, nextCard, goHome, loading } = useApp();
 
+  const cardData: FlashCardItem = useMemo(() => {
+    if (!card) {
+      return null;
+    }
+
+    if (gameMode === "hiragana") {
+      return {
+        firstLine: { text: card?.hiragana, lang: "ja-jp" },
+        solution: [
+          { text: card?.katakana, lang: "ja-jp" },
+          { text: card?.kanji, lang: "ja-jp" },
+          { text: card?.romaji, lang: "ja-jp" },
+          { text: card?.en, lang: "en-us" },
+        ],
+      };
+    }
+
+    if (gameMode === "kanji") {
+      return {
+        firstLine: { text: card?.kanji, lang: "ja-jp" },
+        solution: [
+          { text: card?.hiragana, lang: "ja-jp" },
+          { text: card?.katakana, lang: "ja-jp" },
+          { text: card?.romaji, lang: "ja-jp" },
+          { text: card?.en, lang: "en-us" },
+        ],
+      };
+    }
+
+    if (gameMode === "kana") {
+      return {
+        firstLine: { text: card?.hiragana || card?.katakana, lang: "ja-jp" },
+        solution: [
+          { text: card?.hiragana, lang: "ja-jp" },
+          { text: card?.katakana, lang: "ja-jp" },
+          { text: card?.kanji, lang: "ja-jp" },
+          { text: card?.romaji, lang: "ja-jp" },
+          { text: card?.en, lang: "en-us" },
+        ],
+      };
+    }
+
+    return {
+      firstLine: { text: card?.en, lang: "en-us" },
+      solution: [
+        { text: card?.hiragana, lang: "ja-jp" },
+        { text: card?.katakana, lang: "ja-jp" },
+        { text: card?.kanji, lang: "ja-jp" },
+        { text: card?.romaji, lang: "ja-jp" },
+      ],
+    };
+  }, [card, gameMode]);
+
   if (loading) {
     return (
       <Container maxWidth="md" disableGutters>
@@ -43,7 +96,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz 
     );
   }
 
-  if (!(card && card.en)) {
+  if (!card?.en) {
     return (
       <Container maxWidth="md" disableGutters>
         <Box sx={{ p: 2 }}>
@@ -68,51 +121,6 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz 
         </Box>
       </Container>
     );
-  }
-
-  let cardData: FlashCardItem;
-
-  if (gameMode === "hiragana") {
-    cardData = {
-      firstLine: { text: card.hiragana, lang: "ja-jp" },
-      solution: [
-        { text: card.katakana, lang: "ja-jp" },
-        { text: card.kanji, lang: "ja-jp" },
-        { text: card.romaji, lang: "ja-jp" },
-        { text: card.en, lang: "en-us" },
-      ],
-    };
-  } else if (gameMode === "kanji") {
-    cardData = {
-      firstLine: { text: card.kanji, lang: "ja-jp" },
-      solution: [
-        { text: card.hiragana, lang: "ja-jp" },
-        { text: card.katakana, lang: "ja-jp" },
-        { text: card.romaji, lang: "ja-jp" },
-        { text: card.en, lang: "en-us" },
-      ],
-    };
-  } else if (gameMode === "kana") {
-    cardData = {
-      firstLine: { text: card.hiragana || card.katakana, lang: "ja-jp" },
-      solution: [
-        { text: card.hiragana, lang: "ja-jp" },
-        { text: card.katakana, lang: "ja-jp" },
-        { text: card.kanji, lang: "ja-jp" },
-        { text: card.romaji, lang: "ja-jp" },
-        { text: card.en, lang: "en-us" },
-      ],
-    };
-  } else {
-    cardData = {
-      firstLine: { text: card.en, lang: "en-us" },
-      solution: [
-        { text: card.hiragana, lang: "ja-jp" },
-        { text: card.katakana, lang: "ja-jp" },
-        { text: card.kanji, lang: "ja-jp" },
-        { text: card.romaji, lang: "ja-jp" },
-      ],
-    };
   }
 
   return (

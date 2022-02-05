@@ -31,6 +31,7 @@ export function AppProvider(props) {
   const router = useRouter();
 
   useEffect(() => {
+    console.warn("router event", router);
     const handleRouteChangeStart = () => {
       console.warn("loading true");
 

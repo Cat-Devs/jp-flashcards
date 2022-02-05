@@ -20,15 +20,15 @@ const App = (props) => {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <title>jp-flashcards</title>
       </Head>
-      {ready && (
-        <AppProvider>
+      <AppProvider>
+        {ready && (
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <Component {...pageProps} />
           </ThemeProvider>
-        </AppProvider>
-      )}
+        )}
+      </AppProvider>
     </>
   );
 };

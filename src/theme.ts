@@ -1,9 +1,19 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
+import { createBreakpoints } from "@mui/system";
 
-export const theme = createTheme({
+const breakpoints = createBreakpoints({});
+
+breakpoints;
+const baseTheme = createTheme({
   typography: {
-    fontSize: 16,
+    fontFamily: "'Noto Sans JP', serif",
+    fontSize: 18,
+    h4: {
+      [breakpoints.down("sm")]: {
+        fontSize: "1.6rem",
+      },
+    },
   },
   palette: {
     mode: "dark",
@@ -41,3 +51,5 @@ export const theme = createTheme({
     },
   },
 });
+
+export const theme = responsiveFontSizes(baseTheme);

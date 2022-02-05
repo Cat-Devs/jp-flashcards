@@ -32,6 +32,7 @@ interface FlashcardPageProps {
 
 export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz }) => {
   const { gameMode, nextCard, goHome, loading } = useApp();
+
   if (loading) {
     return (
       <Container maxWidth="md" disableGutters>

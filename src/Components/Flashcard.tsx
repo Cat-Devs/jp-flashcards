@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -25,14 +25,31 @@ export interface FlashCardItem {
 interface FlashcardProps {
   card: FlashCardItem;
   audio: string;
-  onNext?: () => void;
   quiz?: boolean;
+  onNext?: () => void;
 }
 
 export const Flashcard: React.FC<FlashcardProps> = ({ card, audio, quiz, onNext }) => {
   const [expanded, setExpanded] = useState(!quiz);
   const { play } = useAudio(audio);
-  useKeyPress({ onArrowLeft: onNext, onArrowRight: onNext });
+
+  const handleShow = useCallback(() => {
+    setExpanded(true);
+  }, []);
+
+  const handleWrong = useCallback(() => {
+    if (expanded) {
+      onNext();
+    }
+  }, [expanded, onNext]);
+
+  const handleCorrect = useCallback(() => {
+    if (expanded) {
+      onNext();
+    }
+  }, [expanded, onNext]);
+
+  useKeyPress({ onArrowLeft: handleWrong, onArrowRight: handleCorrect, onSpace: handleShow });
 
   const handleCheckAnswer = () => {
     if (!expanded) {

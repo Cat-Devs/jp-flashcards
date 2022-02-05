@@ -2,9 +2,10 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import { blueGrey } from "@mui/material/colors";
 import ArrowLeft from "@mui/icons-material/ArrowLeft";
 import ArrowRight from "@mui/icons-material/ArrowRight";
-import { blueGrey } from "@mui/material/colors";
+import SpaceBarIcon from "@mui/icons-material/SpaceBar";
 
 export const KeyboardHelper = () => {
   return (
@@ -41,6 +42,19 @@ export const KeyboardHelper = () => {
             <ArrowLeft />
           </Avatar>
           <Typography>Wrong</Typography>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            margin: "4px 14px",
+            alignItems: "center",
+          }}
+        >
+          <Avatar variant="rounded" sx={{ bgcolor: blueGrey[600], marginBottom: "4px" }}>
+            <SpaceBarIcon />
+          </Avatar>
+          <Typography>Check Answer</Typography>
         </Box>
         <Box
           sx={{

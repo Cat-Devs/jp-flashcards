@@ -7,10 +7,12 @@
     "dev": "PORT=3000 TABLE_NAME=table-data next dev",
     "prod": "next dev",
     "test": "jest --watch",
+    "test:ci": "jest",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:create": "AWS_USERS_TABLE=$AWS_USERS_TABLE AWS_REGION=$AWS_REGION node ./data/upload.js"
+    "db:create": "AWS_USERS_TABLE=$AWS_USERS_TABLE AWS_REGION=$AWS_REGION node ./data/upload.js",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -33,22 +35,14 @@
     "eslint-config-next": "11.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
     "jest": "^27.4.7",
     "lint-staged": "^12.3.3",
     "prettier": "^2.5.1",
     "prettier-eslint": "^13.0.0",
     "typescript": "^4.5.5"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*": [
-      "yarn lint",
-      "git add"
-    ]
+    "*.js": "yarn lint"
   }
 }

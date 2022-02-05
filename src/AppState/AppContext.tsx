@@ -32,9 +32,12 @@ export function AppProvider(props) {
 
   useEffect(() => {
     const handleRouteChangeStart = () => {
+      console.warn("loading true");
+
       dispatch({ type: AppActionType.LOADING, payload: true });
     };
     const handleRouteChangeEnd = () => {
+      console.warn("loading false");
       dispatch({ type: AppActionType.LOADING, payload: false });
     };
 
@@ -58,7 +61,7 @@ export function AppProvider(props) {
     ) {
       router.push(`/shuffle/${state.currentCard}`);
     }
-  }, [router]);
+  }, [router, state.currentCard]);
 
   useEffect(() => {
     // Store the app state into the session storage

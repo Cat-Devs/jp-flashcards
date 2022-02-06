@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 
-import { theme } from "../src/theme";
 import { AppProvider } from "../src/AppState";
+import { AppWrapper } from "../src/Pages/AppWrapper";
 
 const App = (props) => {
   const { Component, pageProps } = props;
@@ -22,11 +20,9 @@ const App = (props) => {
       </Head>
       <AppProvider>
         {ready && (
-          <ThemeProvider theme={theme}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
+          <AppWrapper>
             <Component {...pageProps} />
-          </ThemeProvider>
+          </AppWrapper>
         )}
       </AppProvider>
     </>

@@ -3,19 +3,18 @@ import React, { useEffect } from "react";
 import { dynamoDb } from "../../lib/dynamo-db";
 import { useApp } from "../../src/AppState";
 import { FlashcardPage } from "../../src/Pages/FlashcardPage";
+import { FlashCardData } from "../../src/types";
 
 interface WordsProps {
-  cardIds: string[];
-  hiraganaIds: string[];
-  kanjiIds: string[];
+  cards: FlashCardData[];
 }
 
-const CardPage: React.FC<WordsProps> = ({ cardIds, hiraganaIds, kanjiIds }) => {
+const CardPage: React.FC<WordsProps> = ({ cards }) => {
   const { loadData } = useApp();
 
   useEffect(() => {
-    loadData(cardIds, hiraganaIds, kanjiIds);
-  }, [cardIds, hiraganaIds, kanjiIds, loadData]);
+    loadData(cards);
+  }, [cards, loadData]);
 
   return <FlashcardPage />;
 };
@@ -28,20 +27,10 @@ export async function getStaticProps() {
     },
   });
 
-  const cards = items.map((item) => item.id);
-  const kanjis = items.filter((item) => item.kanji).map((item) => item.id);
-  const hiraganas = items.filter((item) => item.hiragana).map((item) => item.id);
-
-  const cardIds = cards.splice(0, 30);
-  const hiraganaIds = hiraganas.splice(0, 30);
-  const kanjiIds = kanjis.splice(0, 30);
-
   // Pass data to the page via props
   return {
     props: {
-      cardIds,
-      hiraganaIds,
-      kanjiIds,
+      cards: items,
     },
     // Refresh cache every hour
     revalidate: 600,

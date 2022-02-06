@@ -12,17 +12,7 @@ import { Flashcard, FlashCardItem } from "../Components/Flashcard";
 import { LoadingCard } from "../Components/LoadingCard";
 import { useApp } from "../AppState";
 import { KeyboardHelper } from "../Components/KeyboardHelper";
-
-export interface FlashCardData {
-  id: string;
-  category: string;
-  en: string;
-  jp: string;
-  kanji?: string;
-  hiragana?: string;
-  katakana?: string;
-  romaji?: string;
-}
+import { FlashCardData } from "../types";
 
 interface FlashcardPageProps {
   card?: FlashCardData;

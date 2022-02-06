@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import { AppContext } from "./AppContext";
 import { AppActionType, GameMode } from "./types";
+import { FlashCardData } from "../types";
 
 export function useApp() {
   const router = useRouter();
@@ -23,10 +24,14 @@ export function useApp() {
   }, [dispatch, router, state.nextCard]);
 
   const loadData = useCallback(
-    (cards: string[], hiraganaIds: string[], kanjiIds: string[]) => {
+    (cards: FlashCardData[]) => {
       if (state.gameMode === "hiragana") {
-        const cardIds = hiraganaIds.sort(() => Math.random() - 0.5);
-        const nextCard = hiraganaIds[String(Math.floor(Math.random() * cardIds.length))];
+        const cardIds = cards
+          .filter((card) => card.hiragana)
+          .map((card) => card.id)
+          .splice(0, 30)
+          .sort(() => Math.random() - 0.5);
+        const nextCard = cardIds[String(Math.floor(Math.random() * cardIds.length))];
 
         dispatch({
           type: AppActionType.LOAD_DATA,
@@ -35,8 +40,12 @@ export function useApp() {
 
         return router.push(`/shuffle/${nextCard}`);
       } else if (state.gameMode === "kanji") {
-        const cardIds = kanjiIds.sort(() => Math.random() - 0.5);
-        const nextCard = kanjiIds[String(Math.floor(Math.random() * cardIds.length))];
+        const cardIds = cards
+          .filter((card) => card.kanji)
+          .map((card) => card.id)
+          .splice(0, 30)
+          .sort(() => Math.random() - 0.5);
+        const nextCard = cardIds[String(Math.floor(Math.random() * cardIds.length))];
 
         dispatch({
           type: AppActionType.LOAD_DATA,
@@ -46,8 +55,11 @@ export function useApp() {
         return router.push(`/shuffle/${nextCard}`);
       }
 
-      const cardIds = cards.sort(() => Math.random() - 0.5);
-      const nextCard = cards[String(Math.floor(Math.random() * cardIds.length))];
+      const cardIds = cards
+        .map((card) => card.id)
+        .splice(0, 30)
+        .sort(() => Math.random() - 0.5);
+      const nextCard = cardIds[String(Math.floor(Math.random() * cardIds.length))];
 
       dispatch({
         type: AppActionType.LOAD_DATA,

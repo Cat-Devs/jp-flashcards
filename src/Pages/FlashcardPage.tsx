@@ -128,7 +128,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz 
       <Box sx={{ p: 2 }}>
         <Flashcard card={cardData} audio={audio} quiz={quiz} onNext={nextCard} />
       </Box>
-      {!isMobile && <KeyboardHelper />}
+      {!isMobile && quiz && <KeyboardHelper />}
     </Container>
   );
 };

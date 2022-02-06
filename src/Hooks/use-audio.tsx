@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+// This has been deprecated for now as the logic moved inside the Flashcard
 export function useAudio(audioBuffer: string) {
   const [audioEl, setAudio] = useState<HTMLAudioElement>();
 

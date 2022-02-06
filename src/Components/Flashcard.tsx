@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useRef, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -14,7 +14,6 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import { useAudio } from "../Hooks/use-audio";
 import { useKeyPress } from "../Hooks/use-key-press";
 
 export interface FlashCardItem {
@@ -31,30 +30,48 @@ interface FlashcardProps {
 
 export const Flashcard: React.FC<FlashcardProps> = ({ card, audio, quiz, onNext }) => {
   const [expanded, setExpanded] = useState(!quiz);
-  const { play } = useAudio(audio);
+  const audioPlayer = useRef<HTMLAudioElement>(new Audio());
+
+  useEffect(() => {
+    const audioData = Buffer.from(audio, "hex");
+    const blob = new Blob([audioData], { type: "audio/mpeg" });
+    const audioSrc = webkitURL.createObjectURL(blob);
+    audioPlayer.current.src = audioSrc;
+    () => {
+      audioPlayer.current.pause;
+      audioPlayer.current = undefined;
+    };
+  }, [audio]);
 
   const handleCheckAnswer = useCallback(() => {
     if (!expanded) {
       setExpanded(true);
-      play();
+      audioPlayer.current.play();
     }
-  }, [expanded, play]);
+  }, [expanded]);
+
+  const playAudio = useCallback(() => {
+    audioPlayer.current.load();
+    audioPlayer.current.play();
+  }, []);
 
   const handleWrong = useCallback(() => {
-    if (expanded) {
+    if (expanded && quiz) {
       onNext();
     }
-  }, [expanded, onNext]);
+  }, [expanded, onNext, quiz]);
 
   const handleCorrect = useCallback(() => {
-    if (expanded) {
+    if (expanded && quiz) {
       onNext();
     }
-  }, [expanded, onNext]);
+  }, [expanded, onNext, quiz]);
 
   const nextCardClick = useCallback(() => {
-    onNext();
-  }, [onNext]);
+    if (quiz) {
+      onNext();
+    }
+  }, [onNext, quiz]);
 
   useKeyPress({ onArrowLeft: handleWrong, onArrowRight: handleCorrect, onSpace: handleCheckAnswer });
 
@@ -84,7 +101,13 @@ export const Flashcard: React.FC<FlashcardProps> = ({ card, audio, quiz, onNext 
                 ))}
               </Box>
               <Box>
-                <IconButton color="primary" aria-label="listen audio" component="button" size="large" onClick={play}>
+                <IconButton
+                  color="primary"
+                  aria-label="listen audio"
+                  component="button"
+                  size="large"
+                  onClick={playAudio}
+                >
                   <VolumeUpIcon />
                 </IconButton>
               </Box>

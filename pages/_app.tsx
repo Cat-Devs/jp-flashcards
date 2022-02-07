@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import { SessionProvider } from "next-auth/react";
 
 import { AppProvider } from "../src/AppState";
 import { AppWrapper } from "../src/Pages/AppWrapper";
@@ -18,13 +19,15 @@ const App = (props) => {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <title>jp-flashcards</title>
       </Head>
-      <AppProvider>
-        {ready && (
-          <AppWrapper>
-            <Component {...pageProps} />
-          </AppWrapper>
-        )}
-      </AppProvider>
+      <SessionProvider session={pageProps.session} refetchInterval={60}>
+        <AppProvider>
+          {ready && (
+            <AppWrapper>
+              <Component {...pageProps} />
+            </AppWrapper>
+          )}
+        </AppProvider>
+      </SessionProvider>
     </>
   );
 };

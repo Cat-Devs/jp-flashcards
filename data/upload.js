@@ -18,9 +18,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({
 const put = (params) => dynamoDb.put(params).promise();
 
 (async () => {
-  const tableData = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, "table-data.json"), "utf8")
-  );
+  const tableData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "table-data.json"), "utf8"));
 
   console.log("Creating data...");
 

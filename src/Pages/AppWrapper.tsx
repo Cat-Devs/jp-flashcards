@@ -1,4 +1,5 @@
 import React from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
@@ -12,6 +13,7 @@ import { useApp } from "../AppState";
 import { Container } from "@mui/material";
 
 export const AppWrapper = (props) => {
+  const { data: session } = useSession();
   const { goHome } = useApp();
 
   return (
@@ -23,10 +25,19 @@ export const AppWrapper = (props) => {
               JP-FlashCardS
             </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { display: { sm: "flex" }, justifyContent: "end" } }}>
+            <Box sx={{ flexGrow: 1, display: { sm: "flex", justifyContent: "end" } }}>
               <Button variant="text" onClick={goHome} sx={{ my: 2, color: "white", display: "block" }}>
                 Home
               </Button>
+              {(session && (
+                <Button variant="text" onClick={() => signOut()} sx={{ my: 2, color: "white", display: "block" }}>
+                  Log Out
+                </Button>
+              )) || (
+                <Button variant="text" onClick={() => signIn()} sx={{ my: 2, color: "white", display: "block" }}>
+                  Log In
+                </Button>
+              )}
             </Box>
           </Toolbar>
         </Container>

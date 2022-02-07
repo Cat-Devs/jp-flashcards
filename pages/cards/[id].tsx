@@ -2,7 +2,8 @@ import React from "react";
 
 import { dynamoDb } from "../../lib/dynamo-db";
 import { createAudioData } from "../../lib/audio";
-import { FlashCardData, FlashcardPage } from "../../src/Pages/FlashcardPage";
+import { FlashcardPage } from "../../src/Pages/FlashcardPage";
+import { FlashCardData } from "../../src/types";
 
 interface WordsProps {
   card?: FlashCardData;

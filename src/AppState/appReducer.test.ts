@@ -1,5 +1,5 @@
 import { appReducer } from "./appReducer";
-import { AppState, AppActionType } from "./types";
+import { AppState, AppActionType, GameMode, GameLevel, AppAction } from "./types";
 
 describe(appReducer, () => {
   const initialState: AppState = {
@@ -9,9 +9,38 @@ describe(appReducer, () => {
     correctCards: [],
     nextCard: "",
     gameMode: "en",
+    gameLevel: "1",
     currentCard: "",
     loading: false,
   };
+
+  describe("default", () => {
+    it("should return the state by default", () => {
+      const res = appReducer(initialState, {} as AppAction);
+
+      expect(res).toEqual(initialState);
+    });
+  });
+
+  describe("LOADING", () => {
+    it("should set the loading to true", () => {
+      const res = appReducer(initialState, {
+        type: AppActionType.LOADING,
+        payload: true,
+      });
+
+      expect(res.loading).toBe(true);
+    });
+
+    it("should set the loading to false", () => {
+      const res = appReducer(initialState, {
+        type: AppActionType.LOADING,
+        payload: false,
+      });
+
+      expect(res.loading).toBe(false);
+    });
+  });
 
   describe("LOAD_DATA", () => {
     const cardIds = ["1", "2", "3", "4", "5"];
@@ -19,14 +48,11 @@ describe(appReducer, () => {
     it("should create a new state", () => {
       const currentCard = "1";
       const testState: AppState = {
+        ...initialState,
         currentCard,
         remainingCards: ["2"],
         usedCards: ["3", "4", "5"],
-        wrongCards: [],
-        correctCards: [],
         nextCard: "6",
-        gameMode: "en",
-        loading: false,
       };
 
       const res = appReducer(
@@ -106,14 +132,10 @@ describe(appReducer, () => {
     it("should correctly pick a new current card to use", () => {
       const nextCard = "2";
       const appState: AppState = {
+        ...initialState,
         nextCard,
         remainingCards,
         currentCard: "1",
-        usedCards: [],
-        wrongCards: [],
-        correctCards: [],
-        gameMode: "en",
-        loading: false,
       };
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
@@ -125,15 +147,12 @@ describe(appReducer, () => {
     it("should correctly set a new next card to use", () => {
       const nextCard = "2";
       const appState: AppState = {
+        ...initialState,
         nextCard,
         remainingCards,
         currentCard: "1",
-        usedCards: [],
-        wrongCards: [],
-        correctCards: [],
-        gameMode: "en",
-        loading: false,
       };
+
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
       });
@@ -147,14 +166,10 @@ describe(appReducer, () => {
       const nextCard = "2";
 
       const appState: AppState = {
+        ...initialState,
         currentCard,
         nextCard,
         remainingCards,
-        usedCards: [],
-        wrongCards: [],
-        correctCards: [],
-        gameMode: "en",
-        loading: false,
       };
 
       expect(appState.remainingCards).toContain(nextCard);
@@ -171,14 +186,10 @@ describe(appReducer, () => {
       const nextCard = "2";
 
       const appState: AppState = {
+        ...initialState,
         currentCard,
         nextCard,
         remainingCards,
-        usedCards: [],
-        wrongCards: [],
-        correctCards: [],
-        gameMode: "en",
-        loading: false,
       };
 
       expect(appState.usedCards).not.toContain(currentCard);
@@ -195,14 +206,10 @@ describe(appReducer, () => {
       const nextCard = "2";
 
       const appState: AppState = {
+        ...initialState,
         currentCard,
         nextCard,
         remainingCards: [nextCard],
-        usedCards: [],
-        wrongCards: [],
-        correctCards: [],
-        gameMode: "en",
-        loading: false,
       };
 
       const res = appReducer(appState, {
@@ -217,14 +224,9 @@ describe(appReducer, () => {
       const nextCard = "";
 
       const appState: AppState = {
+        ...initialState,
         currentCard,
         nextCard,
-        gameMode: "en",
-        loading: false,
-        remainingCards: [],
-        usedCards: [],
-        wrongCards: [],
-        correctCards: [],
       };
 
       const res = appReducer(appState, {
@@ -235,6 +237,40 @@ describe(appReducer, () => {
       expect(res.nextCard).toBe("");
       expect(res.remainingCards).toEqual([]);
       expect(res.usedCards).toEqual([currentCard]);
+    });
+  });
+
+  describe("Game Mode", () => {
+    it("should change the game mode", () => {
+      const appState: AppState = {
+        ...initialState,
+        gameMode: "en",
+      };
+      const testGameMode: GameMode = "hiragana";
+
+      const res = appReducer(appState, {
+        type: AppActionType.SET_GAME,
+        payload: testGameMode,
+      });
+
+      expect(res.gameMode).toEqual(testGameMode);
+    });
+  });
+
+  describe("Set Game Level", () => {
+    it("should change the game level", () => {
+      const appState: AppState = {
+        ...initialState,
+        gameLevel: "1",
+      };
+      const testGameLevel: GameLevel = "2";
+
+      const res = appReducer(appState, {
+        type: AppActionType.SET_LEVEL,
+        payload: testGameLevel,
+      });
+
+      expect(res.gameLevel).toEqual(testGameLevel);
     });
   });
 });

@@ -16,6 +16,7 @@ const initialState: AppState = {
   nextCard: "",
   currentCard: "",
   gameMode: "en",
+  gameLevel: "1",
   remainingCards: [],
   usedCards: [],
   wrongCards: [],

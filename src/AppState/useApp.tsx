@@ -2,7 +2,7 @@ import { useCallback, useContext } from "react";
 import { useRouter } from "next/router";
 
 import { AppContext } from "./AppContext";
-import { AppActionType, GameMode } from "./types";
+import { AppActionType, GameLevel, GameMode } from "./types";
 import { FlashCardData } from "../types";
 
 export function useApp() {
@@ -75,21 +75,33 @@ export function useApp() {
     (gameMode: GameMode) => {
       dispatch({
         type: AppActionType.SET_GAME,
-        payload: { gameMode },
+        payload: gameMode,
       });
     },
     [dispatch]
   );
 
-  const goHome = () => {
+  const setLevel = useCallback(
+    (gameLevel: GameLevel) => {
+      dispatch({
+        type: AppActionType.SET_LEVEL,
+        payload: gameLevel,
+      });
+    },
+    [dispatch]
+  );
+
+  const goHome = useCallback(() => {
     router.push(`/`);
-  };
+  }, [router]);
 
   return {
     loading: Boolean(state.loading),
     currentCard: state.currentCard,
     gameMode: state.gameMode,
+    gameLevel: state.gameLevel,
     setGame,
+    setLevel,
     loadData,
     nextCard,
     goHome,

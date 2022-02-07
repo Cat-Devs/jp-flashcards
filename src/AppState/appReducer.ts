@@ -45,7 +45,14 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case AppActionType.SET_GAME: {
       return {
         ...state,
-        gameMode: action.payload.gameMode,
+        gameMode: action.payload,
+      };
+    }
+
+    case AppActionType.SET_LEVEL: {
+      return {
+        ...state,
+        gameLevel: action.payload,
       };
     }
 

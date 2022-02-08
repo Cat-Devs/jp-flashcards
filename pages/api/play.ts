@@ -1,6 +1,13 @@
-import "./aws";
 import http from "http";
-import { Polly } from "aws-sdk";
+import aws, { Polly } from "aws-sdk";
+import { getSession } from "next-auth/react";
+import type { NextApiRequest, NextApiResponse } from "next";
+
+aws.config.update({
+  region: process.env.NEXT_PUBLIC_REGION,
+  accessKeyId: process.env.NEXT_PUBLIC_DYNAMO_ACCESS_KEY,
+  secretAccessKey: process.env.NEXT_PUBLIC_SECRET_KEY,
+});
 
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || "3000";
@@ -35,19 +42,33 @@ export const createAudioData = async (data: string): Promise<Polly.AudioStream |
     const sampleAudio = `http://localhost:${PORT}/test-sound.mp3`;
     return new Promise((res) => {
       http.get(sampleAudio, (cb) => {
-        let data;
+        let response;
         cb.on("data", (chunkData) => {
-          data = chunkData;
+          response = chunkData;
         });
         cb.on("end", () => {
-          res(data);
+          res(response);
         });
       });
     });
-  }
-  if (data) {
+  } else if (data) {
     return synthesizeSpeech(data);
+  }
+  return "";
+};
+
+const sendAudioData = async (req: NextApiRequest, res: NextApiResponse) => {
+  const session = await getSession({ req });
+  const { audio } = JSON.parse(req.body || "{}");
+
+  if (session && audio) {
+    const audioData = await createAudioData(audio);
+    res.setHeader("content-type", "audio/mpeg").send(audioData);
+  } else if (session && !audio) {
+    res.status(400).send("No data");
   } else {
-    return "";
+    res.status(401).send("Unauthorized request");
   }
 };
+
+export default sendAudioData;

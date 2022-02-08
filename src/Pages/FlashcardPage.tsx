@@ -16,19 +16,16 @@ import { FlashCardData } from "../types";
 
 interface FlashcardPageProps {
   card?: FlashCardData;
-  audio?: string;
   quiz?: boolean;
 }
 
-export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz }) => {
+export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
   const { gameMode, nextCard, goHome, loading } = useApp();
 
   const cardData: FlashCardItem = useMemo(() => {
     if (!card) {
       return null;
-    }
-
-    if (gameMode === "hiragana") {
+    } else if (gameMode === "hiragana") {
       return {
         firstLine: { text: card?.hiragana, lang: "ja-jp" },
         solution: [
@@ -38,9 +35,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz 
           { text: card?.en, lang: "en-us" },
         ],
       };
-    }
-
-    if (gameMode === "kanji") {
+    } else if (gameMode === "kanji") {
       return {
         firstLine: { text: card?.kanji, lang: "ja-jp" },
         solution: [
@@ -50,9 +45,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz 
           { text: card?.en, lang: "en-us" },
         ],
       };
-    }
-
-    if (gameMode === "kana") {
+    } else if (gameMode === "kana") {
       return {
         firstLine: { text: card?.hiragana || card?.katakana, lang: "ja-jp" },
         solution: [
@@ -63,17 +56,17 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz 
           { text: card?.en, lang: "en-us" },
         ],
       };
+    } else {
+      return {
+        firstLine: { text: card?.en, lang: "en-us" },
+        solution: [
+          { text: card?.hiragana, lang: "ja-jp" },
+          { text: card?.katakana, lang: "ja-jp" },
+          { text: card?.kanji, lang: "ja-jp" },
+          { text: card?.romaji, lang: "ja-jp" },
+        ],
+      };
     }
-
-    return {
-      firstLine: { text: card?.en, lang: "en-us" },
-      solution: [
-        { text: card?.hiragana, lang: "ja-jp" },
-        { text: card?.katakana, lang: "ja-jp" },
-        { text: card?.kanji, lang: "ja-jp" },
-        { text: card?.romaji, lang: "ja-jp" },
-      ],
-    };
   }, [card, gameMode]);
 
   if (loading) {
@@ -116,7 +109,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, audio, quiz 
   return (
     <Container maxWidth="md" disableGutters>
       <Box sx={{ p: 2 }}>
-        <Flashcard card={cardData} audio={audio} quiz={quiz} onNext={nextCard} />
+        <Flashcard card={cardData} audio={card.jp} quiz={quiz} onNext={nextCard} />
       </Box>
       {!isMobile && quiz && <KeyboardHelper />}
     </Container>

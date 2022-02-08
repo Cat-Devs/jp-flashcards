@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, useEffect } from "react";
+import React, { useCallback, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -30,30 +30,30 @@ interface FlashcardProps {
 
 export const Flashcard: React.FC<FlashcardProps> = ({ card, audio, quiz, onNext }) => {
   const [expanded, setExpanded] = useState(!quiz);
-  const audioPlayer = useRef<HTMLAudioElement>(new Audio());
 
-  useEffect(() => {
-    const audioData = Buffer.from(audio, "hex");
-    const blob = new Blob([audioData], { type: "audio/mpeg" });
-    const audioSrc = webkitURL.createObjectURL(blob);
-    audioPlayer.current.src = audioSrc;
-    () => {
-      audioPlayer.current.pause;
-      audioPlayer.current = undefined;
-    };
+  const playAudio = useCallback(() => {
+    fetch("/api/play", {
+      method: "POST",
+      body: JSON.stringify({ audio }),
+    })
+      .then(async (response) => response.body as ReadableStream)
+      .then(async (media: any) => {
+        const context = new AudioContext();
+        const source = context.createBufferSource();
+        const reader = media.getReader();
+        source.connect(context.destination);
+        const { value } = await reader.read();
+        source.buffer = await context.decodeAudioData(value.buffer);
+        source.start();
+      });
   }, [audio]);
 
   const handleCheckAnswer = useCallback(() => {
     if (!expanded) {
       setExpanded(true);
-      audioPlayer.current.play();
+      playAudio();
     }
-  }, [expanded]);
-
-  const playAudio = useCallback(() => {
-    audioPlayer.current.load();
-    audioPlayer.current.play();
-  }, []);
+  }, [expanded, playAudio]);
 
   const handleWrong = useCallback(() => {
     if (expanded && quiz) {

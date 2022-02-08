@@ -1,6 +1,7 @@
 [
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "0",
     "jp": "れい",
@@ -11,6 +12,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "1",
     "jp": "いち",
@@ -21,6 +23,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "2",
     "jp": "に",
@@ -31,6 +34,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "3",
     "jp": "さん",
@@ -41,6 +45,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "4",
     "jp": "よん / し",
@@ -51,6 +56,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "5",
     "jp": "ご",
@@ -61,6 +67,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "6",
     "jp": "ろく",
@@ -71,6 +78,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "7",
     "jp": "なな / しち",
@@ -81,6 +89,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "8",
     "jp": "はち",
@@ -91,6 +100,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "9",
     "jp": "く / きゅう",
@@ -101,6 +111,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "10",
     "jp": "とお",
@@ -111,6 +122,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "11",
     "jp": "じゅういち",
@@ -121,6 +133,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "12",
     "jp": "じゅうに",
@@ -131,6 +144,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "14",
     "jp": "じゅうよん",
@@ -141,6 +155,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "17",
     "jp": "じゅうなな",
@@ -151,6 +166,7 @@
   },
   {
     "category": "numbers",
+    "level": "1",
     "image": "0000",
     "en": "19",
     "jp": "じゅうきゅう",
@@ -161,6 +177,7 @@
   },
   {
     "category": "numbers",
+    "level": "2",
     "image": "0000",
     "en": "20",
     "jp": "にじゅう",
@@ -171,6 +188,7 @@
   },
   {
     "category": "numbers",
+    "level": "2",
     "image": "0000",
     "en": "30",
     "jp": "さんじゅう",
@@ -181,6 +199,7 @@
   },
   {
     "category": "numbers",
+    "level": "2",
     "image": "0000",
     "en": "40",
     "jp": "しじゅう",
@@ -191,6 +210,7 @@
   },
   {
     "category": "numbers",
+    "level": "2",
     "image": "0000",
     "en": "99",
     "jp": "九十九",
@@ -201,6 +221,7 @@
   },
   {
     "category": "numbers",
+    "level": "3",
     "image": "0000",
     "en": "100",
     "jp": "ひゃく",
@@ -211,6 +232,7 @@
   },
   {
     "category": "numbers",
+    "level": "3",
     "image": "0000",
     "en": "500",
     "jp": "ごひゃく",
@@ -221,6 +243,7 @@
   },
   {
     "category": "numbers",
+    "level": "3",
     "image": "0000",
     "en": "1,000",
     "jp": "せん",
@@ -231,6 +254,7 @@
   },
   {
     "category": "numbers",
+    "level": "3",
     "image": "0000",
     "en": "10,000",
     "jp": "まん",
@@ -241,6 +265,7 @@
   },
   {
     "category": "numbers",
+    "level": "3",
     "image": "0000",
     "en": "100,000",
     "jp": "じゅうまん",
@@ -251,6 +276,7 @@
   },
   {
     "category": "numbers",
+    "level": "3",
     "image": "0000",
     "en": "1,000,000",
     "jp": "ひゃくまん",
@@ -261,6 +287,7 @@
   },
   {
     "category": "numbers",
+    "level": "3",
     "image": "0000",
     "en": "10,000,000",
     "jp": "せんまん",
@@ -271,6 +298,7 @@
   },
   {
     "category": "numbers",
+    "level": "3",
     "image": "0000",
     "en": "100,000,000",
     "jp": "おく",
@@ -281,6 +309,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "red",
     "jp": "あか",
@@ -291,6 +320,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "green",
     "jp": "みどり",
@@ -301,6 +331,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "yellow",
     "jp": "きいろ",
@@ -311,6 +342,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "blue",
     "jp": "あお",
@@ -321,6 +353,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "black",
     "jp": "くろ",
@@ -331,6 +364,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "white",
     "jp": "しろ",
@@ -341,6 +375,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "purple",
     "jp": "むらさき",
@@ -351,6 +386,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "brown",
     "jp": "ちゃいろ",
@@ -361,6 +397,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "pink",
     "jp": "ももいろ / ピンク",
@@ -371,6 +408,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "gray",
     "jp": "はいいろ",
@@ -381,6 +419,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "orange",
     "jp": "だいだいいろ / オレンジ",
@@ -391,6 +430,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "light blue",
     "jp": "みずいろ",
@@ -401,6 +441,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "silver",
     "jp": "ぎん",
@@ -411,6 +452,7 @@
   },
   {
     "category": "color",
+    "level": "1",
     "image": "0000",
     "en": "gold",
     "jp": "きん",
@@ -421,6 +463,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "sheep",
     "jp": "ひつじ",
@@ -431,6 +474,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "pig",
     "jp": "ぶた",
@@ -441,6 +485,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "cow",
     "jp": "うし",
@@ -451,6 +496,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "spider",
     "jp": "くも",
@@ -461,6 +507,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "cat",
     "jp": "ねこ",
@@ -471,6 +518,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "kitten",
     "jp": "こねこ",
@@ -481,6 +529,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "butterfly",
     "jp": "ちょう",
@@ -491,6 +540,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "dog",
     "jp": "いぬ",
@@ -501,6 +551,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "monkey",
     "jp": "さる",
@@ -511,6 +562,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "swan",
     "jp": "はくちょう",
@@ -521,6 +573,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "horse",
     "jp": "うま",
@@ -531,6 +584,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "octopus",
     "jp": "たこ",
@@ -541,6 +595,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "fish",
     "jp": "さかな",
@@ -551,6 +606,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "bear",
     "jp": "くま",
@@ -561,6 +617,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "bird",
     "jp": "とり",
@@ -571,6 +628,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "goat",
     "jp": "やぎ",
@@ -581,6 +639,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "ant",
     "jp": "あり",
@@ -591,6 +650,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "rabbit",
     "jp": "うさぎ",
@@ -601,6 +661,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "lizard",
     "jp": "とかげ",
@@ -611,6 +672,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "mouse",
     "jp": "ネズミ",
@@ -621,6 +683,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "bee",
     "jp": "はち",
@@ -631,6 +694,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "goose",
     "jp": "がちょう",
@@ -641,6 +705,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "turkey",
     "jp": "しちめんちょう",
@@ -651,6 +716,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "frog",
     "jp": "かえる",
@@ -661,6 +727,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "crab",
     "jp": "かに",
@@ -671,6 +738,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "chicken",
     "jp": "にわとり",
@@ -681,6 +749,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "snake",
     "jp": "へび",
@@ -691,6 +760,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "whale",
     "jp": "くじら",
@@ -701,6 +771,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "camel",
     "jp": "らくだ",
@@ -711,6 +782,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "deer",
     "jp": "しか",
@@ -721,6 +793,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "fly",
     "jp": "はえ",
@@ -731,6 +804,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "squid",
     "jp": "イカ",
@@ -741,6 +815,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "duck",
     "jp": "アヒル",
@@ -751,6 +826,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "wolf",
     "jp": "オオカミ",
@@ -761,6 +837,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "elephant",
     "jp": "ゾウ",
@@ -771,6 +848,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "giraffe",
     "jp": "キリン",
@@ -781,6 +859,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "dolphin",
     "jp": "イルカ",
@@ -791,6 +870,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "koala",
     "jp": "コアラ",
@@ -801,6 +881,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "tiger",
     "jp": "トラ",
@@ -811,6 +892,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "lion",
     "jp": "ライオン",
@@ -821,6 +903,7 @@
   },
   {
     "category": "animal",
+    "level": "1",
     "image": "0000",
     "en": "fox",
     "jp": "キツネ",
@@ -831,6 +914,7 @@
   },
   {
     "category": "animal",
+    "level": "2",
     "image": "0000",
     "en": "raccoon",
     "jp": "タヌキ",
@@ -841,6 +925,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "tomato",
     "jp": "トマト",
@@ -851,6 +936,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "onion",
     "jp": "たまねぎ",
@@ -861,6 +947,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "tea",
     "jp": "おちゃ",
@@ -871,6 +958,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "watermelon",
     "jp": "すいか",
@@ -881,6 +969,7 @@
   },
   {
     "category": "food",
+    "level": "2",
     "image": "0000",
     "en": "lettuce",
     "jp": "レタス",
@@ -891,6 +980,7 @@
   },
   {
     "category": "food",
+    "level": "2",
     "image": "0000",
     "en": "orange",
     "jp": "オレンジ",
@@ -901,6 +991,7 @@
   },
   {
     "category": "food",
+    "level": "2",
     "image": "0000",
     "en": "vegetable",
     "jp": "やさい",
@@ -911,6 +1002,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "banana",
     "jp": "バナナ",
@@ -921,6 +1013,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "melon",
     "jp": "メロン",
@@ -931,8 +1024,9 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
-    "en": "meron",
+    "en": "potato",
     "jp": "じゃがいも",
     "kanji": "",
     "hiragana": "じゃがいも",
@@ -941,6 +1035,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "carrot",
     "jp": "にんじん",
@@ -951,6 +1046,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "lemon",
     "jp": "レモン",
@@ -961,6 +1057,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "pumpkin",
     "jp": "かぼちゃ",
@@ -971,6 +1068,7 @@
   },
   {
     "category": "food",
+    "level": "2",
     "image": "0000",
     "en": "meat",
     "jp": "にく",
@@ -981,6 +1079,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "cucumber",
     "jp": "きゅうり",
@@ -991,6 +1090,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "apple",
     "jp": "りんご",
@@ -1001,6 +1101,7 @@
   },
   {
     "category": "food",
+    "level": "2",
     "image": "0000",
     "en": "flour",
     "jp": "こむぎこ",
@@ -1011,6 +1112,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "juice",
     "jp": "ジュース",
@@ -1021,16 +1123,18 @@
   },
   {
     "category": "food",
+    "level": "2",
     "image": "0000",
     "en": "rice",
     "jp": "こめ",
     "kanji": "米",
     "hiragana": "こめ",
     "katakana": "",
-    "romaji": "rice"
+    "romaji": "kome"
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "coffee",
     "jp": "コーヒー",
@@ -1041,6 +1145,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "cherry",
     "jp": "さくらんぼ",
@@ -1051,6 +1156,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "egg",
     "jp": "たまご",
@@ -1061,6 +1167,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "broccoli",
     "jp": "ブロッコリー",
@@ -1071,6 +1178,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "pasta",
     "jp": "パスタ",
@@ -1081,6 +1189,7 @@
   },
   {
     "category": "food",
+    "level": "1",
     "image": "0000",
     "en": "milk",
     "jp": "ぎゅうにゅう",
@@ -1091,6 +1200,7 @@
   },
   {
     "category": "plants",
+    "level": "2",
     "image": "0000",
     "en": "tree",
     "jp": "き",
@@ -1101,6 +1211,7 @@
   },
   {
     "category": "plants",
+    "level": "2",
     "image": "0000",
     "en": "fruit",
     "jp": "くだもの",
@@ -1111,6 +1222,7 @@
   },
   {
     "category": "plants",
+    "level": "2",
     "image": "0000",
     "en": "flower",
     "jp": "はな",
@@ -1121,6 +1233,7 @@
   },
   {
     "category": "LAST_ITEM",
+    "level": "0",
     "image": "0000",
     "en": "LAST_ITEM",
     "jp": "LAST_ITEM",

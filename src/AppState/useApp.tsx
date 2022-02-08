@@ -25,40 +25,25 @@ export function useApp() {
 
   const loadData = useCallback(
     (cards: FlashCardData[]) => {
-      if (state.gameMode === "hiragana") {
-        const cardIds = cards
-          .filter((card) => card.hiragana)
-          .map((card) => card.id)
-          .splice(0, 30)
-          .sort(() => Math.random() - 0.5);
-        const nextCard = cardIds[String(Math.floor(Math.random() * cardIds.length))];
+      const cardIds: string[] = cards
+        .filter((card) => {
+          if (state.gameMode === "hiragana") {
+            return card.hiragana;
+          } else if (state.gameMode === "kanji") {
+            return card.kanji;
+          }
+          return true;
+        })
+        .filter((card: FlashCardData) => {
+          const selectedLevel = Number(state.gameLevel);
+          const cardLevel = Number(card.level);
 
-        dispatch({
-          type: AppActionType.LOAD_DATA,
-          payload: { cardIds, nextCard },
-        });
-
-        return router.push(`/shuffle/${nextCard}`);
-      } else if (state.gameMode === "kanji") {
-        const cardIds = cards
-          .filter((card) => card.kanji)
-          .map((card) => card.id)
-          .splice(0, 30)
-          .sort(() => Math.random() - 0.5);
-        const nextCard = cardIds[String(Math.floor(Math.random() * cardIds.length))];
-
-        dispatch({
-          type: AppActionType.LOAD_DATA,
-          payload: { cardIds, nextCard },
-        });
-
-        return router.push(`/shuffle/${nextCard}`);
-      }
-
-      const cardIds = cards
+          return selectedLevel >= cardLevel;
+        })
         .map((card) => card.id)
         .splice(0, 30)
         .sort(() => Math.random() - 0.5);
+
       const nextCard = cardIds[String(Math.floor(Math.random() * cardIds.length))];
 
       dispatch({
@@ -68,7 +53,7 @@ export function useApp() {
 
       return router.push(`/shuffle/${nextCard}`);
     },
-    [dispatch, router, state.gameMode]
+    [dispatch, router, state.gameMode, state.gameLevel]
   );
 
   const setGame = useCallback(

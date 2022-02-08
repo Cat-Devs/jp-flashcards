@@ -1,6 +1,7 @@
 export interface FlashCardData {
   id: string;
   category: string;
+  level: string;
   en: string;
   jp: string;
   kanji?: string;

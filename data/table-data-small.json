@@ -1,6 +1,8 @@
 [
   {
     "category": "numbers",
+    "level": "1",
+    "image": "0000",
     "en": "0",
     "jp": "零",
     "kanji": "零",
@@ -10,6 +12,8 @@
   },
   {
     "category": "numbers",
+    "level": "1",
+    "image": "0000",
     "en": "1",
     "jp": "一",
     "kanji": "一",
@@ -19,6 +23,8 @@
   },
   {
     "category": "numbers",
+    "level": "1",
+    "image": "0000",
     "en": "2",
     "jp": "二",
     "kanji": "二",
@@ -28,6 +34,8 @@
   },
   {
     "category": "numbers",
+    "level": "1",
+    "image": "0000",
     "en": "3",
     "jp": "三",
     "kanji": "三",
@@ -37,6 +45,8 @@
   },
   {
     "category": "numbers",
+    "level": "1",
+    "image": "0000",
     "en": "4",
     "jp": "よん / し",
     "kanji": "四",
@@ -46,6 +56,8 @@
   },
   {
     "category": "LAST_ITEM",
+    "level": "0",
+    "image": "0000",
     "en": "LAST_ITEM",
     "jp": "LAST_ITEM",
     "kanji": "LAST_ITEM",

@@ -25,10 +25,12 @@ export const AppWrapper = (props) => {
               JP-FlashCardS
             </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { sm: "flex", justifyContent: "end" } }}>
+            <Box sx={{ flexGrow: 1, display: { sm: "flex", justifyContent: "left" } }}>
               <Button variant="text" onClick={goHome} sx={{ my: 2, color: "white", display: "block" }}>
                 Home
               </Button>
+            </Box>
+            <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "end" }}>
               {(session && (
                 <Button variant="text" onClick={() => signOut()} sx={{ my: 2, color: "white", display: "block" }}>
                   Log Out

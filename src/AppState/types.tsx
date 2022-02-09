@@ -3,6 +3,8 @@ export type GameLevel = "1" | "2" | "3" | "4";
 
 export interface AppState {
   loading: Boolean;
+  loadingSound: Boolean;
+  loadingData: Boolean;
   currentCard: string;
   remainingCards: string[];
   usedCards: string[];
@@ -15,6 +17,7 @@ export interface AppState {
 
 export enum AppActionType {
   "LOAD_DATA",
+  "LOADING_SOUND",
   "NEXT_CARD",
   "SET_GAME",
   "SET_LEVEL",
@@ -23,6 +26,11 @@ export enum AppActionType {
 
 type LoadingAction = {
   type: AppActionType.LOADING;
+  payload: boolean;
+};
+
+type LoadingSoundAction = {
+  type: AppActionType.LOADING_SOUND;
   payload: boolean;
 };
 
@@ -43,4 +51,10 @@ type SetLevelAction = {
   payload: GameLevel;
 };
 
-export type AppAction = LoadingAction | LoadDataAction | NextCardAction | SetGameAction | SetLevelAction;
+export type AppAction =
+  | LoadingAction
+  | LoadingSoundAction
+  | LoadDataAction
+  | NextCardAction
+  | SetGameAction
+  | SetLevelAction;

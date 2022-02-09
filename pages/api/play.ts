@@ -3,14 +3,16 @@ import aws, { Polly } from "aws-sdk";
 import { getSession } from "next-auth/react";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-aws.config.update({
-  region: process.env.NEXT_PUBLIC_REGION,
-  accessKeyId: process.env.NEXT_PUBLIC_DYNAMO_ACCESS_KEY,
-  secretAccessKey: process.env.NEXT_PUBLIC_SECRET_KEY,
-});
-
-const isDev = process.env.NODE_ENV !== "production";
+const isDev = Boolean(process.env.DEV);
 const PORT = process.env.PORT || "3000";
+
+if (!isDev) {
+  aws.config.update({
+    region: process.env.NEXT_PUBLIC_REGION,
+    accessKeyId: process.env.NEXT_PUBLIC_DYNAMO_ACCESS_KEY,
+    secretAccessKey: process.env.NEXT_PUBLIC_SECRET_KEY,
+  });
+}
 
 const synthesizeSpeech = async (text: string): Promise<Polly.AudioStream | undefined> => {
   return new Promise((resolve, reject) => {
@@ -63,7 +65,9 @@ const sendAudioData = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (session && audio) {
     const audioData = await createAudioData(audio);
-    res.setHeader("content-type", "audio/mpeg").send(audioData);
+    const data = audioData.toString("hex");
+
+    res.json({ data });
   } else if (session && !audio) {
     res.status(400).send("No data");
   } else {

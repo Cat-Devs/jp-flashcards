@@ -9,10 +9,12 @@ import Accordion from "@mui/material/Accordion";
 import Box from "@mui/material/Box";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
+import Tooltip from "@mui/material/Tooltip";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
 import { useKeyPress } from "../Hooks/use-key-press";
 
@@ -23,37 +25,21 @@ export interface FlashCardItem {
 
 interface FlashcardProps {
   card: FlashCardItem;
-  audio: string;
+  canPlaySounds: boolean;
+  onPlaySound: () => void;
   quiz?: boolean;
   onNext?: () => void;
 }
 
-export const Flashcard: React.FC<FlashcardProps> = ({ card, audio, quiz, onNext }) => {
+const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, canPlaySounds, onPlaySound, onNext }) => {
   const [expanded, setExpanded] = useState(!quiz);
-
-  const playAudio = useCallback(() => {
-    fetch("/api/play", {
-      method: "POST",
-      body: JSON.stringify({ audio }),
-    })
-      .then(async (response) => response.body as ReadableStream)
-      .then(async (media: any) => {
-        const context = new AudioContext();
-        const source = context.createBufferSource();
-        const reader = media.getReader();
-        source.connect(context.destination);
-        const { value } = await reader.read();
-        source.buffer = await context.decodeAudioData(value.buffer);
-        source.start();
-      });
-  }, [audio]);
 
   const handleCheckAnswer = useCallback(() => {
     if (!expanded) {
       setExpanded(true);
-      playAudio();
+      canPlaySounds && onPlaySound();
     }
-  }, [expanded, playAudio]);
+  }, [expanded, onPlaySound, canPlaySounds]);
 
   const handleWrong = useCallback(() => {
     if (expanded && quiz) {
@@ -101,15 +87,17 @@ export const Flashcard: React.FC<FlashcardProps> = ({ card, audio, quiz, onNext 
                 ))}
               </Box>
               <Box>
-                <IconButton
-                  color="primary"
-                  aria-label="listen audio"
-                  component="button"
-                  size="large"
-                  onClick={playAudio}
-                >
-                  <VolumeUpIcon />
-                </IconButton>
+                <Tooltip title={canPlaySounds ? "Listen" : "Only logged in users can play sounds"}>
+                  <IconButton
+                    color="primary"
+                    aria-label="listen audio"
+                    component="button"
+                    size="large"
+                    onClick={onPlaySound}
+                  >
+                    {canPlaySounds ? <VolumeUpIcon /> : <VolumeOffIcon />}
+                  </IconButton>
+                </Tooltip>
               </Box>
             </Box>
           </AccordionDetails>
@@ -136,3 +124,5 @@ export const Flashcard: React.FC<FlashcardProps> = ({ card, audio, quiz, onNext 
     </Card>
   );
 };
+
+export const Flashcard = React.memo(FlashcardCmp);

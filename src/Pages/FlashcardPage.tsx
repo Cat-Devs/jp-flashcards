@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { isMobile } from "react-device-detect";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -20,7 +20,17 @@ interface FlashcardPageProps {
 }
 
 export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
-  const { gameMode, nextCard, goHome, loading } = useApp();
+  const { gameMode, nextCard, goHome, loading, loadSound, unloadSound, playSound, canPlaySounds } = useApp();
+
+  useEffect(() => {
+    if (canPlaySounds && card?.jp) {
+      loadSound(card.jp);
+    }
+
+    return () => {
+      canPlaySounds && unloadSound();
+    };
+  }, [canPlaySounds, card, loadSound, unloadSound]);
 
   const cardData: FlashCardItem = useMemo(() => {
     if (!card) {
@@ -109,7 +119,13 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
   return (
     <Container maxWidth="md" disableGutters>
       <Box sx={{ p: 2 }}>
-        <Flashcard card={cardData} audio={card.jp} quiz={quiz} onNext={nextCard} />
+        <Flashcard
+          card={cardData}
+          canPlaySounds={canPlaySounds}
+          quiz={quiz}
+          onPlaySound={playSound}
+          onNext={nextCard}
+        />
       </Box>
       {!isMobile && quiz && <KeyboardHelper />}
     </Container>

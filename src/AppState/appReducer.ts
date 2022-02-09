@@ -5,7 +5,16 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case AppActionType.LOADING: {
       return {
         ...state,
-        loading: Boolean(action.payload),
+        loadingData: Boolean(action.payload),
+        loading: Boolean(action.payload || state.loadingSound),
+      };
+    }
+
+    case AppActionType.LOADING_SOUND: {
+      return {
+        ...state,
+        loadingSound: Boolean(action.payload),
+        loading: Boolean(action.payload || state.loadingData),
       };
     }
 

@@ -13,6 +13,8 @@ export const AppContext = createContext<{
 
 const initialState: AppState = {
   loading: false,
+  loadingData: false,
+  loadingSound: false,
   nextCard: "",
   currentCard: "",
   gameMode: "en",

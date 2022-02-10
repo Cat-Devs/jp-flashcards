@@ -1,6 +1,7 @@
-import { useCallback, useContext, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { createHash } from "crypto";
 
 import { AppContext } from "./AppContext";
 import { AppActionType, GameLevel, GameMode } from "./types";
@@ -11,12 +12,22 @@ export function useApp() {
   const context = useContext(AppContext);
   const audioPlayer = useRef<HTMLAudioElement>();
   const { data: session } = useSession();
+  const [userHash, setUserHash] = useState<string>();
 
   if (!context) {
     throw new Error(`useApp must be used within an AppProvider`);
   }
 
   const { state, dispatch } = context;
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      const hash = createHash("sha256").update(session.user.email).digest("hex");
+      setUserHash(hash);
+    } else {
+      setUserHash(null);
+    }
+  }, [session]);
 
   const loadData = useCallback(
     (cards: FlashCardData[]) => {
@@ -141,11 +152,15 @@ export function useApp() {
   }, [dispatch, router, state.nextCard, unloadSound]);
 
   return {
-    loading: Boolean(state.loading),
     currentCard: state.currentCard,
     gameMode: state.gameMode,
     gameLevel: state.gameLevel,
+    loading: Boolean(state.loading),
+    isUserLoggedIn: Boolean(session),
     canPlaySounds: Boolean(session),
+    signIn: useCallback(() => signIn(), []),
+    signOut: useCallback(() => signOut(), []),
+    userHash,
     setGame,
     setLevel,
     loadData,

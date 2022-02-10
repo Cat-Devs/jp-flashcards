@@ -28,7 +28,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
     }
 
     return () => {
-      canPlaySounds && unloadSound();
+      unloadSound();
     };
   }, [canPlaySounds, card, loadSound, unloadSound]);
 

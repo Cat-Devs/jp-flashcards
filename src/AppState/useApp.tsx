@@ -28,19 +28,51 @@ export function useApp() {
     }
   }, [session]);
 
-  const loadData = useCallback(
-    (cardIds: string[]) => {
-      const nextCard = cardIds[String(Math.floor(Math.random() * cardIds.length))];
+  const loadData = useCallback(async () => {
+    const host = window.location.origin;
 
-      dispatch({
-        type: AppActionType.LOAD_DATA,
-        payload: { cardIds, nextCard },
-      });
+    if (!host || !state.gameMode || !state.gameLevel) {
+      throw new Error("Missing required information.");
+    }
 
-      return router.push(`/shuffle/${nextCard}`);
-    },
-    [dispatch, router]
-  );
+    dispatch({
+      type: AppActionType.LOADING,
+      payload: true,
+    });
+
+    async function fetchData(gameMode: string, gameLevel: string): Promise<string[]> {
+      try {
+        const res = await fetch(`${host}/api/prepare-game`, {
+          method: "POST",
+          body: JSON.stringify({
+            config: {
+              gameMode,
+              gameLevel,
+            },
+          }),
+        });
+        const data = await res.json();
+
+        if (!data.cardIds?.length) {
+          throw new Error("Missing cards. Cannot prepare the game");
+        }
+
+        return data.cardIds;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    const cardIds = await fetchData(`${state.gameMode}`, `${state.gameLevel}`);
+    const nextCard = cardIds[String(Math.floor(Math.random() * cardIds.length))];
+
+    dispatch({
+      type: AppActionType.LOAD_DATA,
+      payload: { cardIds, nextCard },
+    });
+
+    router.push(`/shuffle/${nextCard}`);
+  }, [dispatch, router, state.gameLevel, state.gameMode]);
 
   const setGame = useCallback(
     (gameMode: GameMode) => {

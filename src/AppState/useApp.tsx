@@ -5,7 +5,6 @@ import { createHash } from "crypto";
 
 import { AppContext } from "./AppContext";
 import { AppActionType, GameLevel, GameMode } from "./types";
-import { FlashCardData } from "../types";
 
 export function useApp() {
   const router = useRouter();
@@ -30,26 +29,7 @@ export function useApp() {
   }, [session]);
 
   const loadData = useCallback(
-    (cards: FlashCardData[]) => {
-      const cardIds: string[] = cards
-        .filter((card) => {
-          if (state.gameMode === "hiragana") {
-            return card.hiragana;
-          } else if (state.gameMode === "kanji") {
-            return card.kanji;
-          }
-          return true;
-        })
-        .filter((card: FlashCardData) => {
-          const selectedLevel = Number(state.gameLevel);
-          const cardLevel = Number(card.level);
-
-          return selectedLevel >= cardLevel;
-        })
-        .map((card) => card.id)
-        .splice(0, 30)
-        .sort(() => Math.random() - 0.5);
-
+    (cardIds: string[]) => {
       const nextCard = cardIds[String(Math.floor(Math.random() * cardIds.length))];
 
       dispatch({
@@ -59,7 +39,7 @@ export function useApp() {
 
       return router.push(`/shuffle/${nextCard}`);
     },
-    [dispatch, router, state.gameMode, state.gameLevel]
+    [dispatch, router]
   );
 
   const setGame = useCallback(

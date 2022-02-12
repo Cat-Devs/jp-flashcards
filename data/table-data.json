@@ -331,6 +331,17 @@
   },
   {
     "category": "color",
+    "level": "2",
+    "image": "0000",
+    "en": "dark green",
+    "jp": "ふか みどり",
+    "kanji": "深緑",
+    "hiragana": "ふか みどり",
+    "katakana": "",
+    "romaji": "fuka midori"
+  },
+  {
+    "category": "color",
     "level": "1",
     "image": "0000",
     "en": "yellow",
@@ -815,6 +826,17 @@
   },
   {
     "category": "animal",
+    "level": "2",
+    "image": "0000",
+    "en": "squirrel",
+    "jp": "リス",
+    "kanji": "栗鼠",
+    "hiragana": "",
+    "katakana": "リス",
+    "romaji": "risu"
+  },
+  {
+    "category": "animal",
     "level": "1",
     "image": "0000",
     "en": "duck",
@@ -949,12 +971,12 @@
     "category": "food",
     "level": "1",
     "image": "0000",
-    "en": "tea",
-    "jp": "おちゃ",
-    "kanji": "茶",
-    "hiragana": "おちゃ",
+    "en": "grape",
+    "jp": "ぶどう",
+    "kanji": "葡萄",
+    "hiragana": "ぶどう",
     "katakana": "",
-    "romaji": "ocha"
+    "romaji": "budou"
   },
   {
     "category": "food",
@@ -1059,6 +1081,39 @@
     "category": "food",
     "level": "1",
     "image": "0000",
+    "en": "pineapple",
+    "jp": "パイナップル",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "パイナップル",
+    "romaji": "painappuru"
+  },
+  {
+    "category": "food",
+    "level": "1",
+    "image": "0000",
+    "en": "avocado",
+    "jp": "アボカド",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "アボカド",
+    "romaji": "abokado"
+  },
+  {
+    "category": "food",
+    "level": "1",
+    "image": "0000",
+    "en": "kiwi",
+    "jp": "キウイ",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "キウイ",
+    "romaji": "kiui"
+  },
+  {
+    "category": "food",
+    "level": "1",
+    "image": "0000",
     "en": "pumpkin",
     "jp": "かぼちゃ",
     "kanji": "南瓜",
@@ -1112,17 +1167,6 @@
   },
   {
     "category": "food",
-    "level": "1",
-    "image": "0000",
-    "en": "juice",
-    "jp": "ジュース",
-    "kanji": "",
-    "hiragana": "",
-    "katakana": "ジュース",
-    "romaji": "juusu"
-  },
-  {
-    "category": "food",
     "level": "2",
     "image": "0000",
     "en": "rice",
@@ -1136,12 +1180,12 @@
     "category": "food",
     "level": "1",
     "image": "0000",
-    "en": "coffee",
-    "jp": "コーヒー",
+    "en": "coconut",
+    "jp": "ココナッツ",
     "kanji": "",
     "hiragana": "",
-    "katakana": "コーヒー",
-    "romaji": "kohii"
+    "katakana": "ココナッツ",
+    "romaji": "kokonattsu"
   },
   {
     "category": "food",
@@ -1158,12 +1202,45 @@
     "category": "food",
     "level": "1",
     "image": "0000",
+    "en": "strawberry",
+    "jp": "いちご",
+    "kanji": "苺",
+    "hiragana": "いちご",
+    "katakana": "イチゴ",
+    "romaji": "ichigo"
+  },
+  {
+    "category": "food",
+    "level": "1",
+    "image": "0000",
     "en": "egg",
     "jp": "たまご",
     "kanji": "卵",
     "hiragana": "たまご",
     "katakana": "",
     "romaji": "tamago"
+  },
+  {
+    "category": "food",
+    "level": "1",
+    "image": "0000",
+    "en": "pear",
+    "jp": "なし",
+    "kanji": "梨",
+    "hiragana": "なし",
+    "katakana": "",
+    "romaji": "nashi"
+  },
+  {
+    "category": "food",
+    "level": "1",
+    "image": "0000",
+    "en": "mushroom",
+    "jp": "きのこ",
+    "kanji": "",
+    "hiragana": "きのこ",
+    "katakana": "キノコ",
+    "romaji": "kinoko"
   },
   {
     "category": "food",
@@ -1188,7 +1265,62 @@
     "romaji": "pasuta"
   },
   {
-    "category": "food",
+    "category": "drink",
+    "level": "1",
+    "image": "0000",
+    "en": "juice",
+    "jp": "ジュース",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ジュース",
+    "romaji": "juusu"
+  },
+  {
+    "category": "drink",
+    "level": "3",
+    "image": "0000",
+    "en": "orange juice",
+    "jp": "オレンジジュース",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "オレンジジュース",
+    "romaji": "orenji juusu"
+  },
+  {
+    "category": "drink",
+    "level": "1",
+    "image": "0000",
+    "en": "coffee",
+    "jp": "コーヒー",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "コーヒー",
+    "romaji": "kohii"
+  },
+  {
+    "category": "drink",
+    "level": "1",
+    "image": "0000",
+    "en": "cola",
+    "jp": "コーラ",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "コーラ",
+    "romaji": "koora"
+  },
+  {
+    "category": "drink",
+    "level": "1",
+    "image": "0000",
+    "en": "tea",
+    "jp": "おちゃ",
+    "kanji": "茶",
+    "hiragana": "おちゃ",
+    "katakana": "",
+    "romaji": "ocha"
+  },
+  {
+    "category": "drink",
     "level": "1",
     "image": "0000",
     "en": "milk",
@@ -1197,6 +1329,94 @@
     "hiragana": "ぎゅうにゅう",
     "katakana": "",
     "romaji": "gyuunyuu"
+  },
+  {
+    "category": "drink",
+    "level": "3",
+    "image": "0000",
+    "en": "soya Milk",
+    "jp": "とうにゅう",
+    "kanji": "豆乳",
+    "hiragana": "とうにゅう",
+    "katakana": "",
+    "romaji": "tounyuu"
+  },
+  {
+    "category": "drink",
+    "level": "3",
+    "image": "0000",
+    "en": "cocoa / hot chocolate",
+    "jp": "ココア",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ココア",
+    "romaji": "kokoa"
+  },
+  {
+    "category": "drink",
+    "level": "1",
+    "image": "0000",
+    "en": "water",
+    "jp": "みず",
+    "kanji": "水",
+    "hiragana": "みず",
+    "katakana": "",
+    "romaji": "mizu"
+  },
+  {
+    "category": "drink",
+    "level": "1",
+    "image": "0000",
+    "en": "alcohol / sake",
+    "jp": "おさけ",
+    "kanji": "お酒",
+    "hiragana": "おさけ",
+    "katakana": "",
+    "romaji": "osake"
+  },
+  {
+    "category": "drink",
+    "level": "1",
+    "image": "0000",
+    "en": "wine",
+    "jp": "ワイン",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ワイン",
+    "romaji": "wain"
+  },
+  {
+    "category": "drink",
+    "level": "2",
+    "image": "0000",
+    "en": "red wine",
+    "jp": "あかワイン",
+    "kanji": "赤ワイン",
+    "hiragana": "",
+    "katakana": "あかワイン",
+    "romaji": "aka wain"
+  },
+  {
+    "category": "drink",
+    "level": "2",
+    "image": "0000",
+    "en": "white wine",
+    "jp": "しろワイン",
+    "kanji": "白ワイン",
+    "hiragana": "",
+    "katakana": "しろワイン",
+    "romaji": "shiro wain"
+  },
+  {
+    "category": "drink",
+    "level": "2",
+    "image": "0000",
+    "en": "beer",
+    "jp": "ビール",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ビール",
+    "romaji": "biiru"
   },
   {
     "category": "plants",
@@ -1230,6 +1450,193 @@
     "hiragana": "",
     "katakana": "はな",
     "romaji": "hana"
+  },
+  {
+    "category": "occupations",
+    "level": "2",
+    "image": "0000",
+    "en": "teacher",
+    "jp": "せんせい",
+    "kanji": "先生",
+    "hiragana": "せんせい",
+    "katakana": "",
+    "romaji": "sensei"
+  },
+  {
+    "category": "occupations",
+    "level": "2",
+    "image": "0000",
+    "en": "doctor",
+    "jp": "いしゃ",
+    "kanji": "医者",
+    "hiragana": "いしゃ",
+    "katakana": "",
+    "romaji": "isha"
+  },
+  {
+    "category": "occupations",
+    "level": "2",
+    "image": "0000",
+    "en": "company employee",
+    "jp": "かいしゃいん",
+    "kanji": "会社員",
+    "hiragana": "かいしゃいん",
+    "katakana": "",
+    "romaji": "kaishain"
+  },
+  {
+    "category": "occupations",
+    "level": "3",
+    "image": "0000",
+    "en": "sport's coach",
+    "jp": "かんとく",
+    "kanji": "監督",
+    "hiragana": "かんとく",
+    "katakana": "",
+    "romaji": "kantoku"
+  },
+  {
+    "category": "occupations",
+    "level": "3",
+    "image": "0000",
+    "en": "engineer",
+    "jp": "エンジニア",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "エンジニア",
+    "romaji": "enjinia"
+  },
+  {
+    "category": "occupations",
+    "level": "3",
+    "image": "0000",
+    "en": "student",
+    "jp": "がくせい",
+    "kanji": "学生",
+    "hiragana": "がくせい",
+    "katakana": "",
+    "romaji": "gakusei"
+  },
+  {
+    "category": "occupations",
+    "level": "3",
+    "image": "0000",
+    "en": "high school student",
+    "jp": "こうこうせい",
+    "kanji": "",
+    "hiragana": "こうこうせい",
+    "katakana": "",
+    "romaji": "koukousei"
+  },
+  {
+    "category": "occupations",
+    "level": "3",
+    "image": "0000",
+    "en": "university student",
+    "jp": "だいがくせい",
+    "kanji": "",
+    "hiragana": "だいがくせい",
+    "katakana": "",
+    "romaji": "daigakusei"
+  },
+  {
+    "category": "clothes",
+    "level": "2",
+    "image": "0000",
+    "en": "kimono",
+    "jp": "きもの",
+    "kanji": "着物",
+    "hiragana": "きもの",
+    "katakana": "",
+    "romaji": "kimono"
+  },
+  {
+    "category": "clothes",
+    "level": "2",
+    "image": "0000",
+    "en": "coat",
+    "jp": "コート",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "コート",
+    "romaji": "kooto"
+  },
+  {
+    "category": "clothes",
+    "level": "3",
+    "image": "0000",
+    "en": "suit",
+    "jp": "スーツ",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "スーツ",
+    "romaji": "suutsu"
+  },
+  {
+    "category": "clothes",
+    "level": "3",
+    "image": "0000",
+    "en": "bra",
+    "jp": "ブラジャー",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ブラジャー",
+    "romaji": "burajaa"
+  },
+  {
+    "category": "clothes",
+    "level": "3",
+    "image": "0000",
+    "en": "jacket",
+    "jp": "ジャケット",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ジャケット",
+    "romaji": "jaketto"
+  },
+  {
+    "category": "clothes",
+    "level": "3",
+    "image": "0000",
+    "en": "pajamas",
+    "jp": "パジャマ",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "パジャマ",
+    "romaji": "pajama"
+  },
+  {
+    "category": "clothes",
+    "level": "2",
+    "image": "0000",
+    "en": "dress",
+    "jp": "ドレス",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ドレス",
+    "romaji": "doresu"
+  },
+  {
+    "category": "clothes",
+    "level": "3",
+    "image": "0000",
+    "en": "trousers",
+    "jp": "ズボン",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ズボン",
+    "romaji": "zubon"
+  },
+  {
+    "category": "clothes",
+    "level": "3",
+    "image": "0000",
+    "en": "t-shirt",
+    "jp": "T-シャツ",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "T-シャツ",
+    "romaji": "t-shatsu"
   },
   {
     "category": "LAST_ITEM",

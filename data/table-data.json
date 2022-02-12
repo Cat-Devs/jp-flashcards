@@ -308,7 +308,7 @@
     "romaji": "oku"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "red",
@@ -319,7 +319,7 @@
     "romaji": "aka"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "green",
@@ -330,7 +330,7 @@
     "romaji": "midori"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "2",
     "image": "0000",
     "en": "dark green",
@@ -341,7 +341,7 @@
     "romaji": "fuka midori"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "yellow",
@@ -352,7 +352,7 @@
     "romaji": "kiiro"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "blue",
@@ -363,7 +363,7 @@
     "romaji": "ao"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "black",
@@ -374,7 +374,7 @@
     "romaji": "kuro"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "white",
@@ -385,7 +385,7 @@
     "romaji": "shiro"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "purple",
@@ -396,7 +396,7 @@
     "romaji": "murasaki"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "brown",
@@ -407,7 +407,7 @@
     "romaji": "chairo"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "pink",
@@ -418,7 +418,7 @@
     "romaji": "momoiro / pinku"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "gray",
@@ -429,7 +429,7 @@
     "romaji": "haiiro"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "orange",
@@ -440,7 +440,7 @@
     "romaji": "daidaiiro / orenji"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "light blue",
@@ -451,7 +451,7 @@
     "romaji": "mizuiro"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "silver",
@@ -462,7 +462,7 @@
     "romaji": "gin"
   },
   {
-    "category": "color",
+    "category": "colors",
     "level": "1",
     "image": "0000",
     "en": "gold",
@@ -473,7 +473,7 @@
     "romaji": "kin"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "sheep",
@@ -484,7 +484,7 @@
     "romaji": "hitsuji"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "pig",
@@ -495,7 +495,7 @@
     "romaji": "buta"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "cow",
@@ -506,7 +506,7 @@
     "romaji": "ushi"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "spider",
@@ -517,7 +517,7 @@
     "romaji": "kumo"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "cat",
@@ -528,7 +528,7 @@
     "romaji": "neko"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "kitten",
@@ -539,7 +539,7 @@
     "romaji": "ko neko"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "butterfly",
@@ -550,7 +550,7 @@
     "romaji": "chou"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "dog",
@@ -561,7 +561,7 @@
     "romaji": "inu"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "monkey",
@@ -572,7 +572,7 @@
     "romaji": "saru"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "swan",
@@ -583,7 +583,7 @@
     "romaji": "hakuchou"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "horse",
@@ -594,7 +594,7 @@
     "romaji": "uma"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "octopus",
@@ -605,7 +605,7 @@
     "romaji": "tako"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "fish",
@@ -616,7 +616,7 @@
     "romaji": "sakana"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "bear",
@@ -627,7 +627,7 @@
     "romaji": "kuma"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "bird",
@@ -638,7 +638,7 @@
     "romaji": "tori"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "goat",
@@ -649,7 +649,7 @@
     "romaji": "yagi"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "ant",
@@ -660,7 +660,7 @@
     "romaji": "ari"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "rabbit",
@@ -671,7 +671,7 @@
     "romaji": "usagi"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "lizard",
@@ -682,7 +682,7 @@
     "romaji": "tokage"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "mouse",
@@ -693,7 +693,7 @@
     "romaji": "nezumi"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "bee",
@@ -704,7 +704,7 @@
     "romaji": "hachi"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "goose",
@@ -715,7 +715,7 @@
     "romaji": "gachou"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "turkey",
@@ -726,7 +726,7 @@
     "romaji": "shichimencho"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "frog",
@@ -737,7 +737,7 @@
     "romaji": "kaeru"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "crab",
@@ -748,7 +748,7 @@
     "romaji": "kani"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "chicken",
@@ -759,7 +759,7 @@
     "romaji": "niwatori"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "snake",
@@ -770,7 +770,7 @@
     "romaji": "hebi"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "whale",
@@ -781,7 +781,7 @@
     "romaji": "kujira"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "camel",
@@ -792,7 +792,7 @@
     "romaji": "rakuda"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "deer",
@@ -803,7 +803,7 @@
     "romaji": "shika"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "fly",
@@ -814,7 +814,7 @@
     "romaji": "hae"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "squid",
@@ -825,7 +825,7 @@
     "romaji": "ika"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "squirrel",
@@ -836,7 +836,7 @@
     "romaji": "risu"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "duck",
@@ -847,7 +847,7 @@
     "romaji": "ahiru"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "wolf",
@@ -858,7 +858,7 @@
     "romaji": "ookami"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "elephant",
@@ -869,7 +869,7 @@
     "romaji": "zou"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "giraffe",
@@ -880,7 +880,7 @@
     "romaji": "kirin"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "dolphin",
@@ -891,7 +891,7 @@
     "romaji": "iruka"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "koala",
@@ -902,7 +902,7 @@
     "romaji": "koara"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "tiger",
@@ -913,7 +913,7 @@
     "romaji": "tora"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "lion",
@@ -924,7 +924,7 @@
     "romaji": "raion"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "1",
     "image": "0000",
     "en": "fox",
@@ -935,7 +935,7 @@
     "romaji": "kitzune"
   },
   {
-    "category": "animal",
+    "category": "animals",
     "level": "2",
     "image": "0000",
     "en": "raccoon",
@@ -1265,7 +1265,7 @@
     "romaji": "pasuta"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "1",
     "image": "0000",
     "en": "juice",
@@ -1276,7 +1276,7 @@
     "romaji": "juusu"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "3",
     "image": "0000",
     "en": "orange juice",
@@ -1287,7 +1287,7 @@
     "romaji": "orenji juusu"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "1",
     "image": "0000",
     "en": "coffee",
@@ -1298,7 +1298,7 @@
     "romaji": "kohii"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "1",
     "image": "0000",
     "en": "cola",
@@ -1309,7 +1309,7 @@
     "romaji": "koora"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "1",
     "image": "0000",
     "en": "tea",
@@ -1320,7 +1320,7 @@
     "romaji": "ocha"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "1",
     "image": "0000",
     "en": "milk",
@@ -1331,7 +1331,7 @@
     "romaji": "gyuunyuu"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "3",
     "image": "0000",
     "en": "soya Milk",
@@ -1342,7 +1342,7 @@
     "romaji": "tounyuu"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "3",
     "image": "0000",
     "en": "cocoa / hot chocolate",
@@ -1353,7 +1353,7 @@
     "romaji": "kokoa"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "1",
     "image": "0000",
     "en": "water",
@@ -1364,7 +1364,7 @@
     "romaji": "mizu"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "1",
     "image": "0000",
     "en": "alcohol / sake",
@@ -1375,7 +1375,7 @@
     "romaji": "osake"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "1",
     "image": "0000",
     "en": "wine",
@@ -1386,7 +1386,7 @@
     "romaji": "wain"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "2",
     "image": "0000",
     "en": "red wine",
@@ -1397,7 +1397,7 @@
     "romaji": "aka wain"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "2",
     "image": "0000",
     "en": "white wine",
@@ -1408,7 +1408,7 @@
     "romaji": "shiro wain"
   },
   {
-    "category": "drink",
+    "category": "drinks",
     "level": "2",
     "image": "0000",
     "en": "beer",

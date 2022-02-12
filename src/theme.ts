@@ -27,8 +27,8 @@ const baseTheme = createTheme({
       main: red.A400,
     },
     background: {
-      paper: "#0a1929",
-      default: "#0a1929",
+      paper: "#0c2137",
+      default: "#0c2137",
     },
   },
   components: {

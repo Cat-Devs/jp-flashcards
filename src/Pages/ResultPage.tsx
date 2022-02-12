@@ -12,7 +12,7 @@ import { LoadingCard } from "../Components/LoadingCard";
 import { useApp } from "../AppState";
 
 export const ResultPage: React.FC = () => {
-  const { goHome, loading } = useApp();
+  const { goHome, loading, playWrongCards, stats } = useApp();
 
   if (loading) {
     return (
@@ -30,16 +30,27 @@ export const ResultPage: React.FC = () => {
         <Card>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              Well Done.
+              Challenge completed.
             </Typography>
-            <Typography gutterBottom variant="h5" component="div">
-              You have completed the challenge
-            </Typography>
+            {stats.wrongCards ? (
+              <Typography gutterBottom variant="h5" component="div">
+                You have missed {stats.wrongCards} cards.
+              </Typography>
+            ) : (
+              <Typography gutterBottom variant="h5" component="div">
+                You have correctly guessed all the cards.
+              </Typography>
+            )}
           </CardContent>
           <CardActions>
             <Button color="primary" onClick={goHome}>
               Go Home
             </Button>
+            {stats.wrongCards ? (
+              <Button color="primary" onClick={playWrongCards}>
+                Play wrong cards
+              </Button>
+            ) : null}
           </CardActions>
         </Card>
       </Box>

@@ -68,6 +68,24 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       };
     }
 
+    case AppActionType.PLAY_WRONG_CARDS: {
+      const random = Math.floor(Math.random() * state.wrongCards.length);
+      const currentCard: string = state.wrongCards[random];
+      const remainingCards: string[] = state.wrongCards.filter((card) => card !== currentCard);
+      const nextCardRandom = Math.floor(Math.random() * remainingCards.length);
+      const nextCard: string = remainingCards.length ? remainingCards[nextCardRandom] : "";
+
+      return {
+        ...state,
+        currentCard,
+        nextCard,
+        remainingCards,
+        correctCards: [],
+        usedCards: [],
+        wrongCards: [],
+      };
+    }
+
     default:
       return state;
   }

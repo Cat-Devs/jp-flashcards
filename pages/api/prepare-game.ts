@@ -32,7 +32,7 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
     })
     .map((card: FlashCardData) => card.id)
     .sort(() => Math.random() - 0.5)
-    .splice(0, 30);
+    .splice(0, 20);
 
   return res.json({ cardIds });
 };

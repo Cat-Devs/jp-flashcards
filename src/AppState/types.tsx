@@ -23,6 +23,7 @@ export enum AppActionType {
   "SET_GAME",
   "SET_LEVEL",
   "LOADING",
+  "PLAY_WRONG_CARDS",
 }
 
 type LoadingAction = {
@@ -55,10 +56,15 @@ type SetLevelAction = {
   payload: GameLevel;
 };
 
+type PlayWrongCardsAction = {
+  type: AppActionType.PLAY_WRONG_CARDS;
+};
+
 export type AppAction =
   | LoadingAction
   | LoadingSoundAction
   | LoadDataAction
   | NextCardAction
   | SetGameAction
-  | SetLevelAction;
+  | SetLevelAction
+  | PlayWrongCardsAction;

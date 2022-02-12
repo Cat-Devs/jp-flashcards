@@ -10,8 +10,9 @@ import Box from "@mui/material/Box";
 
 import { Flashcard, FlashCardItem } from "../Components/Flashcard";
 import { LoadingCard } from "../Components/LoadingCard";
-import { useApp } from "../AppState";
 import { KeyboardHelper } from "../Components/KeyboardHelper";
+import { Progress } from "../Components/Progress";
+import { useApp } from "../AppState";
 import { FlashCardData } from "../types";
 
 interface FlashcardPageProps {
@@ -20,7 +21,7 @@ interface FlashcardPageProps {
 }
 
 export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
-  const { gameMode, nextCard, goHome, loading, loadSound, unloadSound, playSound, canPlaySounds } = useApp();
+  const { gameMode, nextCard, goHome, loading, loadSound, unloadSound, playSound, canPlaySounds, stats } = useApp();
 
   useEffect(() => {
     if (canPlaySounds && card?.jp) {
@@ -82,6 +83,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
   if (loading) {
     return (
       <Container maxWidth="md" disableGutters>
+        <Progress status={stats.progress} />
         <Box sx={{ p: 2 }}>
           <LoadingCard />
         </Box>
@@ -118,6 +120,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
 
   return (
     <Container maxWidth="md" disableGutters>
+      <Progress status={stats.progress} />
       <Box sx={{ p: 2 }}>
         <Flashcard
           card={cardData}

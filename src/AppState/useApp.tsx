@@ -6,12 +6,26 @@ import { createHash } from "crypto";
 import { AppContext } from "./AppContext";
 import { AppActionType, CardResult, GameLevel, GameMode } from "./types";
 
+interface Stats {
+  usedCards: number;
+  totalCards: number;
+  wrongCards: number;
+  progress: number;
+}
+
 export function useApp() {
+  const initialStats: Stats = {
+    progress: 0,
+    totalCards: 0,
+    usedCards: 0,
+    wrongCards: 0,
+  };
   const router = useRouter();
   const context = useContext(AppContext);
   const audioPlayer = useRef<HTMLAudioElement>();
   const { data: session } = useSession();
   const [userHash, setUserHash] = useState<string>();
+  const [stats, setStats] = useState<Stats>(initialStats);
 
   if (!context) {
     throw new Error(`useApp must be used within an AppProvider`);
@@ -27,6 +41,21 @@ export function useApp() {
       setUserHash(null);
     }
   }, [session]);
+
+  useEffect(() => {
+    const usedCards = state.usedCards.length || 0;
+    const wrongCards = state.wrongCards.length || 0;
+    const totalCards =
+      (state.usedCards.length || 0) + (state.remainingCards.length || 0) + ([state.currentCard].length || 0);
+    const progress = Number(((100 * usedCards) / totalCards).toFixed(2));
+
+    setStats({
+      usedCards,
+      totalCards,
+      wrongCards,
+      progress,
+    });
+  }, [state.wrongCards, state.currentCard, state.remainingCards, state.usedCards]);
 
   const loadData = useCallback(async () => {
     const host = window.location.origin;
@@ -166,6 +195,14 @@ export function useApp() {
     [dispatch, router, state.nextCard, unloadSound]
   );
 
+  const playWrongCards = useCallback(() => {
+    dispatch({ type: AppActionType.PLAY_WRONG_CARDS });
+
+    if (state.nextCard) {
+      router.push(`/shuffle/${state.nextCard}`);
+    }
+  }, [dispatch, router, state.nextCard]);
+
   return {
     currentCard: state.currentCard,
     gameMode: state.gameMode,
@@ -175,6 +212,7 @@ export function useApp() {
     canPlaySounds: Boolean(session),
     signIn: useCallback(() => signIn(), []),
     signOut: useCallback(() => signOut(), []),
+    stats,
     userHash,
     setGame,
     setLevel,
@@ -184,5 +222,6 @@ export function useApp() {
     nextCard,
     goHome,
     playSound,
+    playWrongCards,
   };
 }

@@ -1,5 +1,6 @@
 export type GameMode = "en" | "hiragana" | "kanji" | "kana";
 export type GameLevel = "1" | "2" | "3" | "4";
+export type CardResult = "correct" | "wrong" | "void";
 
 export interface AppState {
   loading: Boolean;
@@ -39,7 +40,10 @@ type LoadDataAction = {
   payload: { cardIds: string[]; nextCard: string };
 };
 
-type NextCardAction = { type: AppActionType.NEXT_CARD };
+type NextCardAction = {
+  type: AppActionType.NEXT_CARD;
+  payload: CardResult;
+};
 
 type SetGameAction = {
   type: AppActionType.SET_GAME;

@@ -4,7 +4,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { createHash } from "crypto";
 
 import { AppContext } from "./AppContext";
-import { AppActionType, GameLevel, GameMode } from "./types";
+import { AppActionType, CardResult, GameLevel, GameMode } from "./types";
 
 export function useApp() {
   const router = useRouter();
@@ -154,14 +154,17 @@ export function useApp() {
     audioPlayer.current = undefined;
   }, [session]);
 
-  const nextCard = useCallback(() => {
-    unloadSound();
-    dispatch({ type: AppActionType.NEXT_CARD });
+  const nextCard = useCallback(
+    (cardStatus: CardResult) => {
+      unloadSound();
+      dispatch({ type: AppActionType.NEXT_CARD, payload: cardStatus });
 
-    if (state.nextCard) {
-      router.push(`/shuffle/${state.nextCard}`);
-    }
-  }, [dispatch, router, state.nextCard, unloadSound]);
+      if (state.nextCard) {
+        router.push(`/shuffle/${state.nextCard}`);
+      }
+    },
+    [dispatch, router, state.nextCard, unloadSound]
+  );
 
   return {
     currentCard: state.currentCard,

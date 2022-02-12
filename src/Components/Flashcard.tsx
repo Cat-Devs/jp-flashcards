@@ -17,6 +17,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
 import { useKeyPress } from "../Hooks/use-key-press";
+import { CardResult } from "../AppState/types";
 
 export interface FlashCardItem {
   firstLine: { text: string; lang: string };
@@ -28,7 +29,7 @@ interface FlashcardProps {
   canPlaySounds: boolean;
   onPlaySound: () => void;
   quiz?: boolean;
-  onNext?: () => void;
+  onNext?: (cardResult: CardResult) => void;
 }
 
 const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, canPlaySounds, onPlaySound, onNext }) => {
@@ -43,21 +44,15 @@ const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, canPlaySounds, onP
 
   const handleWrong = useCallback(() => {
     if (expanded && quiz) {
-      onNext();
+      onNext("wrong");
     }
   }, [expanded, onNext, quiz]);
 
   const handleCorrect = useCallback(() => {
     if (expanded && quiz) {
-      onNext();
+      onNext("correct");
     }
   }, [expanded, onNext, quiz]);
-
-  const nextCardClick = useCallback(() => {
-    if (quiz) {
-      onNext();
-    }
-  }, [onNext, quiz]);
 
   useKeyPress({ onArrowLeft: handleWrong, onArrowRight: handleCorrect, onSpace: handleCheckAnswer });
 
@@ -113,10 +108,10 @@ const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, canPlaySounds, onP
       )}
       {quiz && expanded && (
         <CardActions>
-          <Button color="warning" endIcon={<ClearIcon />} onClick={nextCardClick}>
+          <Button color="warning" endIcon={<ClearIcon />} onClick={handleWrong}>
             Wrong
           </Button>
-          <Button color="success" endIcon={<CheckIcon />} onClick={nextCardClick}>
+          <Button color="success" endIcon={<CheckIcon />} onClick={handleCorrect}>
             Correct
           </Button>
         </CardActions>

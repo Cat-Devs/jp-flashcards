@@ -68,6 +68,8 @@ export function AppProvider(props) {
     const storedState: AppState = {
       ...state,
       loading: undefined,
+      loadingData: undefined,
+      loadingSound: undefined,
     };
 
     sessionStorage.setItem("app-state", JSON.stringify(storedState));

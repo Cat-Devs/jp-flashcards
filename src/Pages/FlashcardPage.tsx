@@ -101,7 +101,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
             </CardContent>
             <CardActions>
               {quiz ? (
-                <Button color="primary" onClick={nextCard}>
+                <Button color="primary" onClick={() => nextCard("void")}>
                   Next
                 </Button>
               ) : (

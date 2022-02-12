@@ -29,18 +29,19 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         nextCard: `${nextCard}`,
         currentCard: `${action.payload.nextCard}`,
         usedCards: [],
+        wrongCards: [],
+        correctCards: [],
       };
     }
 
     case AppActionType.NEXT_CARD: {
       const newCurrentCard = state.nextCard;
       const newRemainingCards = state.remainingCards.filter((card) => card !== newCurrentCard);
-
       const random = Math.floor(Math.random() * newRemainingCards.length);
-
       const nextCard = newRemainingCards.length ? newRemainingCards[random] : "";
-
       const newUsedCards = [...state.usedCards, state.currentCard];
+      const newCorrectCards = [...state.correctCards, ...(action.payload === "correct" ? [state.currentCard] : [])];
+      const newWrongCards = [...state.wrongCards, ...(action.payload === "wrong" ? [state.currentCard] : [])];
 
       return {
         ...state,
@@ -48,6 +49,8 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         nextCard: `${nextCard}`,
         remainingCards: newRemainingCards,
         usedCards: newUsedCards,
+        correctCards: newCorrectCards,
+        wrongCards: newWrongCards,
       };
     }
 

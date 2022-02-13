@@ -1,6 +1,6 @@
-export type GameMode = "en" | "hiragana" | "kanji" | "kana";
-export type GameLevel = "1" | "2" | "3" | "4";
-export type CardResult = "correct" | "wrong" | "void";
+export type GameMode = 'en' | 'hiragana' | 'kanji' | 'kana';
+export type GameLevel = '1' | '2' | '3' | '4';
+export type CardResult = 'correct' | 'wrong' | 'void';
 
 export interface AppState {
   loading: Boolean;
@@ -17,13 +17,13 @@ export interface AppState {
 }
 
 export enum AppActionType {
-  "LOAD_DATA",
-  "LOADING_SOUND",
-  "NEXT_CARD",
-  "SET_GAME",
-  "SET_LEVEL",
-  "LOADING",
-  "PLAY_WRONG_CARDS",
+  'LOAD_DATA',
+  'LOADING_SOUND',
+  'NEXT_CARD',
+  'SET_GAME',
+  'SET_LEVEL',
+  'LOADING',
+  'PLAY_WRONG_CARDS',
 }
 
 type LoadingAction = {

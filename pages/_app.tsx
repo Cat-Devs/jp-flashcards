@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
-import { SessionProvider } from "next-auth/react";
+import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
+import { SessionProvider } from 'next-auth/react';
 
-import { AppProvider } from "../src/AppState";
-import { AppWrapper } from "../src/Pages/AppWrapper";
+import { AppProvider } from '../src/AppState';
+import { AppWrapper } from '../src/Pages/AppWrapper';
 
 const App = (props) => {
   const { Component, pageProps } = props;

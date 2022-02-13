@@ -1,4 +1,4 @@
-import { AppState, AppAction, AppActionType } from "./types";
+import { AppState, AppAction, AppActionType } from './types';
 
 export function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
@@ -38,10 +38,10 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       const newCurrentCard = state.nextCard;
       const newRemainingCards = state.remainingCards.filter((card) => card !== newCurrentCard);
       const random = Math.floor(Math.random() * newRemainingCards.length);
-      const nextCard = newRemainingCards.length ? newRemainingCards[random] : "";
+      const nextCard = newRemainingCards.length ? newRemainingCards[random] : '';
       const newUsedCards = [...state.usedCards, state.currentCard];
-      const newCorrectCards = [...state.correctCards, ...(action.payload === "correct" ? [state.currentCard] : [])];
-      const newWrongCards = [...state.wrongCards, ...(action.payload === "wrong" ? [state.currentCard] : [])];
+      const newCorrectCards = [...state.correctCards, ...(action.payload === 'correct' ? [state.currentCard] : [])];
+      const newWrongCards = [...state.wrongCards, ...(action.payload === 'wrong' ? [state.currentCard] : [])];
 
       return {
         ...state,
@@ -73,7 +73,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       const currentCard: string = state.wrongCards[random];
       const remainingCards: string[] = state.wrongCards.filter((card) => card !== currentCard);
       const nextCardRandom = Math.floor(Math.random() * remainingCards.length);
-      const nextCard: string = remainingCards.length ? remainingCards[nextCardRandom] : "";
+      const nextCard: string = remainingCards.length ? remainingCards[nextCardRandom] : '';
 
       return {
         ...state,

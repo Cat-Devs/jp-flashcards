@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
-import { createContext, useMemo, useReducer, Dispatch, useEffect } from "react";
-import { appReducer } from "./appReducer";
-import { AppState, AppAction, AppActionType } from "./types";
+import { useRouter } from 'next/router';
+import { createContext, useMemo, useReducer, Dispatch, useEffect } from 'react';
+import { appReducer } from './appReducer';
+import { AppState, AppAction, AppActionType } from './types';
 
 export const AppContext = createContext<{
   state: AppState;
@@ -15,10 +15,10 @@ const initialState: AppState = {
   loading: false,
   loadingData: false,
   loadingSound: false,
-  nextCard: "",
-  currentCard: "",
-  gameMode: "en",
-  gameLevel: "1",
+  nextCard: '',
+  currentCard: '',
+  gameMode: 'en',
+  gameLevel: '1',
   remainingCards: [],
   usedCards: [],
   wrongCards: [],
@@ -36,17 +36,17 @@ export function AppProvider(props) {
       dispatch({ type: AppActionType.LOADING, payload: false });
     };
 
-    router.events.on("routeChangeStart", handleRouteChangeStart);
-    router.events.on("routeChangeComplete", handleRouteChangeEnd);
+    router.events.on('routeChangeStart', handleRouteChangeStart);
+    router.events.on('routeChangeComplete', handleRouteChangeEnd);
 
     return () => {
-      router.events.off("routeChangeStart", handleRouteChangeStart);
-      router.events.off("routeChangeComplete", handleRouteChangeEnd);
+      router.events.off('routeChangeStart', handleRouteChangeStart);
+      router.events.off('routeChangeComplete', handleRouteChangeEnd);
     };
   }, [router]);
 
-  const sessionState = typeof window !== "undefined" && sessionStorage.getItem("app-state");
-  const storedState = JSON.parse(sessionState || "{}");
+  const sessionState = typeof window !== 'undefined' && sessionStorage.getItem('app-state');
+  const storedState = JSON.parse(sessionState || '{}');
   const appState = { ...initialState, ...storedState };
   const [state, dispatch] = useReducer(appReducer, appState);
 
@@ -54,7 +54,7 @@ export function AppProvider(props) {
     // While playing the flashcard game
     // Check if the user navigated back in the browser history or the url was manually altered
     if (
-      router.route === "/shuffle/[id]" &&
+      router.route === '/shuffle/[id]' &&
       router.query?.id &&
       state?.currentCard &&
       state.currentCard !== router.query.id
@@ -72,7 +72,7 @@ export function AppProvider(props) {
       loadingSound: undefined,
     };
 
-    sessionStorage.setItem("app-state", JSON.stringify(storedState));
+    sessionStorage.setItem('app-state', JSON.stringify(storedState));
   }, [state]);
 
   const value = useMemo(() => ({ state, dispatch }), [state]);

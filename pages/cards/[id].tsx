@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { dynamoDb } from "../../lib/dynamo-db";
-import { FlashcardPage } from "../../src/Pages/FlashcardPage";
-import { FlashCardData } from "../../src/types";
+import { dynamoDb } from '../../lib/dynamo-db';
+import { FlashcardPage } from '../../src/Pages/FlashcardPage';
+import { FlashCardData } from '../../src/types';
 
 interface WordsProps {
   card?: FlashCardData;

@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import { dynamoDb } from "../../lib/dynamo-db";
-import { useApp } from "../../src/AppState";
-import { FlashcardPage } from "../../src/Pages/FlashcardPage";
-import { ResultPage } from "../../src/Pages/ResultPage";
-import { FlashCardData } from "../../src/types";
+import { dynamoDb } from '../../lib/dynamo-db';
+import { useApp } from '../../src/AppState';
+import { FlashcardPage } from '../../src/Pages/FlashcardPage';
+import { ResultPage } from '../../src/Pages/ResultPage';
+import { FlashCardData } from '../../src/types';
 
 interface CardPageProps {
   card?: FlashCardData;

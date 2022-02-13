@@ -1,10 +1,9 @@
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { createHash } from "crypto";
-
-import { AppContext } from "./AppContext";
-import { AppActionType, CardResult, GameLevel, GameMode } from "./types";
+import { createHash } from 'crypto';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { AppContext } from './AppContext';
+import { AppActionType, CardResult, GameLevel, GameMode } from './types';
 
 interface Stats {
   usedCards: number;
@@ -35,7 +34,7 @@ export function useApp() {
 
   useEffect(() => {
     if (session?.user?.email) {
-      const hash = createHash("sha256").update(session.user.email).digest("hex");
+      const hash = createHash('sha256').update(session.user.email).digest('hex');
       setUserHash(hash);
     } else {
       setUserHash(null);
@@ -59,7 +58,7 @@ export function useApp() {
 
   const loadData = useCallback(async () => {
     if (!state.gameMode || !state.gameLevel) {
-      throw new Error("Missing required information.");
+      throw new Error('Missing required information.');
     }
 
     dispatch({
@@ -70,7 +69,7 @@ export function useApp() {
     async function fetchData(gameMode: string, gameLevel: string): Promise<string[]> {
       try {
         const res = await fetch(`/api/prepare-game`, {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
             config: {
               gameMode,
@@ -81,7 +80,7 @@ export function useApp() {
         const data = await res.json();
 
         if (!data.cardIds?.length) {
-          throw new Error("Missing cards. Cannot prepare the game");
+          throw new Error('Missing cards. Cannot prepare the game');
         }
 
         return data.cardIds;
@@ -92,10 +91,10 @@ export function useApp() {
 
     const cardIds = await fetchData(`${state.gameMode}`, `${state.gameLevel}`);
     if (!cardIds?.length) {
-      console.error("Cannot fetch flashcards data");
+      console.error('Cannot fetch flashcards data');
       dispatch({
         type: AppActionType.LOAD_DATA,
-        payload: { cardIds: [], nextCard: "" },
+        payload: { cardIds: [], nextCard: '' },
       });
       return router.push(`/shuffle/0`);
     }
@@ -132,6 +131,10 @@ export function useApp() {
     router.push(`/`);
   }, [router]);
 
+  const openSettings = useCallback(() => {
+    router.push('/profile');
+  }, [router]);
+
   const loadSound = useCallback(
     async (audio: string) => {
       if (!session) {
@@ -143,15 +146,15 @@ export function useApp() {
         payload: true,
       });
 
-      fetch("/api/play", {
-        method: "POST",
+      fetch('/api/play', {
+        method: 'POST',
         body: JSON.stringify({ audio }),
       })
         .then((response) => response.json())
-        .then((response) => response.data || "")
+        .then((response) => response.data || '')
         .then((response: string) => {
-          const audioData = Buffer.from(response, "hex");
-          const blob = new Blob([audioData], { type: "audio/mpeg" });
+          const audioData = Buffer.from(response, 'hex');
+          const blob = new Blob([audioData], { type: 'audio/mpeg' });
           const audioSrc = webkitURL.createObjectURL(blob);
           audioPlayer.current = new Audio(audioSrc);
           audioPlayer.current.load();
@@ -193,8 +196,8 @@ export function useApp() {
       unloadSound();
 
       if (userHash) {
-        await fetch("/api/update", {
-          method: "POST",
+        await fetch('/api/update', {
+          method: 'POST',
           body: JSON.stringify({ cardId: state.currentCard, cardResult }),
         });
       }
@@ -234,6 +237,7 @@ export function useApp() {
     unloadSound,
     nextCard,
     goHome,
+    openSettings,
     playSound,
     playWrongCards,
   };

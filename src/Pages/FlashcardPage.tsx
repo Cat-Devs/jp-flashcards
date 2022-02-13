@@ -1,19 +1,19 @@
-import React, { useEffect, useMemo } from "react";
-import { isMobile } from "react-device-detect";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
+import React, { useEffect, useMemo } from 'react';
+import { isMobile } from 'react-device-detect';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 
-import { Flashcard, FlashCardItem } from "../Components/Flashcard";
-import { LoadingCard } from "../Components/LoadingCard";
-import { KeyboardHelper } from "../Components/KeyboardHelper";
-import { Progress } from "../Components/Progress";
-import { useApp } from "../AppState";
-import { FlashCardData } from "../types";
+import { Flashcard, FlashCardItem } from '../Components/Flashcard';
+import { LoadingCard } from '../Components/LoadingCard';
+import { KeyboardHelper } from '../Components/KeyboardHelper';
+import { Progress } from '../Components/Progress';
+import { useApp } from '../AppState';
+import { FlashCardData } from '../types';
 
 interface FlashcardPageProps {
   card?: FlashCardData;
@@ -36,45 +36,45 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
   const cardData: FlashCardItem = useMemo(() => {
     if (!card) {
       return null;
-    } else if (gameMode === "hiragana") {
+    } else if (gameMode === 'hiragana') {
       return {
-        firstLine: { text: card?.hiragana, lang: "ja-jp" },
+        firstLine: { text: card?.hiragana, lang: 'ja-jp' },
         solution: [
-          { text: card?.katakana, lang: "ja-jp" },
-          { text: card?.kanji, lang: "ja-jp" },
-          { text: card?.romaji, lang: "ja-jp" },
-          { text: card?.en, lang: "en-us" },
+          { text: card?.katakana, lang: 'ja-jp' },
+          { text: card?.kanji, lang: 'ja-jp' },
+          { text: card?.romaji, lang: 'ja-jp' },
+          { text: card?.en, lang: 'en-us' },
         ],
       };
-    } else if (gameMode === "kanji") {
+    } else if (gameMode === 'kanji') {
       return {
-        firstLine: { text: card?.kanji, lang: "ja-jp" },
+        firstLine: { text: card?.kanji, lang: 'ja-jp' },
         solution: [
-          { text: card?.hiragana, lang: "ja-jp" },
-          { text: card?.katakana, lang: "ja-jp" },
-          { text: card?.romaji, lang: "ja-jp" },
-          { text: card?.en, lang: "en-us" },
+          { text: card?.hiragana, lang: 'ja-jp' },
+          { text: card?.katakana, lang: 'ja-jp' },
+          { text: card?.romaji, lang: 'ja-jp' },
+          { text: card?.en, lang: 'en-us' },
         ],
       };
-    } else if (gameMode === "kana") {
+    } else if (gameMode === 'kana') {
       return {
-        firstLine: { text: card?.hiragana || card?.katakana, lang: "ja-jp" },
+        firstLine: { text: card?.hiragana || card?.katakana, lang: 'ja-jp' },
         solution: [
-          { text: card?.hiragana, lang: "ja-jp" },
-          { text: card?.katakana, lang: "ja-jp" },
-          { text: card?.kanji, lang: "ja-jp" },
-          { text: card?.romaji, lang: "ja-jp" },
-          { text: card?.en, lang: "en-us" },
+          { text: card?.hiragana, lang: 'ja-jp' },
+          { text: card?.katakana, lang: 'ja-jp' },
+          { text: card?.kanji, lang: 'ja-jp' },
+          { text: card?.romaji, lang: 'ja-jp' },
+          { text: card?.en, lang: 'en-us' },
         ],
       };
     } else {
       return {
-        firstLine: { text: card?.en, lang: "en-us" },
+        firstLine: { text: card?.en, lang: 'en-us' },
         solution: [
-          { text: card?.hiragana, lang: "ja-jp" },
-          { text: card?.katakana, lang: "ja-jp" },
-          { text: card?.kanji, lang: "ja-jp" },
-          { text: card?.romaji, lang: "ja-jp" },
+          { text: card?.hiragana, lang: 'ja-jp' },
+          { text: card?.katakana, lang: 'ja-jp' },
+          { text: card?.kanji, lang: 'ja-jp' },
+          { text: card?.romaji, lang: 'ja-jp' },
         ],
       };
     }
@@ -103,7 +103,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
             </CardContent>
             <CardActions>
               {quiz ? (
-                <Button color="primary" onClick={() => nextCard("void")}>
+                <Button color="primary" onClick={() => nextCard('void')}>
                   Next
                 </Button>
               ) : (

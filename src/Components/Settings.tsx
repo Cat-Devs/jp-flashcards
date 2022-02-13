@@ -1,13 +1,13 @@
-import React, { useCallback } from "react";
-import Box from "@mui/material/Box";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import Radio from "@mui/material/Radio";
+import React, { useCallback } from 'react';
+import Box from '@mui/material/Box';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormLabel from '@mui/material/FormLabel';
+import FormControl from '@mui/material/FormControl';
+import Radio from '@mui/material/Radio';
 
-import { useApp } from "../AppState";
-import { GameMode, GameLevel } from "../AppState/types";
+import { useApp } from '../AppState';
+import { GameMode, GameLevel } from '../AppState/types';
 
 export const Settings: React.FC = () => {
   const { gameMode, gameLevel, setGame, setLevel } = useApp();

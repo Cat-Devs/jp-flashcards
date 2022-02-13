@@ -8,14 +8,12 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_KEY,
 });
 
+const TableName = process.env.AWS_USERS_TABLE;
+
 const dynamoDb = new AWS.DynamoDB.DocumentClient({
   region: process.env.AWS_REGION,
-  params: {
-    TableName: process.env.AWS_USERS_TABLE,
-  },
+  params: { TableName },
 });
-
-const put = (params) => dynamoDb.put(params).promise();
 
 (async () => {
   const files = fs.readdirSync(path.resolve(__dirname, "db"));
@@ -27,6 +25,7 @@ const put = (params) => dynamoDb.put(params).promise();
     for (const [dataId, data] of tableData.entries()) {
       const cardId = 10000 + Number(dataId);
       const params = {
+        TableName,
         Item: {
           id: String(cardId),
           ...data,
@@ -34,7 +33,7 @@ const put = (params) => dynamoDb.put(params).promise();
       };
 
       try {
-        await put(params);
+        await dynamoDb.put(params).promise();
       } catch (error) {
         console.error("failed to put", data.en);
         console.error(error);

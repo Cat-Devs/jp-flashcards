@@ -5,10 +5,7 @@ import { FlashCardData } from "../../src/types";
 const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const { config } = JSON.parse(req.body || "{}");
   const { Items: items } = await dynamoDb.scan({
-    FilterExpression: "attribute_exists(category) AND NOT contains(category, :last)",
-    ExpressionAttributeValues: {
-      ":last": "LAST_ITEM",
-    },
+    FilterExpression: "attribute_exists(category)",
   });
 
   if (!config?.gameMode || !config?.gameLevel || !items?.length) {

@@ -2,19 +2,20 @@ import "./aws";
 import { DynamoDB } from "aws-sdk";
 const localDB = require(`../data/table-data-local.json`);
 
+const TableName = process.env.NEXT_PUBLIC_TABLE_NAME;
 const isDev = Boolean(process.env.DEV);
 
 const client =
   !isDev &&
   new DynamoDB.DocumentClient({
     region: process.env.NEXT_PUBLIC_REGION,
-    params: {
-      TableName: process.env.NEXT_PUBLIC_TABLE_NAME,
-    },
+    params: { TableName },
   });
 
 export const dynamoDb = {
-  get: async (params) => {
+  get: async (
+    params: Omit<DynamoDB.DocumentClient.GetItemInput, "TableName">
+  ): Promise<DynamoDB.DocumentClient.GetItemOutput> => {
     try {
       if (isDev) {
         const item = localDB.find((_itemDb, index) => `${Number(10000 + index)}` === params.Key.id);
@@ -24,7 +25,7 @@ export const dynamoDb = {
         };
       }
 
-      const getItem = await client.get(params).promise();
+      const getItem = await client.get({ TableName, ...params }).promise();
       return getItem;
     } catch (err) {
       console.error(
@@ -36,7 +37,9 @@ export const dynamoDb = {
       };
     }
   },
-  scan: async (params) => {
+  scan: async (
+    params: Omit<DynamoDB.DocumentClient.ScanInput, "TableName">
+  ): Promise<DynamoDB.DocumentClient.ScanOutput> => {
     try {
       if (isDev) {
         return {
@@ -49,7 +52,7 @@ export const dynamoDb = {
         };
       }
 
-      const scanItems = await client.scan(params).promise();
+      const scanItems = await client.scan({ TableName, ...params }).promise();
       return scanItems;
     } catch (err) {
       console.error(
@@ -59,6 +62,26 @@ export const dynamoDb = {
       return {
         Items: [],
       };
+    }
+  },
+  put: async (
+    params: Omit<DynamoDB.DocumentClient.PutItemInput, "TableName">
+  ): Promise<DynamoDB.DocumentClient.PutItemOutput> => {
+    try {
+      if (isDev) {
+        return {};
+      }
+
+      const putItem = await client.put({ TableName, ...params }).promise();
+      return putItem;
+    } catch (err) {
+      console.warn(err);
+
+      console.error(
+        "Your AWS credentials are probably wrong or missing inside your environment variables or .env file"
+      );
+      console.error(err?.message);
+      return {};
     }
   },
 };

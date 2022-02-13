@@ -58,9 +58,7 @@ export function useApp() {
   }, [state.wrongCards, state.currentCard, state.remainingCards, state.usedCards]);
 
   const loadData = useCallback(async () => {
-    const host = window.location.origin;
-
-    if (!host || !state.gameMode || !state.gameLevel) {
+    if (!state.gameMode || !state.gameLevel) {
       throw new Error("Missing required information.");
     }
 
@@ -71,7 +69,7 @@ export function useApp() {
 
     async function fetchData(gameMode: string, gameLevel: string): Promise<string[]> {
       try {
-        const res = await fetch(`${host}/api/prepare-game`, {
+        const res = await fetch(`/api/prepare-game`, {
           method: "POST",
           body: JSON.stringify({
             config: {
@@ -191,15 +189,23 @@ export function useApp() {
   }, [session]);
 
   const nextCard = useCallback(
-    (cardStatus: CardResult) => {
+    async (cardResult: CardResult) => {
       unloadSound();
-      dispatch({ type: AppActionType.NEXT_CARD, payload: cardStatus });
+
+      if (userHash) {
+        await fetch("/api/update", {
+          method: "POST",
+          body: JSON.stringify({ cardId: state.currentCard, cardResult }),
+        });
+      }
+
+      dispatch({ type: AppActionType.NEXT_CARD, payload: cardResult });
 
       if (state.nextCard) {
         router.push(`/shuffle/${state.nextCard}`);
       }
     },
-    [dispatch, router, state.nextCard, unloadSound]
+    [dispatch, router, unloadSound, userHash, state.nextCard, state.currentCard]
   );
 
   const playWrongCards = useCallback(() => {

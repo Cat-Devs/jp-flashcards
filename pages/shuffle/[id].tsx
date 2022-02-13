@@ -30,8 +30,6 @@ export async function getStaticProps({ params }) {
   if (!item) {
     return {
       props: {},
-      // Refresh cache every hour
-      revalidate: 600,
     };
   }
 
@@ -40,8 +38,6 @@ export async function getStaticProps({ params }) {
     props: {
       card: item,
     },
-    // Refresh cache every hour
-    revalidate: 600,
   };
 }
 

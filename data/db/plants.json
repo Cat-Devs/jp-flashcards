@@ -1,0 +1,35 @@
+[
+  {
+    "category": "plants",
+    "level": "3",
+    "image": "0000",
+    "en": "tree",
+    "jp": "き",
+    "kanji": "木",
+    "hiragana": "き",
+    "katakana": "",
+    "romaji": "ki"
+  },
+  {
+    "category": "plants",
+    "level": "3",
+    "image": "0000",
+    "en": "fruit",
+    "jp": "くだもの",
+    "kanji": "果物",
+    "hiragana": "くだもの",
+    "katakana": "",
+    "romaji": "kudamono"
+  },
+  {
+    "category": "plants",
+    "level": "3",
+    "image": "0000",
+    "en": "flower",
+    "jp": "はな",
+    "kanji": "花",
+    "hiragana": "",
+    "katakana": "はな",
+    "romaji": "hana"
+  }
+]

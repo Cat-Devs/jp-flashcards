@@ -1,0 +1,156 @@
+[
+  {
+    "category": "drinks",
+    "level": "1",
+    "image": "0000",
+    "en": "juice",
+    "jp": "ジュース",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ジュース",
+    "romaji": "juusu"
+  },
+  {
+    "category": "drinks",
+    "level": "1",
+    "image": "0000",
+    "en": "coffee",
+    "jp": "コーヒー",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "コーヒー",
+    "romaji": "kohii"
+  },
+  {
+    "category": "drinks",
+    "level": "1",
+    "image": "0000",
+    "en": "cola",
+    "jp": "コーラ",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "コーラ",
+    "romaji": "koora"
+  },
+  {
+    "category": "drinks",
+    "level": "1",
+    "image": "0000",
+    "en": "tea",
+    "jp": "おちゃ",
+    "kanji": "茶",
+    "hiragana": "おちゃ",
+    "katakana": "",
+    "romaji": "ocha"
+  },
+  {
+    "category": "drinks",
+    "level": "3",
+    "image": "0000",
+    "en": "cocoa / hot chocolate",
+    "jp": "ココア",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ココア",
+    "romaji": "kokoa"
+  },
+  {
+    "category": "drinks",
+    "level": "1",
+    "image": "0000",
+    "en": "water",
+    "jp": "みず",
+    "kanji": "水",
+    "hiragana": "みず",
+    "katakana": "",
+    "romaji": "mizu"
+  },
+  {
+    "category": "drinks",
+    "level": "2",
+    "image": "0000",
+    "en": "beer",
+    "jp": "ビール",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ビール",
+    "romaji": "biiru"
+  },
+  {
+    "category": "drinks",
+    "level": "2",
+    "image": "0000",
+    "en": "wine",
+    "jp": "ワイン",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ワイン",
+    "romaji": "wain"
+  },
+  {
+    "category": "drinks",
+    "level": "2",
+    "image": "0000",
+    "en": "milk",
+    "jp": "ぎゅうにゅう",
+    "kanji": "牛乳",
+    "hiragana": "ぎゅうにゅう",
+    "katakana": "",
+    "romaji": "gyuunyuu"
+  },
+  {
+    "category": "drinks",
+    "level": "2",
+    "image": "0000",
+    "en": "alcohol / sake",
+    "jp": "おさけ",
+    "kanji": "お酒",
+    "hiragana": "おさけ",
+    "katakana": "",
+    "romaji": "osake"
+  },
+  {
+    "category": "drinks",
+    "level": "2",
+    "image": "0000",
+    "en": "red wine",
+    "jp": "あかワイン",
+    "kanji": "赤ワイン",
+    "hiragana": "",
+    "katakana": "あかワイン",
+    "romaji": "aka wain"
+  },
+  {
+    "category": "drinks",
+    "level": "2",
+    "image": "0000",
+    "en": "white wine",
+    "jp": "しろワイン",
+    "kanji": "白ワイン",
+    "hiragana": "",
+    "katakana": "しろワイン",
+    "romaji": "shiro wain"
+  },
+  {
+    "category": "drinks",
+    "level": "3",
+    "image": "0000",
+    "en": "soya Milk",
+    "jp": "とうにゅう",
+    "kanji": "豆乳",
+    "hiragana": "とうにゅう",
+    "katakana": "",
+    "romaji": "tounyuu"
+  },
+  {
+    "category": "drinks",
+    "level": "3",
+    "image": "0000",
+    "en": "orange juice",
+    "jp": "オレンジジュース",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "オレンジジュース",
+    "romaji": "orenji juusu"
+  }
+]

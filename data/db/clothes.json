@@ -1,0 +1,101 @@
+[
+  {
+    "category": "clothes",
+    "level": "1",
+    "image": "0000",
+    "en": "kimono",
+    "jp": "きもの",
+    "kanji": "着物",
+    "hiragana": "きもの",
+    "katakana": "",
+    "romaji": "kimono"
+  },
+  {
+    "category": "clothes",
+    "level": "2",
+    "image": "0000",
+    "en": "coat",
+    "jp": "コート",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "コート",
+    "romaji": "kooto"
+  },
+  {
+    "category": "clothes",
+    "level": "2",
+    "image": "0000",
+    "en": "suit",
+    "jp": "スーツ",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "スーツ",
+    "romaji": "suutsu"
+  },
+  {
+    "category": "clothes",
+    "level": "2",
+    "image": "0000",
+    "en": "jacket",
+    "jp": "ジャケット",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ジャケット",
+    "romaji": "jaketto"
+  },
+  {
+    "category": "clothes",
+    "level": "2",
+    "image": "0000",
+    "en": "dress",
+    "jp": "ドレス",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ドレス",
+    "romaji": "doresu"
+  },
+  {
+    "category": "clothes",
+    "level": "2",
+    "image": "0000",
+    "en": "trousers",
+    "jp": "ズボン",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ズボン",
+    "romaji": "zubon"
+  },
+  {
+    "category": "clothes",
+    "level": "2",
+    "image": "0000",
+    "en": "t-shirt",
+    "jp": "T-シャツ",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "T-シャツ",
+    "romaji": "t-shatsu"
+  },
+  {
+    "category": "clothes",
+    "level": "3",
+    "image": "0000",
+    "en": "bra",
+    "jp": "ブラジャー",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "ブラジャー",
+    "romaji": "burajaa"
+  },
+  {
+    "category": "clothes",
+    "level": "3",
+    "image": "0000",
+    "en": "pajamas",
+    "jp": "パジャマ",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "パジャマ",
+    "romaji": "pajama"
+  }
+]

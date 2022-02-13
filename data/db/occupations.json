@@ -1,0 +1,90 @@
+[
+  {
+    "category": "occupations",
+    "level": "2",
+    "image": "0000",
+    "en": "teacher",
+    "jp": "せんせい",
+    "kanji": "先生",
+    "hiragana": "せんせい",
+    "katakana": "",
+    "romaji": "sensei"
+  },
+  {
+    "category": "occupations",
+    "level": "2",
+    "image": "0000",
+    "en": "student",
+    "jp": "がくせい",
+    "kanji": "学生",
+    "hiragana": "がくせい",
+    "katakana": "",
+    "romaji": "gakusei"
+  },
+  {
+    "category": "occupations",
+    "level": "2",
+    "image": "0000",
+    "en": "high school student",
+    "jp": "こうこうせい",
+    "kanji": "",
+    "hiragana": "こうこうせい",
+    "katakana": "",
+    "romaji": "koukousei"
+  },
+  {
+    "category": "occupations",
+    "level": "2",
+    "image": "0000",
+    "en": "university student",
+    "jp": "だいがくせい",
+    "kanji": "",
+    "hiragana": "だいがくせい",
+    "katakana": "",
+    "romaji": "daigakusei"
+  },
+  {
+    "category": "occupations",
+    "level": "3",
+    "image": "0000",
+    "en": "doctor",
+    "jp": "いしゃ",
+    "kanji": "医者",
+    "hiragana": "いしゃ",
+    "katakana": "",
+    "romaji": "isha"
+  },
+  {
+    "category": "occupations",
+    "level": "3",
+    "image": "0000",
+    "en": "company employee",
+    "jp": "かいしゃいん",
+    "kanji": "会社員",
+    "hiragana": "かいしゃいん",
+    "katakana": "",
+    "romaji": "kaishain"
+  },
+  {
+    "category": "occupations",
+    "level": "4",
+    "image": "0000",
+    "en": "sport's coach",
+    "jp": "かんとく",
+    "kanji": "監督",
+    "hiragana": "かんとく",
+    "katakana": "",
+    "romaji": "kantoku"
+  },
+  {
+    "category": "occupations",
+    "level": "4",
+    "image": "0000",
+    "en": "engineer",
+    "jp": "エンジニア",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "エンジニア",
+    "romaji": "enjinia"
+  }
+]

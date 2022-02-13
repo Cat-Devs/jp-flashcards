@@ -18,25 +18,28 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({
 const put = (params) => dynamoDb.put(params).promise();
 
 (async () => {
-  const tableData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "table-data.json"), "utf8"));
+  const files = fs.readdirSync(path.resolve(__dirname, "db"));
 
-  console.log("Creating data...");
+  for (const file of files) {
+    const tableData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "db", file), "utf8"));
+    console.log(`Uploading ${file}...`);
 
-  for (const [dataId, data] of tableData.entries()) {
-    const cardId = 10000 + Number(dataId);
-    const params = {
-      Item: {
-        id: String(cardId),
-        ...data,
-      },
-    };
+    for (const [dataId, data] of tableData.entries()) {
+      const cardId = 10000 + Number(dataId);
+      const params = {
+        Item: {
+          id: String(cardId),
+          ...data,
+        },
+      };
 
-    try {
-      put(params);
-    } catch (error) {
-      console.error("failed to put", data.en);
-      console.error(error);
-      process.exit(1);
+      try {
+        await put(params);
+      } catch (error) {
+        console.error("failed to put", data.en);
+        console.error(error);
+        process.exit(1);
+      }
     }
   }
 })();

@@ -1,0 +1,167 @@
+[
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "red",
+    "jp": "あか",
+    "kanji": "赤",
+    "hiragana": "あか",
+    "katakana": "",
+    "romaji": "aka"
+  },
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "green",
+    "jp": "みどり",
+    "kanji": "緑",
+    "hiragana": "みどり",
+    "katakana": "",
+    "romaji": "midori"
+  },
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "yellow",
+    "jp": "きいろ",
+    "kanji": "黄色",
+    "hiragana": "きいろ",
+    "katakana": "",
+    "romaji": "kiiro"
+  },
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "blue",
+    "jp": "あお",
+    "kanji": "青",
+    "hiragana": "あお",
+    "katakana": "",
+    "romaji": "ao"
+  },
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "black",
+    "jp": "くろ",
+    "kanji": "黒",
+    "hiragana": "くろ",
+    "katakana": "",
+    "romaji": "kuro"
+  },
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "white",
+    "jp": "しろ",
+    "kanji": "白",
+    "hiragana": "しろ",
+    "katakana": "",
+    "romaji": "shiro"
+  },
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "purple",
+    "jp": "むらさき",
+    "kanji": "紫",
+    "hiragana": "むらさき",
+    "katakana": "",
+    "romaji": "murasaki"
+  },
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "brown",
+    "jp": "ちゃいろ",
+    "kanji": "茶色",
+    "hiragana": "ちゃいろ",
+    "katakana": "",
+    "romaji": "chairo"
+  },
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "pink",
+    "jp": "ももいろ / ピンク",
+    "kanji": "桃色",
+    "hiragana": "ももいろ",
+    "katakana": "ピンク",
+    "romaji": "momoiro / pinku"
+  },
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "gray",
+    "jp": "はいいろ",
+    "kanji": "灰色",
+    "hiragana": "はいいろ",
+    "katakana": "",
+    "romaji": "haiiro"
+  },
+  {
+    "category": "colors",
+    "level": "1",
+    "image": "0000",
+    "en": "orange",
+    "jp": "だいだいいろ / オレンジ",
+    "kanji": "橙色",
+    "hiragana": "だいだいいろ",
+    "katakana": "オレンジ",
+    "romaji": "daidaiiro / orenji"
+  },
+  {
+    "category": "colors",
+    "level": "2",
+    "image": "0000",
+    "en": "silver",
+    "jp": "ぎん",
+    "kanji": "銀",
+    "hiragana": "ぎん",
+    "katakana": "",
+    "romaji": "gin"
+  },
+  {
+    "category": "colors",
+    "level": "2",
+    "image": "0000",
+    "en": "gold",
+    "jp": "きん",
+    "kanji": "金",
+    "hiragana": "きん",
+    "katakana": "",
+    "romaji": "kin"
+  },
+  {
+    "category": "colors",
+    "level": "2",
+    "image": "0000",
+    "en": "light blue",
+    "jp": "みずいろ",
+    "kanji": "水色",
+    "hiragana": "みずいろ",
+    "katakana": "",
+    "romaji": "mizuiro"
+  },
+  {
+    "category": "colors",
+    "level": "2",
+    "image": "0000",
+    "en": "dark green",
+    "jp": "ふか みどり",
+    "kanji": "深緑",
+    "hiragana": "ふか みどり",
+    "katakana": "",
+    "romaji": "fuka midori"
+  }
+]

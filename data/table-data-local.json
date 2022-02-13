@@ -55,14 +55,25 @@
     "romaji": "yon / shi"
   },
   {
-    "category": "LAST_ITEM",
-    "level": "0",
+    "category": "animals",
+    "level": "2",
     "image": "0000",
-    "en": "LAST_ITEM",
-    "jp": "LAST_ITEM",
-    "kanji": "LAST_ITEM",
-    "hiragana": "LAST_ITEM",
-    "katakana": "LAST_ITEM",
-    "romaji": "LAST_ITEM"
+    "en": "spider",
+    "jp": "くも",
+    "kanji": "蜘蛛",
+    "hiragana": "くも",
+    "katakana": "",
+    "romaji": "kumo"
+  },
+  {
+    "category": "occupations",
+    "level": "4",
+    "image": "0000",
+    "en": "engineer",
+    "jp": "エンジニア",
+    "kanji": "",
+    "hiragana": "",
+    "katakana": "エンジニア",
+    "romaji": "enjinia"
   }
 ]

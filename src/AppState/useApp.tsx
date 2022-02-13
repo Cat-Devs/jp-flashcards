@@ -93,13 +93,20 @@ export function useApp() {
     }
 
     const cardIds = await fetchData(`${state.gameMode}`, `${state.gameLevel}`);
-    const nextCard = cardIds[String(Math.floor(Math.random() * cardIds.length))];
+    if (!cardIds?.length) {
+      console.error("Cannot fetch flashcards data");
+      dispatch({
+        type: AppActionType.LOAD_DATA,
+        payload: { cardIds: [], nextCard: "" },
+      });
+      return router.push(`/shuffle/0`);
+    }
 
+    const nextCard = cardIds[Math.floor(Math.random() * cardIds.length)];
     dispatch({
       type: AppActionType.LOAD_DATA,
       payload: { cardIds, nextCard },
     });
-
     router.push(`/shuffle/${nextCard}`);
   }, [dispatch, router, state.gameLevel, state.gameMode]);
 

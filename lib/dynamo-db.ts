@@ -1,6 +1,6 @@
 import "./aws";
 import { DynamoDB } from "aws-sdk";
-const localDB = require(`../data/${process.env.TABLE_NAME || "table-data"}.json`);
+const localDB = require(`../data/table-data-local.json`);
 
 const isDev = Boolean(process.env.DEV);
 
@@ -14,29 +14,51 @@ const client =
   });
 
 export const dynamoDb = {
-  get: (params) => {
-    if (isDev) {
-      const item = localDB.find((_itemDb, index) => `${Number(10000 + index)}` === params.Key.id);
+  get: async (params) => {
+    try {
+      if (isDev) {
+        const item = localDB.find((_itemDb, index) => `${Number(10000 + index)}` === params.Key.id);
 
+        return {
+          Item: item,
+        };
+      }
+
+      const getItem = await client.get(params).promise();
+      return getItem;
+    } catch (err) {
+      console.error(
+        "Your AWS credentials are probably wrong or missing inside your environment variables or .env file"
+      );
+      console.error(err?.message);
       return {
-        Item: item,
+        Item: null,
       };
     }
-
-    return client.get(params).promise();
   },
-  scan: (params) => {
-    if (isDev) {
+  scan: async (params) => {
+    try {
+      if (isDev) {
+        return {
+          Items: localDB
+            .map((itemDb, index) => ({
+              id: `${Number(10000 + index)}`,
+              ...itemDb,
+            }))
+            .filter((itemDb) => itemDb.category !== "LAST_ITEM"),
+        };
+      }
+
+      const scanItems = await client.scan(params).promise();
+      return scanItems;
+    } catch (err) {
+      console.error(
+        "Your AWS credentials are probably wrong or missing inside your environment variables or .env file"
+      );
+      console.error(err?.message);
       return {
-        Items: localDB
-          .map((itemDb, index) => ({
-            id: `${Number(10000 + index)}`,
-            ...itemDb,
-          }))
-          .filter((itemDb) => itemDb.category !== "LAST_ITEM"),
+        Items: [],
       };
     }
-
-    return client.scan(params).promise();
   },
 };

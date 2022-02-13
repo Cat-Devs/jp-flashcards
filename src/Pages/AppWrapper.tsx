@@ -1,20 +1,19 @@
-import React, { useCallback, useState } from "react";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Container from "@mui/material/Container";
-
-import { theme } from "../theme";
-import { useApp } from "../AppState";
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { ThemeProvider } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import React, { useCallback, useState } from 'react';
+import { useApp } from '../AppState';
+import { theme } from '../theme';
 
 export const AppWrapper = (props) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -33,12 +32,12 @@ export const AppWrapper = (props) => {
       <AppBar position="static">
         <Container>
           <Toolbar disableGutters>
-            <Typography variant="h6" noWrap component="div" sx={{ mr: 2, display: { xs: "none", sm: "flex" } }}>
+            <Typography variant="h6" noWrap component="div" sx={{ mr: 2, display: { xs: 'none', sm: 'flex' } }}>
               JP-FlashCardS
             </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { sm: "flex", justifyContent: "left" } }}>
-              <Button variant="text" onClick={goHome} sx={{ my: 2, color: "white", display: "block" }}>
+            <Box sx={{ flexGrow: 1, display: { sm: 'flex', justifyContent: 'left' } }}>
+              <Button variant="text" onClick={goHome} sx={{ my: 2, color: 'white', display: 'block' }}>
                 Home
               </Button>
             </Box>
@@ -52,17 +51,17 @@ export const AppWrapper = (props) => {
                     </IconButton>
                   </Tooltip>
                   <Menu
-                    sx={{ mt: "45px" }}
+                    sx={{ mt: '45px' }}
                     id="menu-appbar"
                     anchorEl={anchorElUser}
                     anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
+                      vertical: 'top',
+                      horizontal: 'right',
                     }}
                     keepMounted
                     transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
+                      vertical: 'top',
+                      horizontal: 'right',
                     }}
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
@@ -73,7 +72,7 @@ export const AppWrapper = (props) => {
                   </Menu>
                 </>
               )) || (
-                <Button variant="text" onClick={signIn} sx={{ my: 2, color: "white", display: "block" }}>
+                <Button variant="text" onClick={signIn} sx={{ my: 2, color: 'white', display: 'block' }}>
                   Log In
                 </Button>
               )}

@@ -1,5 +1,5 @@
-import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { createBreakpoints } from '@mui/system';
 
 const breakpoints = createBreakpoints({});

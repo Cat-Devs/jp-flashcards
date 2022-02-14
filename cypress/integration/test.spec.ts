@@ -1,6 +1,6 @@
 describe('Test', () => {
   it('works', () => {
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
     cy.contains('Japanese Flashcards');
   });
 });

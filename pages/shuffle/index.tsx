@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
-import { useApp } from "../../src/AppState";
-import { FlashcardPage } from "../../src/Pages/FlashcardPage";
-import { FlashCardData } from "../../src/types";
+import { useApp } from '../../src/AppState';
+import { FlashcardPage } from '../../src/Pages/FlashcardPage';
+import { FlashCardData } from '../../src/types';
 
 interface WordsProps {
   cards: FlashCardData[];

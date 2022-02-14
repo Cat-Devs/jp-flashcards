@@ -1,6 +1,6 @@
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
 const isDev = Boolean(process.env.DEV);
 
 const devProviders = [];
@@ -8,13 +8,13 @@ const devProviders = [];
 if (isDev) {
   devProviders.push(
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
+        username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize() {
-        return { id: 1, name: "J Smith", email: "jsmith@example.com" };
+        return { id: 1, name: 'J Smith', email: 'jsmith@example.com' };
       },
     })
   );
@@ -30,6 +30,6 @@ export default NextAuth({
     ...devProviders,
   ],
   theme: {
-    colorScheme: "dark",
+    colorScheme: 'dark',
   },
 });

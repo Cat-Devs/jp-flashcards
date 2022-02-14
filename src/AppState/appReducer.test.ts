@@ -1,5 +1,5 @@
-import { appReducer } from "./appReducer";
-import { AppState, AppActionType, GameMode, GameLevel, AppAction } from "./types";
+import { appReducer } from './appReducer';
+import { AppState, AppActionType, GameMode, GameLevel, AppAction } from './types';
 
 describe(appReducer, () => {
   const initialState: AppState = {
@@ -7,25 +7,25 @@ describe(appReducer, () => {
     usedCards: [],
     wrongCards: [],
     correctCards: [],
-    nextCard: "",
-    gameMode: "en",
-    gameLevel: "1",
-    currentCard: "",
+    nextCard: '',
+    gameMode: 'en',
+    gameLevel: '1',
+    currentCard: '',
     loading: false,
     loadingData: false,
     loadingSound: false,
   };
 
-  describe("default", () => {
-    it("should return the state by default", () => {
+  describe('default', () => {
+    it('should return the state by default', () => {
       const res = appReducer(initialState, {} as AppAction);
 
       expect(res).toEqual(initialState);
     });
   });
 
-  describe("LOADING", () => {
-    it("should set the loading to true", () => {
+  describe('LOADING', () => {
+    it('should set the loading to true', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOADING,
         payload: true,
@@ -34,7 +34,7 @@ describe(appReducer, () => {
       expect(res.loading).toBe(true);
     });
 
-    it("should set the loading to false", () => {
+    it('should set the loading to false', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOADING,
         payload: false,
@@ -43,7 +43,7 @@ describe(appReducer, () => {
       expect(res.loading).toBe(false);
     });
 
-    it("should not set the loading to false when still loading a sound", () => {
+    it('should not set the loading to false when still loading a sound', () => {
       const loadingSound = true;
       const testState: AppState = {
         ...initialState,
@@ -60,8 +60,8 @@ describe(appReducer, () => {
     });
   });
 
-  describe("LOADING_SOUND", () => {
-    it("should set the loading to true", () => {
+  describe('LOADING_SOUND', () => {
+    it('should set the loading to true', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOADING_SOUND,
         payload: true,
@@ -70,7 +70,7 @@ describe(appReducer, () => {
       expect(res.loading).toBe(true);
     });
 
-    it("should set the loading to false", () => {
+    it('should set the loading to false', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOADING_SOUND,
         payload: false,
@@ -79,7 +79,7 @@ describe(appReducer, () => {
       expect(res.loading).toBe(false);
     });
 
-    it("should set the loading sound to true", () => {
+    it('should set the loading sound to true', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOADING_SOUND,
         payload: true,
@@ -88,7 +88,7 @@ describe(appReducer, () => {
       expect(res.loadingSound).toBe(true);
     });
 
-    it("should set the loading sound to false", () => {
+    it('should set the loading sound to false', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOADING_SOUND,
         payload: false,
@@ -97,7 +97,7 @@ describe(appReducer, () => {
       expect(res.loadingSound).toBe(false);
     });
 
-    it("should not set the loading to false when still loading data", () => {
+    it('should not set the loading to false when still loading data', () => {
       const loadingData = true;
       const testState: AppState = {
         ...initialState,
@@ -114,17 +114,17 @@ describe(appReducer, () => {
     });
   });
 
-  describe("LOAD_DATA", () => {
-    const cardIds = ["1", "2", "3", "4", "5"];
+  describe('LOAD_DATA', () => {
+    const cardIds = ['1', '2', '3', '4', '5'];
 
-    it("should create a new state", () => {
-      const currentCard = "1";
+    it('should create a new state', () => {
+      const currentCard = '1';
       const testState: AppState = {
         ...initialState,
         currentCard,
-        remainingCards: ["2"],
-        usedCards: ["3", "4", "5"],
-        nextCard: "6",
+        remainingCards: ['2'],
+        usedCards: ['3', '4', '5'],
+        nextCard: '6',
       };
 
       const res = appReducer(
@@ -141,8 +141,8 @@ describe(appReducer, () => {
       expect(res).not.toEqual(testState);
     });
 
-    it("should correctly set the current card to be displayed", () => {
-      const nextCard = "1";
+    it('should correctly set the current card to be displayed', () => {
+      const nextCard = '1';
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
@@ -154,9 +154,9 @@ describe(appReducer, () => {
       expect(res.currentCard).toBe(nextCard);
     });
 
-    it("should correctly set the next card to use", () => {
-      const currentCard = "1";
-      const testCardIds = ["1", "2"];
+    it('should correctly set the next card to use', () => {
+      const currentCard = '1';
+      const testCardIds = ['1', '2'];
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
@@ -169,8 +169,8 @@ describe(appReducer, () => {
       expect(res.nextCard).toBe(expectedNextCard);
     });
 
-    it("should correctly set the remaining cards", () => {
-      const currentCard = "1";
+    it('should correctly set the remaining cards', () => {
+      const currentCard = '1';
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
@@ -184,8 +184,8 @@ describe(appReducer, () => {
       expect(res.currentCard).toEqual(currentCard);
     });
 
-    it("should correctly set the used cards", () => {
-      const currentCard = "1";
+    it('should correctly set the used cards', () => {
+      const currentCard = '1';
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
@@ -198,46 +198,46 @@ describe(appReducer, () => {
     });
   });
 
-  describe("NEXT_CARD", () => {
-    const remainingCards = ["2", "3", "4", "5"];
+  describe('NEXT_CARD', () => {
+    const remainingCards = ['2', '3', '4', '5'];
 
-    it("should correctly pick a new current card to use", () => {
-      const nextCard = "2";
+    it('should correctly pick a new current card to use', () => {
+      const nextCard = '2';
       const appState: AppState = {
         ...initialState,
         nextCard,
         remainingCards,
-        currentCard: "1",
+        currentCard: '1',
       };
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
-        payload: "correct",
+        payload: 'correct',
       });
 
       expect(res.currentCard).toBe(nextCard);
     });
 
-    it("should correctly set a new next card to use", () => {
-      const nextCard = "2";
+    it('should correctly set a new next card to use', () => {
+      const nextCard = '2';
       const appState: AppState = {
         ...initialState,
         nextCard,
         remainingCards,
-        currentCard: "1",
+        currentCard: '1',
       };
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
-        payload: "correct",
+        payload: 'correct',
       });
 
       expect(res.nextCard).not.toBe(nextCard);
       expect(remainingCards).toContain(res.nextCard);
     });
 
-    it("should remove the new current card from the remaining ones", () => {
-      const currentCard = "1";
-      const nextCard = "2";
+    it('should remove the new current card from the remaining ones', () => {
+      const currentCard = '1';
+      const nextCard = '2';
 
       const appState: AppState = {
         ...initialState,
@@ -250,15 +250,15 @@ describe(appReducer, () => {
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
-        payload: "correct",
+        payload: 'correct',
       });
 
       expect(res.remainingCards).not.toContain(nextCard);
     });
 
-    it("should add the current card to the used ones", () => {
-      const currentCard = "1";
-      const nextCard = "2";
+    it('should add the current card to the used ones', () => {
+      const currentCard = '1';
+      const nextCard = '2';
 
       const appState: AppState = {
         ...initialState,
@@ -271,15 +271,15 @@ describe(appReducer, () => {
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
-        payload: "correct",
+        payload: 'correct',
       });
 
       expect(res.usedCards).toContain(currentCard);
     });
 
-    it("should add the current card to the correct ones", () => {
-      const currentCard = "1";
-      const nextCard = "2";
+    it('should add the current card to the correct ones', () => {
+      const currentCard = '1';
+      const nextCard = '2';
 
       const appState: AppState = {
         ...initialState,
@@ -292,15 +292,15 @@ describe(appReducer, () => {
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
-        payload: "correct",
+        payload: 'correct',
       });
 
       expect(res.correctCards).toContain(currentCard);
     });
 
-    it("should add the current card to the wrong ones", () => {
-      const currentCard = "1";
-      const nextCard = "2";
+    it('should add the current card to the wrong ones', () => {
+      const currentCard = '1';
+      const nextCard = '2';
 
       const appState: AppState = {
         ...initialState,
@@ -313,15 +313,15 @@ describe(appReducer, () => {
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
-        payload: "wrong",
+        payload: 'wrong',
       });
 
       expect(res.wrongCards).toContain(currentCard);
     });
 
-    it("should pick the last card from the remaining and not create a new next card", () => {
-      const currentCard = "1";
-      const nextCard = "2";
+    it('should pick the last card from the remaining and not create a new next card', () => {
+      const currentCard = '1';
+      const nextCard = '2';
 
       const appState: AppState = {
         ...initialState,
@@ -332,15 +332,15 @@ describe(appReducer, () => {
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
-        payload: "correct",
+        payload: 'correct',
       });
 
-      expect(res.nextCard).toBe("");
+      expect(res.nextCard).toBe('');
     });
 
-    it("should not create a new current card when the next card is empty", () => {
-      const currentCard = "1";
-      const nextCard = "";
+    it('should not create a new current card when the next card is empty', () => {
+      const currentCard = '1';
+      const nextCard = '';
 
       const appState: AppState = {
         ...initialState,
@@ -350,23 +350,23 @@ describe(appReducer, () => {
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
-        payload: "correct",
+        payload: 'correct',
       });
 
-      expect(res.currentCard).toBe("");
-      expect(res.nextCard).toBe("");
+      expect(res.currentCard).toBe('');
+      expect(res.nextCard).toBe('');
       expect(res.remainingCards).toEqual([]);
       expect(res.usedCards).toEqual([currentCard]);
     });
   });
 
-  describe("Game Mode", () => {
-    it("should change the game mode to hiragana", () => {
+  describe('Game Mode', () => {
+    it('should change the game mode to hiragana', () => {
       const appState: AppState = {
         ...initialState,
-        gameMode: "en",
+        gameMode: 'en',
       };
-      const testGameMode: GameMode = "hiragana";
+      const testGameMode: GameMode = 'hiragana';
 
       const res = appReducer(appState, {
         type: AppActionType.SET_GAME,
@@ -376,12 +376,12 @@ describe(appReducer, () => {
       expect(res.gameMode).toEqual(testGameMode);
     });
 
-    it("should change the game mode to kanji", () => {
+    it('should change the game mode to kanji', () => {
       const appState: AppState = {
         ...initialState,
-        gameMode: "en",
+        gameMode: 'en',
       };
-      const testGameMode: GameMode = "kanji";
+      const testGameMode: GameMode = 'kanji';
 
       const res = appReducer(appState, {
         type: AppActionType.SET_GAME,
@@ -391,12 +391,12 @@ describe(appReducer, () => {
       expect(res.gameMode).toEqual(testGameMode);
     });
 
-    it("should change the game mode to kana", () => {
+    it('should change the game mode to kana', () => {
       const appState: AppState = {
         ...initialState,
-        gameMode: "en",
+        gameMode: 'en',
       };
-      const testGameMode: GameMode = "kana";
+      const testGameMode: GameMode = 'kana';
 
       const res = appReducer(appState, {
         type: AppActionType.SET_GAME,
@@ -407,13 +407,13 @@ describe(appReducer, () => {
     });
   });
 
-  describe("Set Game Level", () => {
-    it("should change the game level", () => {
+  describe('Set Game Level', () => {
+    it('should change the game level', () => {
       const appState: AppState = {
         ...initialState,
-        gameLevel: "1",
+        gameLevel: '1',
       };
-      const testGameLevel: GameLevel = "2";
+      const testGameLevel: GameLevel = '2';
 
       const res = appReducer(appState, {
         type: AppActionType.SET_LEVEL,

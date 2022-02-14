@@ -1,4 +1,4 @@
-import aws from "aws-sdk";
+import aws from 'aws-sdk';
 const isDev = Boolean(process.env.DEV);
 
 if (!isDev) {

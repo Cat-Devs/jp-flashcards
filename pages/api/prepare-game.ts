@@ -1,22 +1,22 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { dynamoDb } from "../../lib/dynamo-db";
-import { FlashCardData } from "../../src/types";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { dynamoDb } from '../../lib/dynamo-db';
+import { FlashCardData } from '../../src/types';
 
 const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { config } = JSON.parse(req.body || "{}");
+  const { config } = JSON.parse(req.body || '{}');
   const { Items: items } = await dynamoDb.scan({
-    FilterExpression: "attribute_exists(category)",
+    FilterExpression: 'attribute_exists(category)',
   });
 
   if (!config?.gameMode || !config?.gameLevel || !items?.length) {
-    return res.json({ error: "Error! Missing required information" });
+    return res.json({ error: 'Error! Missing required information' });
   }
 
   const cardIds: string[] = items
     .filter((card: FlashCardData) => {
-      if (config.gameMode === "hiragana") {
+      if (config.gameMode === 'hiragana') {
         return card.hiragana;
-      } else if (config.gameMode === "kanji") {
+      } else if (config.gameMode === 'kanji') {
         return card.kanji;
       }
       return true;

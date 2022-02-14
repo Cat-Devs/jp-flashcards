@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 interface KeyHandlers {
   onArrowLeft?: () => void;
@@ -21,25 +21,25 @@ export function useKeyPress(keyHandlers: KeyHandlers = {}) {
         return;
       }
 
-      if (code === "ArrowRight") {
+      if (code === 'ArrowRight') {
         keyHandlers.onArrowRight && keyHandlers.onArrowRight();
       }
-      if (code === "ArrowLeft") {
+      if (code === 'ArrowLeft') {
         keyHandlers.onArrowLeft && keyHandlers.onArrowLeft();
       }
-      if (code === "Space") {
+      if (code === 'Space') {
         keyHandlers.onSpace && keyHandlers.onSpace();
       }
 
       setKeyPressed(null);
     }
 
-    window.addEventListener("keydown", downHandler);
-    window.addEventListener("keyup", upHandler);
+    window.addEventListener('keydown', downHandler);
+    window.addEventListener('keyup', upHandler);
 
     return () => {
-      window.removeEventListener("keydown", downHandler);
-      window.removeEventListener("keyup", upHandler);
+      window.removeEventListener('keydown', downHandler);
+      window.removeEventListener('keyup', upHandler);
     };
   }, [keyHandlers, keyPressed]);
 }

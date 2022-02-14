@@ -1,5 +1,5 @@
-import "./aws";
-import { DynamoDB } from "aws-sdk";
+import './aws';
+import { DynamoDB } from 'aws-sdk';
 const localDB = require(`../data/table-data-local.json`);
 
 const TableName = process.env.NEXT_PUBLIC_TABLE_NAME;
@@ -14,7 +14,7 @@ const client =
 
 export const dynamoDb = {
   get: async (
-    params: Omit<DynamoDB.DocumentClient.GetItemInput, "TableName">
+    params: Omit<DynamoDB.DocumentClient.GetItemInput, 'TableName'>
   ): Promise<DynamoDB.DocumentClient.GetItemOutput> => {
     try {
       if (isDev) {
@@ -29,7 +29,7 @@ export const dynamoDb = {
       return getItem;
     } catch (err) {
       console.error(
-        "Your AWS credentials are probably wrong or missing inside your environment variables or .env file"
+        'Your AWS credentials are probably wrong or missing inside your environment variables or .env file'
       );
       console.error(err?.message);
       return {
@@ -38,7 +38,7 @@ export const dynamoDb = {
     }
   },
   scan: async (
-    params: Omit<DynamoDB.DocumentClient.ScanInput, "TableName">
+    params: Omit<DynamoDB.DocumentClient.ScanInput, 'TableName'>
   ): Promise<DynamoDB.DocumentClient.ScanOutput> => {
     try {
       if (isDev) {
@@ -48,7 +48,7 @@ export const dynamoDb = {
               id: `${Number(10000 + index)}`,
               ...itemDb,
             }))
-            .filter((itemDb) => itemDb.category !== "LAST_ITEM"),
+            .filter((itemDb) => itemDb.category !== 'LAST_ITEM'),
         };
       }
 
@@ -56,7 +56,7 @@ export const dynamoDb = {
       return scanItems;
     } catch (err) {
       console.error(
-        "Your AWS credentials are probably wrong or missing inside your environment variables or .env file"
+        'Your AWS credentials are probably wrong or missing inside your environment variables or .env file'
       );
       console.error(err?.message);
       return {
@@ -65,7 +65,7 @@ export const dynamoDb = {
     }
   },
   put: async (
-    params: Omit<DynamoDB.DocumentClient.PutItemInput, "TableName">
+    params: Omit<DynamoDB.DocumentClient.PutItemInput, 'TableName'>
   ): Promise<DynamoDB.DocumentClient.PutItemOutput> => {
     try {
       if (isDev) {
@@ -78,7 +78,7 @@ export const dynamoDb = {
       console.warn(err);
 
       console.error(
-        "Your AWS credentials are probably wrong or missing inside your environment variables or .env file"
+        'Your AWS credentials are probably wrong or missing inside your environment variables or .env file'
       );
       console.error(err?.message);
       return {};

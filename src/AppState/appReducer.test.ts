@@ -1,7 +1,7 @@
 import { appReducer } from './appReducer';
-import { AppState, AppActionType, GameMode, GameLevel, AppAction } from './types';
+import { AppAction, AppActionType, AppState, GameLevel, GameMode } from './types';
 
-describe(appReducer, () => {
+describe('appReducer', () => {
   const initialState: AppState = {
     remainingCards: [],
     usedCards: [],

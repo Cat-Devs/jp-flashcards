@@ -11,11 +11,6 @@ describe('Home page', () => {
     expect(cy.get('[data-cy=login]')).to.exist;
   });
 
-  it('should render a loading flashcard', () => {
-    cy.visit('/cards/10001');
-    expect(cy.get('[data-cy=flashcard-loading]')).to.exist;
-  });
-
   it('should render a flashcard', () => {
     cy.visit('/cards/10001');
     expect(cy.get('[data-cy=flashcard]')).to.exist;

@@ -15,7 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useState } from 'react';
-import { CardResult } from '../AppState/types';
+import { CardResult } from '../AppState';
 import { useKeyPress } from '../Hooks/use-key-press';
 
 export interface FlashCardItem {

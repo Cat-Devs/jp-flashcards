@@ -2,8 +2,10 @@ import { createHash } from 'crypto';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { GameMode } from '.';
+import { PrepareGameConfig } from '../types';
 import { AppContext } from './AppContext';
-import { AppActionType, CardResult, GameLevel, GameMode } from './types';
+import { AppActionType, CardMode, CardResult, GameLevel } from './types';
 
 interface Stats {
   usedCards: number;
@@ -57,7 +59,7 @@ export function useApp() {
   }, [state.wrongCards, state.currentCard, state.remainingCards, state.usedCards]);
 
   const loadData = useCallback(async () => {
-    if (!state.gameMode || !state.gameLevel) {
+    if (!state.cardMode || !state.gameLevel) {
       throw new Error('Missing required information.');
     }
 
@@ -66,15 +68,16 @@ export function useApp() {
       payload: true,
     });
 
-    async function fetchData(gameMode: string, gameLevel: string): Promise<string[]> {
+    async function fetchData(cardMode: CardMode, gameLevel: GameLevel, gameMode: GameMode): Promise<string[]> {
       try {
         const res = await fetch(`/api/prepare-game`, {
           method: 'POST',
           body: JSON.stringify({
             config: {
-              gameMode,
+              cardMode,
               gameLevel,
-            },
+              gameMode: session ? gameMode : 'guest',
+            } as PrepareGameConfig,
           }),
         });
         const data = await res.json();
@@ -89,7 +92,7 @@ export function useApp() {
       }
     }
 
-    const cardIds = await fetchData(`${state.gameMode}`, `${state.gameLevel}`);
+    const cardIds = await fetchData(state.cardMode, state.gameLevel, state.gameMode);
     if (!cardIds?.length) {
       console.error('Cannot fetch flashcards data');
       dispatch({
@@ -105,13 +108,13 @@ export function useApp() {
       payload: { cardIds, nextCard },
     });
     router.push(`/shuffle/${nextCard}`);
-  }, [dispatch, router, state.gameLevel, state.gameMode]);
+  }, [dispatch, router, state.gameLevel, state.gameMode, state.cardMode]);
 
   const setGame = useCallback(
-    (gameMode: GameMode) => {
+    (cardMode: CardMode) => {
       dispatch({
         type: AppActionType.SET_GAME,
-        payload: gameMode,
+        payload: cardMode,
       });
     },
     [dispatch]
@@ -122,6 +125,16 @@ export function useApp() {
       dispatch({
         type: AppActionType.SET_LEVEL,
         payload: gameLevel,
+      });
+    },
+    [dispatch]
+  );
+
+  const setMode = useCallback(
+    (gameMode: GameMode) => {
+      dispatch({
+        type: AppActionType.SET_MODE,
+        payload: gameMode,
       });
     },
     [dispatch]
@@ -221,8 +234,9 @@ export function useApp() {
 
   return {
     currentCard: state.currentCard,
-    gameMode: state.gameMode,
+    cardMode: state.cardMode,
     gameLevel: state.gameLevel,
+    gameMode: state.gameMode,
     loading: Boolean(state.loading),
     isUserLoggedIn: Boolean(session),
     canPlaySounds: Boolean(session),
@@ -232,6 +246,7 @@ export function useApp() {
     userHash,
     setGame,
     setLevel,
+    setMode,
     loadData,
     loadSound,
     unloadSound,

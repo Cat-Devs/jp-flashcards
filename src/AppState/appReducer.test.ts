@@ -1,5 +1,5 @@
 import { appReducer } from './appReducer';
-import { AppAction, AppActionType, AppState, GameLevel, GameMode } from './types';
+import { AppAction, AppActionType, AppState, CardMode, GameLevel } from './types';
 
 describe('appReducer', () => {
   const initialState: AppState = {
@@ -8,8 +8,9 @@ describe('appReducer', () => {
     wrongCards: [],
     correctCards: [],
     nextCard: '',
-    gameMode: 'en',
+    cardMode: 'en',
     gameLevel: '1',
+    gameMode: 'guest',
     currentCard: '',
     loading: false,
     loadingData: false,
@@ -364,46 +365,46 @@ describe('appReducer', () => {
     it('should change the game mode to hiragana', () => {
       const appState: AppState = {
         ...initialState,
-        gameMode: 'en',
+        cardMode: 'en',
       };
-      const testGameMode: GameMode = 'hiragana';
+      const testCardMode: CardMode = 'hiragana';
 
       const res = appReducer(appState, {
         type: AppActionType.SET_GAME,
-        payload: testGameMode,
+        payload: testCardMode,
       });
 
-      expect(res.gameMode).toEqual(testGameMode);
+      expect(res.cardMode).toEqual(testCardMode);
     });
 
     it('should change the game mode to kanji', () => {
       const appState: AppState = {
         ...initialState,
-        gameMode: 'en',
+        cardMode: 'en',
       };
-      const testGameMode: GameMode = 'kanji';
+      const testCardMode: CardMode = 'kanji';
 
       const res = appReducer(appState, {
         type: AppActionType.SET_GAME,
-        payload: testGameMode,
+        payload: testCardMode,
       });
 
-      expect(res.gameMode).toEqual(testGameMode);
+      expect(res.cardMode).toEqual(testCardMode);
     });
 
     it('should change the game mode to kana', () => {
       const appState: AppState = {
         ...initialState,
-        gameMode: 'en',
+        cardMode: 'en',
       };
-      const testGameMode: GameMode = 'kana';
+      const testCardMode: CardMode = 'kana';
 
       const res = appReducer(appState, {
         type: AppActionType.SET_GAME,
-        payload: testGameMode,
+        payload: testCardMode,
       });
 
-      expect(res.gameMode).toEqual(testGameMode);
+      expect(res.cardMode).toEqual(testCardMode);
     });
   });
 

@@ -20,7 +20,7 @@ interface FlashcardPageProps {
 }
 
 export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
-  const { gameMode, nextCard, goHome, loading, loadSound, unloadSound, playSound, canPlaySounds, stats } = useApp();
+  const { cardMode, nextCard, goHome, loading, loadSound, unloadSound, playSound, canPlaySounds, stats } = useApp();
 
   useEffect(() => {
     if (canPlaySounds && card?.jp) {
@@ -35,7 +35,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
   const cardData: FlashCardItem = useMemo(() => {
     if (!card) {
       return null;
-    } else if (gameMode === 'hiragana') {
+    } else if (cardMode === 'hiragana') {
       return {
         firstLine: { text: card?.hiragana, lang: 'ja-jp' },
         solution: [
@@ -45,7 +45,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
           { text: card?.en, lang: 'en-us' },
         ],
       };
-    } else if (gameMode === 'kanji') {
+    } else if (cardMode === 'kanji') {
       return {
         firstLine: { text: card?.kanji, lang: 'ja-jp' },
         solution: [
@@ -55,7 +55,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
           { text: card?.en, lang: 'en-us' },
         ],
       };
-    } else if (gameMode === 'kana') {
+    } else if (cardMode === 'kana') {
       return {
         firstLine: { text: card?.hiragana || card?.katakana, lang: 'ja-jp' },
         solution: [
@@ -77,7 +77,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
         ],
       };
     }
-  }, [card, gameMode]);
+  }, [card, cardMode]);
 
   if (loading) {
     return (

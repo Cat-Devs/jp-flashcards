@@ -1,5 +1,5 @@
-import './aws';
 import { DynamoDB } from 'aws-sdk';
+import './aws';
 const localDB = require(`../data/table-data-local.json`);
 
 const TableName = process.env.NEXT_PUBLIC_TABLE_NAME;
@@ -37,9 +37,7 @@ export const dynamoDb = {
       };
     }
   },
-  scan: async (
-    params: Omit<DynamoDB.DocumentClient.ScanInput, 'TableName'>
-  ): Promise<DynamoDB.DocumentClient.ScanOutput> => {
+  scan: async <T>(params: Omit<DynamoDB.DocumentClient.ScanInput, 'TableName'>): Promise<{ Items: T[] }> => {
     try {
       if (isDev) {
         return {
@@ -52,8 +50,8 @@ export const dynamoDb = {
         };
       }
 
-      const scanItems = await client.scan({ TableName, ...params }).promise();
-      return scanItems;
+      const scanItems: unknown = await client.scan({ TableName, ...params }).promise();
+      return scanItems as { Items: T[] };
     } catch (err) {
       console.error(
         'Your AWS credentials are probably wrong or missing inside your environment variables or .env file'

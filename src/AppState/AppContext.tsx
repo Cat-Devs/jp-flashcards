@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
-import { createContext, useMemo, useReducer, Dispatch, useEffect } from 'react';
+import { createContext, Dispatch, useEffect, useMemo, useReducer } from 'react';
 import { appReducer } from './appReducer';
-import { AppState, AppAction, AppActionType } from './types';
+import { AppAction, AppActionType, AppState } from './types';
 
 export const AppContext = createContext<{
   state: AppState;
@@ -17,7 +17,8 @@ const initialState: AppState = {
   loadingSound: false,
   nextCard: '',
   currentCard: '',
-  gameMode: 'en',
+  cardMode: 'en',
+  gameMode: 'guest',
   gameLevel: '1',
   remainingCards: [],
   usedCards: [],

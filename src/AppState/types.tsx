@@ -1,6 +1,7 @@
-export type GameMode = 'en' | 'hiragana' | 'kanji' | 'kana';
+export type CardMode = 'en' | 'hiragana' | 'kanji' | 'kana';
 export type GameLevel = '1' | '2' | '3' | '4';
 export type CardResult = 'correct' | 'wrong' | 'void';
+export type GameMode = 'guest' | 'learn' | 'practice';
 
 export interface AppState {
   loading: Boolean;
@@ -12,8 +13,9 @@ export interface AppState {
   wrongCards: string[];
   correctCards: string[];
   nextCard: string;
-  gameMode: GameMode;
+  cardMode: CardMode;
   gameLevel: GameLevel;
+  gameMode: GameMode;
 }
 
 export enum AppActionType {
@@ -22,6 +24,7 @@ export enum AppActionType {
   'NEXT_CARD',
   'SET_GAME',
   'SET_LEVEL',
+  'SET_MODE',
   'LOADING',
   'PLAY_WRONG_CARDS',
 }
@@ -48,12 +51,17 @@ type NextCardAction = {
 
 type SetGameAction = {
   type: AppActionType.SET_GAME;
-  payload: GameMode;
+  payload: CardMode;
 };
 
 type SetLevelAction = {
   type: AppActionType.SET_LEVEL;
   payload: GameLevel;
+};
+
+type SetModeAction = {
+  type: AppActionType.SET_MODE;
+  payload: GameMode;
 };
 
 type PlayWrongCardsAction = {
@@ -66,5 +74,6 @@ export type AppAction =
   | LoadDataAction
   | NextCardAction
   | SetGameAction
+  | SetModeAction
   | SetLevelAction
   | PlayWrongCardsAction;

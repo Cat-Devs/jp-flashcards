@@ -1,15 +1,13 @@
-import React from 'react';
-
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-
-import { LoadingCard } from '../Components/LoadingCard';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import React from 'react';
 import { useApp } from '../AppState';
+import { LoadingCard } from '../Components/LoadingCard';
 
 export const ResultPage: React.FC = () => {
   const { goHome, loading, playWrongCards, stats } = useApp();

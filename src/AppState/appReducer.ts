@@ -1,4 +1,4 @@
-import { AppState, AppAction, AppActionType } from './types';
+import { AppAction, AppActionType, AppState } from './types';
 
 export function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
@@ -57,7 +57,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case AppActionType.SET_GAME: {
       return {
         ...state,
-        gameMode: action.payload,
+        cardMode: action.payload,
       };
     }
 
@@ -65,6 +65,13 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       return {
         ...state,
         gameLevel: action.payload,
+      };
+    }
+
+    case AppActionType.SET_MODE: {
+      return {
+        ...state,
+        gameMode: action.payload,
       };
     }
 

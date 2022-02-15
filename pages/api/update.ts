@@ -1,18 +1,9 @@
-import aws, { DynamoDB } from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
 import { createHash } from 'crypto';
-import { getSession } from 'next-auth/react';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-import { CardResult } from '../../src/AppState/types';
-
-interface UserData {
-  id: string;
-  weak_cards: {
-    [id: string]: string;
-  };
-  learned_cards: string[];
-  current_level: string;
-}
+import { getSession } from 'next-auth/react';
+import { CardResult } from '../../src/types';
+import { UserData } from './types';
 
 interface InputData {
   cardId: string;
@@ -21,14 +12,6 @@ interface InputData {
 
 const TableName = process.env.NEXT_PUBLIC_TABLE_NAME;
 const isDev = Boolean(process.env.DEV);
-
-if (!isDev) {
-  aws.config.update({
-    region: process.env.NEXT_PUBLIC_REGION,
-    accessKeyId: process.env.NEXT_DYNAMO_WRITE_KEY,
-    secretAccessKey: process.env.NEXT_DYNAMO_WRITE_SECRET,
-  });
-}
 
 function getClient(isDev) {
   if (isDev) {
@@ -46,6 +29,10 @@ function getClient(isDev) {
 
   return new DynamoDB.DocumentClient({
     region: process.env.NEXT_PUBLIC_REGION,
+    credentials: {
+      accessKeyId: process.env.NEXT_DYNAMO_WRITE_KEY,
+      secretAccessKey: process.env.NEXT_DYNAMO_WRITE_SECRET,
+    },
     params: { TableName },
   });
 }
@@ -63,12 +50,12 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const userHash = createHash('sha256').update(session.user.email).digest('hex');
-
   const initialUserData: UserData = {
     id: userHash,
-    weak_cards: {},
-    learned_cards: [],
+    type: 'user',
     current_level: '1',
+    learned_cards: [],
+    weak_cards: {},
   };
 
   const data = await client
@@ -112,12 +99,11 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
     userData['learned_cards'].push(`${cardId}`);
   }
 
-  // Don't put any data until the logic is completed
-  // try {
-  //   await client.put({ TableName, Item: userData }).promise();
-  // } catch (err) {
-  //   console.error(err);
-  // }
+  try {
+    await client.put({ TableName, Item: userData }).promise();
+  } catch (err) {
+    console.error(err);
+  }
 
   res.json({});
 };

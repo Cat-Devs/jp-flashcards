@@ -1,6 +1,6 @@
-const AWS = require("aws-sdk");
-const fs = require("fs");
-const path = require("path");
+const AWS = require('aws-sdk');
+const fs = require('fs');
+const path = require('path');
 
 AWS.config.update({
   region: process.env.AWS_REGION,
@@ -16,10 +16,10 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({
 });
 
 (async () => {
-  const files = fs.readdirSync(path.resolve(__dirname, "db"));
+  const files = fs.readdirSync(path.resolve(__dirname, 'db'));
 
   for (const file of files) {
-    const tableData = JSON.parse(fs.readFileSync(path.resolve(__dirname, "db", file), "utf8"));
+    const tableData = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'db', file), 'utf8'));
     console.log(`Uploading ${file}...`);
 
     for (const [dataId, data] of tableData.entries()) {
@@ -28,6 +28,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({
         TableName,
         Item: {
           id: String(cardId),
+          type: 'card',
           ...data,
         },
       };
@@ -35,7 +36,7 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient({
       try {
         await dynamoDb.put(params).promise();
       } catch (error) {
-        console.error("failed to put", data.en);
+        console.error('failed to put', data.en);
         console.error(error);
         process.exit(1);
       }

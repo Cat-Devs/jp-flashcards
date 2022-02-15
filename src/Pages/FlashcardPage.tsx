@@ -1,18 +1,17 @@
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import React, { useEffect, useMemo } from 'react';
 import { isMobile } from 'react-device-detect';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-
-import { Flashcard, FlashCardItem } from '../Components/Flashcard';
-import { LoadingCard } from '../Components/LoadingCard';
-import { KeyboardHelper } from '../Components/KeyboardHelper';
-import { Progress } from '../Components/Progress';
 import { useApp } from '../AppState';
+import { Flashcard, FlashCardItem } from '../Components/Flashcard';
+import { KeyboardHelper } from '../Components/KeyboardHelper';
+import { LoadingCard } from '../Components/LoadingCard';
+import { Progress } from '../Components/Progress';
 import { FlashCardData } from '../types';
 
 interface FlashcardPageProps {
@@ -95,7 +94,7 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
     return (
       <Container maxWidth="md" disableGutters>
         <Box sx={{ p: 2 }}>
-          <Card>
+          <Card data-cy="flashcard-not-found">
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 Card Not Found

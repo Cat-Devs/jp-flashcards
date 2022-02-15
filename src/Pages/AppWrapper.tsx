@@ -72,7 +72,12 @@ export const AppWrapper = (props) => {
                   </Menu>
                 </>
               )) || (
-                <Button variant="text" onClick={signIn} sx={{ my: 2, color: 'white', display: 'block' }}>
+                <Button
+                  variant="text"
+                  data-cy="login"
+                  onClick={signIn}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
                   Log In
                 </Button>
               )}

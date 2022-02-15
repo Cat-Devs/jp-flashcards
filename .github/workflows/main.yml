@@ -21,11 +21,16 @@ jobs:
           browser: chrome
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
-      - name: save artifacts
+      - name: save videos
         uses: actions/upload-artifact@v2
         if: always()
         with:
           name: cypress-videos
           path: cypress/videos
+
+      - name: save screenshots
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
           name: cypress-screenshots
           path: cypress/screenshots

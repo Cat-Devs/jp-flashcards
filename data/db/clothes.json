@@ -1,6 +1,7 @@
 [
   {
     "category": "clothes",
+    "id": "1",
     "level": "1",
     "image": "0000",
     "en": "kimono",
@@ -12,6 +13,7 @@
   },
   {
     "category": "clothes",
+    "id": "2",
     "level": "2",
     "image": "0000",
     "en": "coat",
@@ -23,6 +25,7 @@
   },
   {
     "category": "clothes",
+    "id": "3",
     "level": "2",
     "image": "0000",
     "en": "suit",
@@ -34,6 +37,7 @@
   },
   {
     "category": "clothes",
+    "id": "4",
     "level": "2",
     "image": "0000",
     "en": "jacket",
@@ -45,6 +49,7 @@
   },
   {
     "category": "clothes",
+    "id": "5",
     "level": "2",
     "image": "0000",
     "en": "dress",
@@ -56,6 +61,7 @@
   },
   {
     "category": "clothes",
+    "id": "6",
     "level": "2",
     "image": "0000",
     "en": "trousers",
@@ -67,6 +73,7 @@
   },
   {
     "category": "clothes",
+    "id": "7",
     "level": "2",
     "image": "0000",
     "en": "t-shirt",
@@ -78,6 +85,7 @@
   },
   {
     "category": "clothes",
+    "id": "8",
     "level": "3",
     "image": "0000",
     "en": "bra",
@@ -89,6 +97,7 @@
   },
   {
     "category": "clothes",
+    "id": "9",
     "level": "3",
     "image": "0000",
     "en": "pajamas",

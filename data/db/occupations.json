@@ -1,6 +1,7 @@
 [
   {
     "category": "occupations",
+    "id": "1",
     "level": "2",
     "image": "0000",
     "en": "teacher",
@@ -12,6 +13,7 @@
   },
   {
     "category": "occupations",
+    "id": "2",
     "level": "2",
     "image": "0000",
     "en": "student",
@@ -23,6 +25,7 @@
   },
   {
     "category": "occupations",
+    "id": "3",
     "level": "2",
     "image": "0000",
     "en": "high school student",
@@ -34,6 +37,7 @@
   },
   {
     "category": "occupations",
+    "id": "4",
     "level": "2",
     "image": "0000",
     "en": "university student",
@@ -45,6 +49,7 @@
   },
   {
     "category": "occupations",
+    "id": "5",
     "level": "3",
     "image": "0000",
     "en": "doctor",
@@ -56,6 +61,7 @@
   },
   {
     "category": "occupations",
+    "id": "6",
     "level": "3",
     "image": "0000",
     "en": "company employee",
@@ -67,6 +73,7 @@
   },
   {
     "category": "occupations",
+    "id": "7",
     "level": "4",
     "image": "0000",
     "en": "sport's coach",
@@ -78,6 +85,7 @@
   },
   {
     "category": "occupations",
+    "id": "8",
     "level": "4",
     "image": "0000",
     "en": "engineer",

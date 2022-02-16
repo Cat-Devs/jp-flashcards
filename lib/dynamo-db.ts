@@ -18,7 +18,7 @@ export const dynamoDb = {
   ): Promise<DynamoDB.DocumentClient.GetItemOutput> => {
     try {
       if (isDev) {
-        const item = localDB.find((_itemDb, index) => `${Number(10000 + index)}` === params.Key.id);
+        const item = localDB.find((itemDb) => itemDb.id === params.Key.id);
 
         return {
           Item: item,
@@ -41,12 +41,7 @@ export const dynamoDb = {
     try {
       if (isDev) {
         return {
-          Items: localDB
-            .map((itemDb, index) => ({
-              id: `${Number(10000 + index)}`,
-              ...itemDb,
-            }))
-            .filter((itemDb) => itemDb.category !== 'LAST_ITEM'),
+          Items: localDB,
         };
       }
 

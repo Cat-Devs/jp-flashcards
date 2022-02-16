@@ -1,6 +1,7 @@
 [
   {
     "category": "colors",
+    "id": "1",
     "level": "1",
     "image": "0000",
     "en": "red",
@@ -12,6 +13,7 @@
   },
   {
     "category": "colors",
+    "id": "2",
     "level": "1",
     "image": "0000",
     "en": "green",
@@ -23,6 +25,7 @@
   },
   {
     "category": "colors",
+    "id": "3",
     "level": "1",
     "image": "0000",
     "en": "yellow",
@@ -34,6 +37,7 @@
   },
   {
     "category": "colors",
+    "id": "4",
     "level": "1",
     "image": "0000",
     "en": "blue",
@@ -45,6 +49,7 @@
   },
   {
     "category": "colors",
+    "id": "5",
     "level": "1",
     "image": "0000",
     "en": "black",
@@ -56,6 +61,7 @@
   },
   {
     "category": "colors",
+    "id": "6",
     "level": "1",
     "image": "0000",
     "en": "white",
@@ -67,6 +73,7 @@
   },
   {
     "category": "colors",
+    "id": "7",
     "level": "1",
     "image": "0000",
     "en": "purple",
@@ -78,6 +85,7 @@
   },
   {
     "category": "colors",
+    "id": "8",
     "level": "1",
     "image": "0000",
     "en": "brown",
@@ -89,6 +97,7 @@
   },
   {
     "category": "colors",
+    "id": "9",
     "level": "1",
     "image": "0000",
     "en": "pink",
@@ -100,6 +109,7 @@
   },
   {
     "category": "colors",
+    "id": "10",
     "level": "1",
     "image": "0000",
     "en": "gray",
@@ -111,6 +121,7 @@
   },
   {
     "category": "colors",
+    "id": "11",
     "level": "1",
     "image": "0000",
     "en": "orange",
@@ -122,6 +133,7 @@
   },
   {
     "category": "colors",
+    "id": "12",
     "level": "2",
     "image": "0000",
     "en": "silver",
@@ -133,6 +145,7 @@
   },
   {
     "category": "colors",
+    "id": "13",
     "level": "2",
     "image": "0000",
     "en": "gold",
@@ -144,6 +157,7 @@
   },
   {
     "category": "colors",
+    "id": "14",
     "level": "2",
     "image": "0000",
     "en": "light blue",
@@ -155,6 +169,7 @@
   },
   {
     "category": "colors",
+    "id": "15",
     "level": "2",
     "image": "0000",
     "en": "dark green",

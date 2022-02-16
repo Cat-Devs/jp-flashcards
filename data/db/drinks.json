@@ -1,6 +1,7 @@
 [
   {
     "category": "drinks",
+    "id": "1",
     "level": "1",
     "image": "0000",
     "en": "juice",
@@ -12,6 +13,7 @@
   },
   {
     "category": "drinks",
+    "id": "2",
     "level": "1",
     "image": "0000",
     "en": "coffee",
@@ -23,6 +25,7 @@
   },
   {
     "category": "drinks",
+    "id": "3",
     "level": "1",
     "image": "0000",
     "en": "cola",
@@ -34,6 +37,7 @@
   },
   {
     "category": "drinks",
+    "id": "4",
     "level": "1",
     "image": "0000",
     "en": "tea",
@@ -45,6 +49,7 @@
   },
   {
     "category": "drinks",
+    "id": "5",
     "level": "3",
     "image": "0000",
     "en": "cocoa / hot chocolate",
@@ -56,6 +61,7 @@
   },
   {
     "category": "drinks",
+    "id": "6",
     "level": "1",
     "image": "0000",
     "en": "water",
@@ -67,6 +73,7 @@
   },
   {
     "category": "drinks",
+    "id": "7",
     "level": "2",
     "image": "0000",
     "en": "beer",
@@ -78,6 +85,7 @@
   },
   {
     "category": "drinks",
+    "id": "8",
     "level": "2",
     "image": "0000",
     "en": "wine",
@@ -89,6 +97,7 @@
   },
   {
     "category": "drinks",
+    "id": "9",
     "level": "2",
     "image": "0000",
     "en": "milk",
@@ -100,6 +109,7 @@
   },
   {
     "category": "drinks",
+    "id": "10",
     "level": "2",
     "image": "0000",
     "en": "alcohol / sake",
@@ -111,6 +121,7 @@
   },
   {
     "category": "drinks",
+    "id": "11",
     "level": "2",
     "image": "0000",
     "en": "red wine",
@@ -122,6 +133,7 @@
   },
   {
     "category": "drinks",
+    "id": "12",
     "level": "2",
     "image": "0000",
     "en": "white wine",
@@ -133,6 +145,7 @@
   },
   {
     "category": "drinks",
+    "id": "13",
     "level": "3",
     "image": "0000",
     "en": "soya Milk",
@@ -144,6 +157,7 @@
   },
   {
     "category": "drinks",
+    "id": "14",
     "level": "3",
     "image": "0000",
     "en": "orange juice",

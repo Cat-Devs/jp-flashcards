@@ -45,6 +45,46 @@ const practiceCards = async (userEmail: string, items: FlashCardData[], cardMode
     .splice(0, 20);
 };
 
+const learnNewCards = async (userEmail: string, items: FlashCardData[], cardMode: CardMode): Promise<string[]> => {
+  const userHash = createHash('sha256').update(userEmail).digest('hex') || null;
+  const initialUserData: UserData = {
+    type: 'user',
+    current_level: '1',
+    id: userHash,
+    weak_cards: {},
+    learned_cards: [],
+  };
+  const data = await dynamoDb.get({
+    Key: {
+      id: userHash,
+    },
+  });
+
+  const userData: UserData = { ...initialUserData, ...data.Item };
+  const learnedCards = userData?.learned_cards;
+
+  return items
+    .filter((card: FlashCardData) => {
+      if (cardMode === 'hiragana') {
+        return card.hiragana;
+      } else if (cardMode === 'kanji') {
+        return card.kanji;
+      }
+      return true;
+    })
+    .filter((card: FlashCardData) => {
+      const level = userData.current_level;
+
+      return Number(level) >= Number(card.level);
+    })
+    .filter((card: FlashCardData) => {
+      return !learnedCards.includes(card.id);
+    })
+    .map((card: FlashCardData) => card.id)
+    .sort(() => Math.random() - 0.5)
+    .splice(0, 20);
+};
+
 const getAuthUserCards = async (
   userEmail: string,
   items: FlashCardData[],
@@ -115,7 +155,7 @@ const getGuestUserCards = (items: FlashCardData[], cardMode: CardMode, gameLevel
 };
 
 const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { config }: { config: PrepareGameConfig } = JSON.parse(req.body || '{}');
+  const { config }: { config: PrepareGameConfig } = JSON.parse(req?.body || '{}');
 
   if (!config?.cardMode || !config?.gameLevel || !config?.gameMode) {
     return res.json({ error: 'Error! Missing required information' });
@@ -141,7 +181,13 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (!session.user?.email) {
-    throw new Error('Cannot find user session');
+    return res.json({ error: 'Cannot find user session' });
+  }
+
+  if (gameMode === 'learn') {
+    const cardIds = await learnNewCards(session.user?.email, items, cardMode);
+    console.warn('learn new words', cardIds);
+    return res.json({ cardIds });
   }
 
   if (gameMode === 'practice') {

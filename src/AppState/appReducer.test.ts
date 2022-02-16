@@ -1,5 +1,5 @@
 import { appReducer } from './appReducer';
-import { AppAction, AppActionType, AppState, CardMode, GameLevel } from './types';
+import { AppAction, AppActionType, AppState, CardMode, GameLevel, GameMode } from './types';
 
 describe('appReducer', () => {
   const initialState: AppState = {
@@ -422,6 +422,72 @@ describe('appReducer', () => {
       });
 
       expect(res.gameLevel).toEqual(testGameLevel);
+    });
+  });
+
+  describe('Set Game Mode', () => {
+    it('should change the game mode', () => {
+      const appState: AppState = {
+        ...initialState,
+        gameMode: 'guest',
+      };
+      const testGameMode: GameMode = 'learn';
+
+      const res = appReducer(appState, {
+        type: AppActionType.SET_MODE,
+        payload: testGameMode,
+      });
+
+      expect(res.gameMode).toEqual(testGameMode);
+    });
+  });
+
+  describe('Play wrong cards', () => {
+    it('should create a new game using only the wrong cards from the previous session', () => {
+      const testWrongCards = ['1', '2', '3', '4'];
+      const appState: AppState = {
+        ...initialState,
+        currentCard: '',
+        wrongCards: testWrongCards,
+      };
+
+      const res = appReducer(appState, { type: AppActionType.PLAY_WRONG_CARDS });
+
+      expect(res.wrongCards).toEqual([]);
+      expect(res.remainingCards.length).toEqual(testWrongCards.length - 1);
+      expect(testWrongCards.includes(res.currentCard)).toBe(true);
+      expect(testWrongCards.includes(res.nextCard)).toBe(true);
+    });
+
+    it('should only ask for 1 card when the wrong cards pool contains only 1 item', () => {
+      const testWrongCards = ['1'];
+      const appState: AppState = {
+        ...initialState,
+        currentCard: '',
+        wrongCards: testWrongCards,
+      };
+
+      const res = appReducer(appState, { type: AppActionType.PLAY_WRONG_CARDS });
+
+      expect(res.wrongCards).toEqual([]);
+      expect(res.remainingCards.length).toEqual(testWrongCards.length - 1);
+      expect(testWrongCards.includes(res.currentCard)).toBe(true);
+      expect(testWrongCards.includes(res.nextCard)).toBe(false);
+    });
+
+    it('should do nothing when there are no wrong cards left', () => {
+      const testWrongCards = [];
+      const appState: AppState = {
+        ...initialState,
+        currentCard: '',
+        wrongCards: testWrongCards,
+      };
+
+      const res = appReducer(appState, { type: AppActionType.PLAY_WRONG_CARDS });
+
+      expect(res.wrongCards).toEqual([]);
+      expect(res.remainingCards.length).toEqual(0);
+      expect(res.currentCard).toEqual('');
     });
   });
 });

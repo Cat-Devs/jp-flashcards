@@ -58,48 +58,48 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
     weak_cards: {},
   };
 
-  const data = await client
-    .get({
-      TableName,
-      Key: {
-        id: userHash,
-      },
-    })
-    .promise();
-
-  const userData = { ...initialUserData, ...data.Item };
-
-  const weakCards = userData?.['weak_cards'] || {};
-  const isWeakCard = Boolean(weakCards[cardId]);
-  const isLearnedCard = Boolean(userData['learned_cards'].find((card) => card === cardId));
-  const cardAccuracy = Number(userData['weak_cards']?.[cardId] || 0);
-  const currentAccuracyScore = Number(cardResult === 'correct' ? 100 : 0);
-  const newAccuracy = Number(cardAccuracy + currentAccuracyScore / 2);
-
-  if (cardResult === 'void') {
-    return res.json({});
-  }
-
-  // Remove from learned cards, when user fails to answer
-  if (isLearnedCard && cardResult === 'wrong') {
-    userData['learned_cards'] = userData['learned_cards'].filter((card) => card !== cardId);
-  }
-
-  // Add card to weak cards, if not already
-  if (!isWeakCard && cardResult === 'wrong') {
-    userData['weak_cards'][cardId] = '0';
-  }
-
-  // Update weak card accuracy
-  userData['weak_cards'][cardId] = `${newAccuracy}`;
-
-  // Remove card from weak and add it to learned cards when accuracy is higher 95%
-  if (newAccuracy >= 95) {
-    userData['weak_cards'][cardId] = undefined;
-    userData['learned_cards'].push(`${cardId}`);
-  }
-
   try {
+    const data = await client
+      .get({
+        TableName,
+        Key: {
+          id: userHash,
+        },
+      })
+      .promise();
+
+    const userData = { ...initialUserData, ...data.Item };
+
+    const weakCards = userData?.['weak_cards'] || {};
+    const isWeakCard = Boolean(weakCards[cardId]);
+    const isLearnedCard = Boolean(userData['learned_cards'].find((card) => card === cardId));
+    const cardAccuracy = Number(userData['weak_cards']?.[cardId] || 0);
+    const currentAccuracyScore = Number(cardResult === 'correct' ? 100 : 0);
+    const newAccuracy = Number(cardAccuracy + currentAccuracyScore / 2);
+
+    if (cardResult === 'void') {
+      return res.json({});
+    }
+
+    // Remove from learned cards, when user fails to answer
+    if (isLearnedCard && cardResult === 'wrong') {
+      userData['learned_cards'] = userData['learned_cards'].filter((card) => card !== cardId);
+    }
+
+    // Add card to weak cards, if not already
+    if (!isWeakCard && cardResult === 'wrong') {
+      userData['weak_cards'][cardId] = '0';
+    }
+
+    // Update weak card accuracy
+    userData['weak_cards'][cardId] = `${newAccuracy}`;
+
+    // Remove card from weak and add it to learned cards when accuracy is higher 95%
+    if (newAccuracy >= 95) {
+      userData['weak_cards'][cardId] = undefined;
+      userData['learned_cards'].push(`${cardId}`);
+    }
+
     await client.put({ TableName, Item: userData }).promise();
   } catch (err) {
     console.error(err);

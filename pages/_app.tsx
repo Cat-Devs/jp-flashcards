@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
-
+import Head from 'next/head';
+import React, { useEffect, useState } from 'react';
+import CookieConsent from 'react-cookie-consent';
 import { AppProvider } from '../src/AppState';
 import { AppWrapper } from '../src/Pages/AppWrapper';
 
@@ -28,6 +28,9 @@ const App = (props) => {
           )}
         </AppProvider>
       </SessionProvider>
+      <CookieConsent location="bottom" cookieName="cookie-consent" expires={999}>
+        This website uses cookies to enhance the user experience.
+      </CookieConsent>
     </>
   );
 };

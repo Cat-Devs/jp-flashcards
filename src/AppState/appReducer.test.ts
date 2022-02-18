@@ -142,6 +142,27 @@ describe('appReducer', () => {
       expect(res).not.toEqual(testState);
     });
 
+    it.only('should not set a next card when there is only 1 card in total', () => {
+      const currentCard = '1';
+      const testState: AppState = {
+        ...initialState,
+        currentCard,
+        remainingCards: [],
+        usedCards: [],
+        nextCard: '',
+      };
+
+      const res = appReducer(initialState, {
+        type: AppActionType.LOAD_DATA,
+        payload: {
+          cardIds: [currentCard],
+          nextCard: currentCard,
+        },
+      });
+
+      expect(res).toEqual(testState);
+    });
+
     it('should correctly set the current card to be displayed', () => {
       const nextCard = '1';
       const res = appReducer(initialState, {

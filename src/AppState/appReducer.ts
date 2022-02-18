@@ -21,7 +21,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case AppActionType.LOAD_DATA: {
       const remainingCards = action.payload.cardIds.filter((cardId) => cardId !== action.payload.nextCard);
       const random = Math.floor(Math.random() * remainingCards.length);
-      const nextCard = remainingCards[random];
+      const nextCard = remainingCards?.length ? remainingCards[random] : '';
 
       return {
         ...state,

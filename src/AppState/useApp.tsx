@@ -37,15 +37,6 @@ export function useApp() {
   const { state, dispatch } = context;
 
   useEffect(() => {
-    if (!userLoggedIn && state.gameMode !== 'guest') {
-      dispatch({
-        type: AppActionType.SET_MODE,
-        payload: 'guest',
-      });
-    }
-  }, [dispatch, userLoggedIn, state.gameMode]);
-
-  useEffect(() => {
     if (userLoggedIn) {
       const hash = createHash('sha256').update(userEmail).digest('hex');
       setUserHash(hash);
@@ -246,8 +237,13 @@ export function useApp() {
   }, []);
 
   const logOut = useCallback(() => {
+    dispatch({
+      type: AppActionType.SET_MODE,
+      payload: 'guest',
+    });
+
     signOut();
-  }, []);
+  }, [dispatch]);
 
   return {
     currentCard: state.currentCard,

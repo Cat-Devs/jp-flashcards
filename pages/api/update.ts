@@ -81,6 +81,10 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.json({});
     }
 
+    if (isLearnedCard && cardResult === 'correct') {
+      return res.json({});
+    }
+
     // Remove from learned cards, when user fails to answer
     if (isLearnedCard && cardResult === 'wrong') {
       userData['learned_cards'] = userData['learned_cards'].filter((card) => card !== cardId);

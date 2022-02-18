@@ -21,16 +21,17 @@ interface FlashcardPageProps {
 
 export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
   const { cardMode, nextCard, goHome, loading, loadSound, unloadSound, playSound, canPlaySounds, stats } = useApp();
+  const cardJp = card?.jp;
 
   useEffect(() => {
-    if (canPlaySounds && card?.jp) {
-      loadSound(card.jp);
+    if (canPlaySounds && cardJp) {
+      loadSound(cardJp);
     }
 
     return () => {
       unloadSound();
     };
-  }, [canPlaySounds, card, loadSound, unloadSound]);
+  }, [cardJp, canPlaySounds, loadSound, unloadSound]);
 
   const cardData: FlashCardItem = useMemo(() => {
     if (!card) {

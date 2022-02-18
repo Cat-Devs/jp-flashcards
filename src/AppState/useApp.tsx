@@ -150,10 +150,6 @@ export function useApp() {
 
   const loadSound = useCallback(
     async (audio: string) => {
-      if (!session) {
-        return;
-      }
-
       dispatch({
         type: AppActionType.LOADING_SOUND,
         payload: true,

@@ -14,7 +14,7 @@ import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { CardResult } from '../AppState';
 import { useKeyPress } from '../Hooks/use-key-press';
 
@@ -119,4 +119,4 @@ const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, canPlaySounds, onP
   );
 };
 
-export const Flashcard = React.memo(FlashcardCmp);
+export const Flashcard = memo(FlashcardCmp);

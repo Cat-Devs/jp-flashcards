@@ -178,7 +178,7 @@ export function useApp() {
           });
         });
     },
-    [dispatch, session]
+    [dispatch]
   );
 
   const playSound = useCallback(() => {
@@ -191,14 +191,10 @@ export function useApp() {
   }, [session]);
 
   const unloadSound = useCallback(() => {
-    if (!session) {
-      return;
-    }
-
     audioPlayer.current?.load();
     audioPlayer.current?.pause();
     audioPlayer.current = undefined;
-  }, [session]);
+  }, []);
 
   const nextCard = useCallback(
     async (cardResult: CardResult) => {

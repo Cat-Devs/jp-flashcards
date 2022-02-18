@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import React, { useEffect, useMemo } from 'react';
+import React, { memo, useEffect, useMemo } from 'react';
 import { isMobile } from 'react-device-detect';
 import { useApp } from '../AppState';
 import { Flashcard, FlashCardItem } from '../Components/Flashcard';
@@ -19,7 +19,7 @@ interface FlashcardPageProps {
   quiz?: boolean;
 }
 
-export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
+const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
   const { cardMode, nextCard, goHome, loading, loadSound, unloadSound, playSound, canPlaySounds, stats } = useApp();
   const cardJp = card?.jp;
 
@@ -134,3 +134,5 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
     </Container>
   );
 };
+
+export const FlashcardPage = memo(PageComponent);

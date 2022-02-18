@@ -9,7 +9,7 @@ import type { CardMode, GameLevel, GameMode } from '../AppState';
 import { useApp } from '../AppState';
 
 export const Settings: React.FC = () => {
-  const { cardMode, gameLevel, gameMode, setGame, setLevel, setMode, isUserLoggedIn } = useApp();
+  const { cardMode, gameLevel, gameMode, setGame, setLevel, setMode, userLoggedIn } = useApp();
 
   const handleSetGame = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +34,7 @@ export const Settings: React.FC = () => {
 
   return (
     <Box sx={{ my: 4 }}>
-      {isUserLoggedIn && (
+      {userLoggedIn && (
         <FormControl sx={{ pb: 4 }}>
           <RadioGroup
             aria-labelledby="game-mode-group-label"

@@ -17,7 +17,7 @@ import { theme } from '../theme';
 
 export const AppWrapper = (props) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const { goHome, isUserLoggedIn, userHash, signIn, signOut } = useApp();
+  const { goHome, userLoggedIn, userHash, logIn, logOut } = useApp();
 
   const handleOpenUserMenu = useCallback((event) => {
     setAnchorElUser(event.currentTarget);
@@ -43,7 +43,7 @@ export const AppWrapper = (props) => {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              {(isUserLoggedIn && userHash && (
+              {(userLoggedIn && userHash && (
                 <>
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -66,18 +66,13 @@ export const AppWrapper = (props) => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    <MenuItem onClick={signOut}>
+                    <MenuItem onClick={logOut}>
                       <Typography textAlign="center">Log Out</Typography>
                     </MenuItem>
                   </Menu>
                 </>
               )) || (
-                <Button
-                  variant="text"
-                  data-cy="login"
-                  onClick={signIn}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
+                <Button variant="text" data-cy="login" onClick={logIn} sx={{ my: 2, color: 'white', display: 'block' }}>
                   Log In
                 </Button>
               )}

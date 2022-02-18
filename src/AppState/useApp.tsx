@@ -27,6 +27,8 @@ export function useApp() {
   const { data: session } = useSession();
   const [userHash, setUserHash] = useState<string>();
   const [stats, setStats] = useState<Stats>(initialStats);
+  const userLoggedIn = Boolean(session?.user?.email);
+  const userEmail = session?.user?.email;
 
   if (!context) {
     throw new Error(`useApp must be used within an AppProvider`);
@@ -35,13 +37,22 @@ export function useApp() {
   const { state, dispatch } = context;
 
   useEffect(() => {
-    if (session?.user?.email) {
-      const hash = createHash('sha256').update(session.user.email).digest('hex');
+    if (!userLoggedIn && state.gameMode !== 'guest') {
+      dispatch({
+        type: AppActionType.SET_MODE,
+        payload: 'guest',
+      });
+    }
+  }, [dispatch, userLoggedIn, state.gameMode]);
+
+  useEffect(() => {
+    if (userLoggedIn) {
+      const hash = createHash('sha256').update(userEmail).digest('hex');
       setUserHash(hash);
     } else {
       setUserHash(null);
     }
-  }, [session]);
+  }, [userEmail, userLoggedIn]);
 
   useEffect(() => {
     const usedCards = state.usedCards.length || 0;
@@ -56,7 +67,7 @@ export function useApp() {
       wrongCards,
       progress,
     });
-  }, [state.wrongCards, state.currentCard, state.remainingCards, state.usedCards]);
+  }, [state.currentCard, state.remainingCards, state.usedCards, state.wrongCards]);
 
   const loadData = useCallback(async () => {
     if (!state.cardMode || !state.gameLevel) {
@@ -76,7 +87,7 @@ export function useApp() {
             config: {
               cardMode,
               gameLevel,
-              gameMode: session ? gameMode : 'guest',
+              gameMode,
             } as PrepareGameConfig,
           }),
         });
@@ -93,6 +104,7 @@ export function useApp() {
     }
 
     const cardIds = await fetchData(state.cardMode, state.gameLevel, state.gameMode);
+
     if (!cardIds?.length) {
       console.error('Cannot fetch flashcards data');
       dispatch({
@@ -103,6 +115,7 @@ export function useApp() {
     }
 
     const nextCard = cardIds[Math.floor(Math.random() * cardIds.length)];
+
     dispatch({
       type: AppActionType.LOAD_DATA,
       payload: { cardIds, nextCard },
@@ -182,19 +195,23 @@ export function useApp() {
   );
 
   const playSound = useCallback(() => {
-    if (!session) {
+    if (!userLoggedIn) {
       return;
     }
 
     audioPlayer.current?.load();
     audioPlayer.current?.play();
-  }, [session]);
+  }, [userLoggedIn]);
 
   const unloadSound = useCallback(() => {
+    if (!userLoggedIn) {
+      return;
+    }
+
     audioPlayer.current?.load();
     audioPlayer.current?.pause();
     audioPlayer.current = undefined;
-  }, []);
+  }, [userLoggedIn]);
 
   const nextCard = useCallback(
     async (cardResult: CardResult) => {
@@ -224,16 +241,24 @@ export function useApp() {
     }
   }, [dispatch, router, state.nextCard]);
 
+  const logIn = useCallback(() => {
+    signIn();
+  }, []);
+
+  const logOut = useCallback(() => {
+    signOut();
+  }, []);
+
   return {
     currentCard: state.currentCard,
     cardMode: state.cardMode,
     gameLevel: state.gameLevel,
     gameMode: state.gameMode,
     loading: Boolean(state.loading),
-    isUserLoggedIn: Boolean(session),
-    canPlaySounds: Boolean(session),
-    signIn: useCallback(() => signIn(), []),
-    signOut: useCallback(() => signOut(), []),
+    userLoggedIn,
+    canPlaySounds: userLoggedIn,
+    logIn,
+    logOut,
     stats,
     userHash,
     setGame,

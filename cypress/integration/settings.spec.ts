@@ -20,6 +20,8 @@ describe('Settings', () => {
 
   describe('card mode', () => {
     const accordionSummaryEl = '[data-cy="card-mode-settings"]';
+    const cardModeSettingsGroup = 'input[name="card-mode-buttons-group"]';
+
     it('should expand the card mode settings', () => {
       cy.get(accordionSummaryEl).should('have.attr', 'aria-expanded').and('equal', 'false');
       cy.get(accordionSummaryEl).click();
@@ -27,8 +29,6 @@ describe('Settings', () => {
     });
 
     it('should set a different card mode', () => {
-      const cardModeSettingsGroup = 'input[name="card-mode-buttons-group"]';
-
       cy.get(`${cardModeSettingsGroup}:checked`).should('have.value', 'en');
       cy.get(accordionSummaryEl).click();
       cy.get('[data-cy="card-mode-settings-kana"]').click();

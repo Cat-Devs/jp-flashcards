@@ -51,7 +51,7 @@ describe('Settings', () => {
     });
   });
 
-  describe.only('Authenticated user', () => {
+  describe('Authenticated user', () => {
     beforeEach(() => {
       cy.authenticate('test@user.com');
       cy.hideCookieBanner();

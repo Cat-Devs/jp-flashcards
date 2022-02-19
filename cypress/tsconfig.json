@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "types": ["cypress", "node"],
+    "types": ["cypress", "node", "./support"],
     "isolatedModules": false,
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"]

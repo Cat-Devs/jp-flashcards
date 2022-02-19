@@ -1,20 +1,25 @@
 describe('Settings', () => {
   beforeEach(() => {
-    cy.window().then((win) => {
-      win.sessionStorage.clear();
-    });
-    cy.visit('/');
+    cy.clearStorage();
   });
 
   describe('Guest user', () => {
+    beforeEach(() => {
+      cy.visit('/');
+    });
+
     it('should see the card mode settings', () => {
-      expect(cy.get('[data-cy="card-mode-settings"]')).to.exist;
-      cy.get('[data-cy="card-mode-settings"]').contains('Show cards in English');
+      cy.dataCy('card-mode-settings').should('exist');
+      cy.dataCy('card-mode-settings').contains('Show cards in English');
     });
 
     it('should see the game level settings', () => {
-      expect(cy.get('[data-cy="game-level-settings"]')).to.exist;
+      cy.dataCy('game-level-settings').should('exist');
       cy.get('input[name="game-level-buttons-group"]:checked').should('have.value', '1');
+    });
+
+    it('should not see the game mode settings', () => {
+      cy.dataCy('game-mode-settings').should('not.exist');
     });
   });
 
@@ -43,6 +48,18 @@ describe('Settings', () => {
       cy.get(`${gameLevelGroup}:checked`).should('have.value', '1');
       cy.get('input[name="game-level-buttons-group"][value="2"]').click();
       cy.get(`${gameLevelGroup}:checked`).should('have.value', '2');
+    });
+  });
+
+  describe.only('Authenticated user', () => {
+    beforeEach(() => {
+      cy.authenticate('test@user.com');
+      cy.hideCookieBanner();
+      cy.visit('/');
+    });
+
+    it('should see the game mode settings', () => {
+      cy.dataCy('game-mode-settings').should('exist');
     });
   });
 });

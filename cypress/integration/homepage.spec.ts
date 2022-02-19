@@ -1,8 +1,6 @@
 describe('Home page', () => {
   beforeEach(() => {
-    cy.window().then((win) => {
-      win.sessionStorage.clear();
-    });
+    cy.clearStorage();
     cy.visit('/');
   });
 

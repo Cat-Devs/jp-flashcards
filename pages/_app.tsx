@@ -19,7 +19,7 @@ const App = (props) => {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <title>jp-flashcards</title>
       </Head>
-      <SessionProvider session={pageProps.session} refetchInterval={60}>
+      <SessionProvider session={pageProps.session} refetchInterval={600}>
         <AppProvider>
           {ready && (
             <AppWrapper>

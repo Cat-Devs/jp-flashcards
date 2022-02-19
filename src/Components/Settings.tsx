@@ -79,18 +79,13 @@ export const Settings: React.FC = () => {
     <Box sx={{ my: 4 }}>
       {userLoggedIn && (
         <Box sx={{ pb: 4 }}>
-          <Accordion data-cy="game-mode-settings">
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Accordion variant="outlined">
+            <AccordionSummary expandIcon={<ExpandMoreIcon />} data-cy="game-mode-settings">
               <Typography>{gameModeLabel}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <FormControl>
-                <RadioGroup
-                  aria-labelledby="game-mode-group-label"
-                  name="game-mode-buttons-group"
-                  value={gameMode}
-                  onChange={handleGameMode}
-                >
+                <RadioGroup name="game-mode-buttons-group" value={gameMode} onChange={handleGameMode}>
                   <FormControlLabel value="learn" control={<Radio />} label={GAME_MODE_LABELS.LEARN} />
                   <FormControlLabel value="practice" control={<Radio />} label={GAME_MODE_LABELS.PRACTICE} />
                   <FormControlLabel value="guest" control={<Radio />} label={GAME_MODE_LABELS.GUEST} />
@@ -102,18 +97,13 @@ export const Settings: React.FC = () => {
       )}
 
       <Box sx={{ pb: 4 }}>
-        <Accordion>
+        <Accordion variant="outlined">
           <AccordionSummary expandIcon={<ExpandMoreIcon />} data-cy="card-mode-settings">
             <Typography>{cardModeLabel}</Typography>
           </AccordionSummary>
           <AccordionDetails data-cy="card-mode-details">
             <FormControl>
-              <RadioGroup
-                aria-labelledby="card-mode-group-label"
-                name="card-mode-buttons-group"
-                value={cardMode}
-                onChange={handleCardMode}
-              >
+              <RadioGroup name="card-mode-buttons-group" value={cardMode} onChange={handleCardMode}>
                 <FormControlLabel
                   data-cy="card-mode-settings-en"
                   value="en"

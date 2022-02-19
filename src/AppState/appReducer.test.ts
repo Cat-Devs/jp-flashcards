@@ -142,7 +142,7 @@ describe('appReducer', () => {
       expect(res).not.toEqual(testState);
     });
 
-    it.only('should not set a next card when there is only 1 card in total', () => {
+    it('should not set a next card when there is only 1 card in total', () => {
       const currentCard = '1';
       const testState: AppState = {
         ...initialState,
@@ -382,7 +382,7 @@ describe('appReducer', () => {
     });
   });
 
-  describe('Game Mode', () => {
+  describe('SET_CARDS', () => {
     it('should change the game mode to hiragana', () => {
       const appState: AppState = {
         ...initialState,
@@ -391,7 +391,7 @@ describe('appReducer', () => {
       const testCardMode: CardMode = 'hiragana';
 
       const res = appReducer(appState, {
-        type: AppActionType.SET_GAME,
+        type: AppActionType.SET_CARDS,
         payload: testCardMode,
       });
 
@@ -406,7 +406,7 @@ describe('appReducer', () => {
       const testCardMode: CardMode = 'kanji';
 
       const res = appReducer(appState, {
-        type: AppActionType.SET_GAME,
+        type: AppActionType.SET_CARDS,
         payload: testCardMode,
       });
 
@@ -421,7 +421,7 @@ describe('appReducer', () => {
       const testCardMode: CardMode = 'kana';
 
       const res = appReducer(appState, {
-        type: AppActionType.SET_GAME,
+        type: AppActionType.SET_CARDS,
         payload: testCardMode,
       });
 
@@ -429,7 +429,7 @@ describe('appReducer', () => {
     });
   });
 
-  describe('Set Game Level', () => {
+  describe('SET_LEVEL', () => {
     it('should change the game level', () => {
       const appState: AppState = {
         ...initialState,
@@ -446,7 +446,7 @@ describe('appReducer', () => {
     });
   });
 
-  describe('Set Game Mode', () => {
+  describe('SET_GAME_MODE', () => {
     it('should change the game mode', () => {
       const appState: AppState = {
         ...initialState,
@@ -455,7 +455,7 @@ describe('appReducer', () => {
       const testGameMode: GameMode = 'learn';
 
       const res = appReducer(appState, {
-        type: AppActionType.SET_MODE,
+        type: AppActionType.SET_GAME_MODE,
         payload: testGameMode,
       });
 

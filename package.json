@@ -12,12 +12,12 @@
     "lint": "next lint",
     "db:create": "AWS_USERS_TABLE=$AWS_USERS_TABLE AWS_REGION=$AWS_REGION node ./data/upload.js",
     "prepare": "husky install",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:open": "cypress open -b chrome",
+    "cypress:run": "cypress run -b chrome"
   },
   "dependencies": {
-    "@emotion/react": "^11.7.1",
-    "@emotion/styled": "^11.6.0",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
     "@mui/icons-material": "^5.3.1",
     "@mui/material": "^5.4.0",
     "@mui/styled-engine-sc": "^5.3.0",
@@ -25,13 +25,15 @@
     "next": "^12.0.10",
     "next-auth": "^4.2.1",
     "node-fetch": "^3.2.0",
-    "react": "17.0.2",
+    "react": "^17.0.2",
     "react-cookie-consent": "^7.3.1",
     "react-device-detect": "^2.1.2",
-    "react-dom": "17.0.2",
+    "react-dom": "^17.0.2",
+    "react-is": "^17.0.2",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.5",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@types/node": "^17.0.18",

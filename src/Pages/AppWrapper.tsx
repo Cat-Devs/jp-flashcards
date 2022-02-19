@@ -1,31 +1,19 @@
 import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useApp } from '../AppState';
+import { UserMenu } from '../Components/UserMenu';
 import { theme } from '../theme';
 
 export const AppWrapper = (props) => {
-  const [anchorElUser, setAnchorElUser] = useState(null);
-  const { goHome, userLoggedIn, userHash, logIn, logOut } = useApp();
-
-  const handleOpenUserMenu = useCallback((event) => {
-    setAnchorElUser(event.currentTarget);
-  }, []);
-
-  const handleCloseUserMenu = useCallback(() => {
-    setAnchorElUser(null);
-  }, []);
+  const { goHome, userLoggedIn, userHash, logIn, logOut, authenticating } = useApp();
 
   return (
     <ThemeProvider theme={theme}>
@@ -43,46 +31,28 @@ export const AppWrapper = (props) => {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              {(userLoggedIn && userHash && (
-                <>
-                  <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <Avatar alt="User avatar" src={`https://avatars.dicebear.com/api/bottts/${userHash}.svg`} />
-                    </IconButton>
-                  </Tooltip>
-                  <Menu
-                    sx={{ mt: '45px' }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                  >
-                    <MenuItem onClick={logOut}>
-                      <Typography textAlign="center">Log Out</Typography>
-                    </MenuItem>
-                  </Menu>
-                </>
-              )) || (
-                <Button variant="text" data-cy="login" onClick={logIn} sx={{ my: 2, color: 'white', display: 'block' }}>
-                  Log In
-                </Button>
-              )}
+              <UserMenu
+                loading={authenticating}
+                signedIn={Boolean(userLoggedIn && userHash)}
+                userHash={userHash}
+                onLogIn={logIn}
+                onLogOut={logOut}
+              />
             </Box>
           </Toolbar>
         </Container>
       </AppBar>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <CssBaseline />
-      {props.children}
+      {authenticating ? (
+        <Container>
+          <Box sx={{ textAlign: 'center', pt: '140px' }}>
+            <CircularProgress size={80} />
+          </Box>
+        </Container>
+      ) : (
+        props.children
+      )}
     </ThemeProvider>
   );
 };

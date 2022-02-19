@@ -24,7 +24,7 @@ export function useApp() {
   const router = useRouter();
   const context = useContext(AppContext);
   const audioPlayer = useRef<HTMLAudioElement>();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [userHash, setUserHash] = useState<string>();
   const [stats, setStats] = useState<Stats>(initialStats);
   const userLoggedIn = Boolean(session?.user?.email);
@@ -251,6 +251,7 @@ export function useApp() {
     gameLevel: state.gameLevel,
     gameMode: state.gameMode,
     loading: Boolean(state.loading),
+    authenticating: Boolean(status !== 'authenticated' && status !== 'unauthenticated'),
     userLoggedIn,
     canPlaySounds: userLoggedIn,
     logIn,

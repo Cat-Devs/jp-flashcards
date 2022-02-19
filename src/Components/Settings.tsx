@@ -30,9 +30,6 @@ export const Settings: React.FC = () => {
   const { cardMode, gameLevel, gameMode, setGameMode, setLevel, setCardMode, userLoggedIn } = useApp();
 
   const cardModeLabel = useMemo(() => {
-    if (cardMode === 'en') {
-      return CARD_MODE_LABELS.EN;
-    }
     if (cardMode === 'hiragana') {
       return CARD_MODE_LABELS.HIRAGANA;
     }
@@ -42,6 +39,8 @@ export const Settings: React.FC = () => {
     if (cardMode === 'kanji') {
       return CARD_MODE_LABELS.KANJI;
     }
+
+    return CARD_MODE_LABELS.EN;
   }, [cardMode]);
 
   const gameModeLabel = useMemo(() => {
@@ -57,8 +56,7 @@ export const Settings: React.FC = () => {
 
   const handleCardMode = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value as CardMode;
-      setCardMode(value);
+      setCardMode(event.target.value as CardMode);
     },
     [setCardMode]
   );
@@ -72,8 +70,7 @@ export const Settings: React.FC = () => {
 
   const handleGameMode = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value as GameMode;
-      setGameMode(value);
+      setGameMode(event.target.value as GameMode);
     },
     [setGameMode]
   );

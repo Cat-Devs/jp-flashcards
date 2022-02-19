@@ -17,6 +17,10 @@ describe('Settings', () => {
       cy.dataCy('game-level-settings').should('exist');
       cy.get('input[name="game-level-buttons-group"]:checked').should('have.value', '1');
     });
+
+    it('should not see the game mode settings', () => {
+      cy.dataCy('game-mode-settings').should('not.exist');
+    });
   });
 
   describe('card mode', () => {
@@ -47,15 +51,15 @@ describe('Settings', () => {
     });
   });
 
-  describe('Authenticated user', () => {
+  describe.only('Authenticated user', () => {
     beforeEach(() => {
-      cy.hideCookieBanner();
       cy.authenticate('test@user.com');
+      cy.hideCookieBanner();
       cy.visit('/');
     });
 
-    it.only('should work', () => {
-      cy.contains('Japanese Flashcards');
+    it('should see the game mode settings', () => {
+      cy.dataCy('game-mode-settings').should('exist');
     });
   });
 });

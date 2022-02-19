@@ -1,12 +1,2 @@
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      hideCookieBanner(): void;
-      clearStorage(): void;
-      authenticate(userEmail: string): void;
-      dataCy(value: string): Cypress.Chainable<JQuery<HTMLElement>>;
-    }
-  }
-}
-
+import 'cypress-axe';
 import './commands';

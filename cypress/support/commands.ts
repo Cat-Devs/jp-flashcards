@@ -9,12 +9,16 @@ Cypress.Commands.add('hideCookieBanner', () => {
 });
 
 Cypress.Commands.add('authenticate', (userEmail: string = 'test@mail.com') => {
-  cy.intercept('GET', '/api/auth/session', {
-    statusCode: 201,
-    body: {
-      user: { email: userEmail },
-    },
-  });
+  cy.intercept(
+    '/api/auth/session',
+    { times: 1 },
+    {
+      statusCode: 200,
+      body: {
+        user: { email: userEmail },
+      },
+    }
+  );
 });
 
 Cypress.Commands.add('dataCy', (value: string) => {

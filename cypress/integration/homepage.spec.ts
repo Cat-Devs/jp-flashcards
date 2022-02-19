@@ -9,7 +9,7 @@ describe('Home page', () => {
   });
 
   it('should render a login button', () => {
-    cy.get('[data-cy=login]').should('exist');
+    cy.get('[data-cy=login]');
   });
 
   describe('Cookie consent', () => {

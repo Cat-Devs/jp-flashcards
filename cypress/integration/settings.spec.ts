@@ -9,12 +9,12 @@ describe('Settings', () => {
     });
 
     it('should see the card mode settings', () => {
-      cy.dataCy('card-mode-settings').should('exist');
+      cy.dataCy('card-mode-settings');
       cy.dataCy('card-mode-settings').contains('Show cards in English');
     });
 
     it('should see the game level settings', () => {
-      cy.dataCy('game-level-settings').should('exist');
+      cy.dataCy('game-level-settings');
       cy.get('input[name="game-level-buttons-group"]:checked').should('have.value', '1');
     });
 
@@ -59,7 +59,7 @@ describe('Settings', () => {
     });
 
     it('should see the game mode settings', () => {
-      cy.dataCy('game-mode-settings').should('exist');
+      cy.dataCy('game-mode-settings');
     });
   });
 });

@@ -114,10 +114,10 @@ export function useApp() {
     router.push(`/shuffle/${nextCard}`);
   }, [dispatch, router, state.gameLevel, state.gameMode, state.cardMode]);
 
-  const setGame = useCallback(
+  const setCardMode = useCallback(
     (cardMode: CardMode) => {
       dispatch({
-        type: AppActionType.SET_GAME,
+        type: AppActionType.SET_CARDS,
         payload: cardMode,
       });
     },
@@ -134,10 +134,10 @@ export function useApp() {
     [dispatch]
   );
 
-  const setMode = useCallback(
+  const setGameMode = useCallback(
     (gameMode: GameMode) => {
       dispatch({
-        type: AppActionType.SET_MODE,
+        type: AppActionType.SET_GAME_MODE,
         payload: gameMode,
       });
     },
@@ -238,7 +238,7 @@ export function useApp() {
 
   const logOut = useCallback(() => {
     dispatch({
-      type: AppActionType.SET_MODE,
+      type: AppActionType.SET_GAME_MODE,
       payload: 'guest',
     });
 
@@ -257,9 +257,9 @@ export function useApp() {
     logOut,
     stats,
     userHash,
-    setGame,
+    setCardMode,
     setLevel,
-    setMode,
+    setGameMode,
     loadData,
     loadSound,
     unloadSound,

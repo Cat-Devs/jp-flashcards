@@ -22,9 +22,9 @@ export enum AppActionType {
   'LOAD_DATA',
   'LOADING_SOUND',
   'NEXT_CARD',
-  'SET_GAME',
+  'SET_GAME_MODE',
+  'SET_CARDS',
   'SET_LEVEL',
-  'SET_MODE',
   'LOADING',
   'PLAY_WRONG_CARDS',
 }
@@ -49,8 +49,8 @@ type NextCardAction = {
   payload: CardResult;
 };
 
-type SetGameAction = {
-  type: AppActionType.SET_GAME;
+type SetCardModeAction = {
+  type: AppActionType.SET_CARDS;
   payload: CardMode;
 };
 
@@ -59,8 +59,8 @@ type SetLevelAction = {
   payload: GameLevel;
 };
 
-type SetModeAction = {
-  type: AppActionType.SET_MODE;
+type SetGameModeAction = {
+  type: AppActionType.SET_GAME_MODE;
   payload: GameMode;
 };
 
@@ -73,7 +73,7 @@ export type AppAction =
   | LoadingSoundAction
   | LoadDataAction
   | NextCardAction
-  | SetGameAction
-  | SetModeAction
+  | SetCardModeAction
+  | SetGameModeAction
   | SetLevelAction
   | PlayWrongCardsAction;

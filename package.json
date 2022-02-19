@@ -12,8 +12,8 @@
     "lint": "next lint",
     "db:create": "AWS_USERS_TABLE=$AWS_USERS_TABLE AWS_REGION=$AWS_REGION node ./data/upload.js",
     "prepare": "husky install",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:open": "cypress open -b chrome",
+    "cypress:run": "cypress run -b chrome"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",

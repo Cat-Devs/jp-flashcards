@@ -1,5 +1,5 @@
-import fetch from 'node-fetch';
 import { Polly } from 'aws-sdk';
+import fetch from 'node-fetch';
 import './aws';
 
 const isDev = Boolean(process.env.DEV);
@@ -16,7 +16,7 @@ const synthesizeSpeech = async (text: string): Promise<Polly.AudioStream | undef
       Engine: 'neural',
     };
 
-    const polly = new Polly({ region: process.env.NEXT_PUBLIC_REGION });
+    const polly = new Polly({ region: process.env.NEXT_AWS_REGION });
 
     return polly.synthesizeSpeech(pollyParams, (error: AWS.AWSError, data: AWS.Polly.Types.SynthesizeSpeechOutput) => {
       if (error) {

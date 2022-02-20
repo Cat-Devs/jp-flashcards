@@ -46,12 +46,12 @@ If you want to run the project against a real back-backed, you will need to crea
 under your personal AWS account.
 
 Copy the `env.sample` to `.env` and fill in the missing informations according to your AWS account.
-You will need to create a DynamoDB table and put the name under the `NEXT_PUBLIC_TABLE_NAME` variable.
+You will need to create a DynamoDB table and put the name under the `NEXT_DYNAMO_TABLE_NAME` variable.
 You will also need to create an IAM under your AWS account, give permissions to AWS Polly and read
 permissions to your AWS Dynamo table.
 Then populate the access key and secret using the following variables under your `.env` file:
-`NEXT_PUBLIC_DYNAMO_ACCESS_KEY` and `NEXT_PUBLIC_SECRET_KEY`.
-Finally, make sure the `NEXT_PUBLIC_REGION` variable is correctly set according to your table region.
+`NEXT_DYNAMO_READ_KEY` and `NEXT_DYNAMO_READ_SECRET`.
+Finally, make sure the `NEXT_AWS_REGION` variable is correctly set according to your table region.
 
 You should now be able to run the [production script](#testing-against-a-production-backend)
 against your AWS account.

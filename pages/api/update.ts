@@ -10,7 +10,7 @@ interface InputData {
   cardResult: CardResult;
 }
 
-const TableName = process.env.NEXT_PUBLIC_TABLE_NAME;
+const TableName = process.env.NEXT_DYNAMO_TABLE_NAME;
 const isDev = Boolean(process.env.DEV);
 
 function getClient(isDev) {
@@ -28,7 +28,7 @@ function getClient(isDev) {
   }
 
   return new DynamoDB.DocumentClient({
-    region: process.env.NEXT_PUBLIC_REGION,
+    region: process.env.NEXT_AWS_REGION,
     credentials: {
       accessKeyId: process.env.NEXT_DYNAMO_WRITE_KEY,
       secretAccessKey: process.env.NEXT_DYNAMO_WRITE_SECRET,

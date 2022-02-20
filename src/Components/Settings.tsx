@@ -14,9 +14,10 @@ import type { CardMode, GameLevel, GameMode } from '../AppState';
 import { useApp } from '../AppState';
 
 const enum GAME_MODE_LABELS {
+  LEARN = 'Keep learning',
+  PRACTICE = 'Repeat all learned words',
+  WEAK = 'Repeat only your weak words',
   GUEST = 'Play with all words',
-  PRACTICE = 'Practice learned Words',
-  LEARN = 'Learn new words',
 }
 
 const enum CARD_MODE_LABELS {
@@ -49,6 +50,9 @@ export const Settings: React.FC = () => {
     }
     if (gameMode === 'practice') {
       return GAME_MODE_LABELS.PRACTICE;
+    }
+    if (gameMode === 'weak') {
+      return GAME_MODE_LABELS.WEAK;
     }
 
     return GAME_MODE_LABELS.GUEST;
@@ -88,6 +92,7 @@ export const Settings: React.FC = () => {
                 <RadioGroup name="game-mode-buttons-group" value={gameMode} onChange={handleGameMode}>
                   <FormControlLabel value="learn" control={<Radio />} label={GAME_MODE_LABELS.LEARN} />
                   <FormControlLabel value="practice" control={<Radio />} label={GAME_MODE_LABELS.PRACTICE} />
+                  <FormControlLabel value="weak" control={<Radio />} label={GAME_MODE_LABELS.WEAK} />
                   <FormControlLabel value="guest" control={<Radio />} label={GAME_MODE_LABELS.GUEST} />
                 </RadioGroup>
               </FormControl>
@@ -96,43 +101,45 @@ export const Settings: React.FC = () => {
         </Box>
       )}
 
-      <Box sx={{ pb: 4 }}>
-        <Accordion variant="outlined">
-          <AccordionSummary expandIcon={<ExpandMoreIcon />} data-cy="card-mode-settings">
-            <Typography>{cardModeLabel}</Typography>
-          </AccordionSummary>
-          <AccordionDetails data-cy="card-mode-details">
-            <FormControl>
-              <RadioGroup name="card-mode-buttons-group" value={cardMode} onChange={handleCardMode}>
-                <FormControlLabel
-                  data-cy="card-mode-settings-en"
-                  value="en"
-                  control={<Radio />}
-                  label={CARD_MODE_LABELS.EN}
-                />
-                <FormControlLabel
-                  data-cy="card-mode-settings-hiragana"
-                  value="hiragana"
-                  control={<Radio />}
-                  label={CARD_MODE_LABELS.HIRAGANA}
-                />
-                <FormControlLabel
-                  data-cy="card-mode-settings-kana"
-                  value="kana"
-                  control={<Radio />}
-                  label={CARD_MODE_LABELS.KANA}
-                />
-                <FormControlLabel
-                  data-cy="card-mode-settings-kanji"
-                  value="kanji"
-                  control={<Radio />}
-                  label={CARD_MODE_LABELS.KANJI}
-                />
-              </RadioGroup>
-            </FormControl>
-          </AccordionDetails>
-        </Accordion>
-      </Box>
+      {gameMode !== 'learn' && (
+        <Box sx={{ pb: 4 }}>
+          <Accordion variant="outlined">
+            <AccordionSummary expandIcon={<ExpandMoreIcon />} data-cy="card-mode-settings">
+              <Typography>{cardModeLabel}</Typography>
+            </AccordionSummary>
+            <AccordionDetails data-cy="card-mode-details">
+              <FormControl>
+                <RadioGroup name="card-mode-buttons-group" value={cardMode} onChange={handleCardMode}>
+                  <FormControlLabel
+                    data-cy="card-mode-settings-en"
+                    value="en"
+                    control={<Radio />}
+                    label={CARD_MODE_LABELS.EN}
+                  />
+                  <FormControlLabel
+                    data-cy="card-mode-settings-hiragana"
+                    value="hiragana"
+                    control={<Radio />}
+                    label={CARD_MODE_LABELS.HIRAGANA}
+                  />
+                  <FormControlLabel
+                    data-cy="card-mode-settings-kana"
+                    value="kana"
+                    control={<Radio />}
+                    label={CARD_MODE_LABELS.KANA}
+                  />
+                  <FormControlLabel
+                    data-cy="card-mode-settings-kanji"
+                    value="kanji"
+                    control={<Radio />}
+                    label={CARD_MODE_LABELS.KANJI}
+                  />
+                </RadioGroup>
+              </FormControl>
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+      )}
 
       {gameMode === 'guest' && (
         <FormControl sx={{ pb: 4 }}>

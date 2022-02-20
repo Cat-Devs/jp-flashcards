@@ -20,7 +20,7 @@ interface FlashcardPageProps {
 }
 
 const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
-  const { cardMode, nextCard, goHome, loading, loadSound, unloadSound, playSound, canPlaySounds, stats } = useApp();
+  const { cardMode, nextCard, goHome, loading, loadSound, unloadSound, playSound, canPlaySounds, gameStats } = useApp();
   const cardJp = card?.jp;
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
   if (loading) {
     return (
       <Container maxWidth="md" disableGutters>
-        <Progress status={stats.progress} />
+        <Progress status={gameStats.progress} />
         <Box sx={{ p: 2 }}>
           <LoadingCard />
         </Box>
@@ -120,7 +120,7 @@ const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
 
   return (
     <Container maxWidth="md" disableGutters>
-      <Progress status={stats.progress} />
+      <Progress status={gameStats.progress} />
       <Box sx={{ p: 2 }}>
         <Flashcard
           card={cardData}

@@ -12,7 +12,7 @@ export default async function auth(req, res) {
         name: 'Credentials',
         credentials: {
           username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
-          password: { label: 'Password', type: 'password' },
+          password: { label: 'Password', type: 'password', autocomplete: 'off' },
         },
         async authorize() {
           return { id: 1, name: 'J Smith', email: 'jsmith@example.com' };

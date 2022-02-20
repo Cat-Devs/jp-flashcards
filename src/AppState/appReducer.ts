@@ -97,6 +97,13 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       };
     }
 
+    case AppActionType.SET_USER_STATS: {
+      return {
+        ...state,
+        userStats: action.payload,
+      };
+    }
+
     default:
       return state;
   }

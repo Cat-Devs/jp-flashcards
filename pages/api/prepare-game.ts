@@ -45,6 +45,39 @@ const practiceCards = async (userEmail: string, items: FlashCardData[], cardMode
     .splice(0, 20);
 };
 
+const practiceWeakCards = async (userEmail: string, items: FlashCardData[], cardMode: CardMode): Promise<string[]> => {
+  const userHash = createHash('sha256').update(userEmail).digest('hex') || null;
+  const initialUserData: UserData = {
+    id: userHash,
+    type: 'user',
+    weak_cards: {},
+    learned_cards: [],
+    current_level: '1',
+  };
+  const data = await dynamoDb.get({
+    Key: {
+      id: userHash,
+    },
+  });
+
+  const userData: UserData = { ...initialUserData, ...data.Item };
+  const weakCardIds = Object.keys(userData?.weak_cards);
+
+  return items
+    .filter((card: FlashCardData) => {
+      if (cardMode === 'hiragana') {
+        return card.hiragana;
+      } else if (cardMode === 'kanji') {
+        return card.kanji;
+      }
+      return true;
+    })
+    .filter((card: FlashCardData) => weakCardIds.includes(card.id))
+    .map((card: FlashCardData) => card.id)
+    .sort(() => Math.random() - 0.5)
+    .splice(0, 20);
+};
+
 const learnNewCards = async (userEmail: string, items: FlashCardData[], cardMode: CardMode): Promise<string[]> => {
   const userHash = createHash('sha256').update(userEmail).digest('hex') || null;
   const initialUserData: UserData = {
@@ -193,6 +226,12 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
   if (gameMode === 'practice') {
     const cardIds = await practiceCards(session.user?.email, items, cardMode);
     console.warn('practiceCards', cardIds);
+    return res.json({ cardIds });
+  }
+
+  if (gameMode === 'weak') {
+    const cardIds = await practiceWeakCards(session.user?.email, items, cardMode);
+    console.warn('practiceWeakCards', cardIds);
     return res.json({ cardIds });
   }
 

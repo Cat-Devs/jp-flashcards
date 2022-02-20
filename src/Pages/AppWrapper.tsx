@@ -13,7 +13,7 @@ import { UserMenu } from '../Components/UserMenu';
 import { theme } from '../theme';
 
 export const AppWrapper = (props) => {
-  const { goHome, userLoggedIn, userHash, logIn, logOut, authenticating } = useApp();
+  const { goHome, userLoggedIn, userStats, logIn, logOut, authenticating } = useApp();
 
   return (
     <ThemeProvider theme={theme}>
@@ -33,8 +33,8 @@ export const AppWrapper = (props) => {
             <Box sx={{ flexGrow: 0 }}>
               <UserMenu
                 loading={authenticating}
-                signedIn={Boolean(userLoggedIn && userHash)}
-                userHash={userHash}
+                signedIn={Boolean(userLoggedIn && userStats?.userHash)}
+                userHash={userStats?.userHash}
                 onLogIn={logIn}
                 onLogOut={logOut}
               />

@@ -24,6 +24,7 @@ const initialState: AppState = {
   usedCards: [],
   wrongCards: [],
   correctCards: [],
+  userStats: undefined,
 };
 
 export function AppProvider(props) {
@@ -71,6 +72,7 @@ export function AppProvider(props) {
       loading: undefined,
       loadingData: undefined,
       loadingSound: undefined,
+      userStats: undefined,
     };
 
     sessionStorage.setItem('app-state', JSON.stringify(storedState));

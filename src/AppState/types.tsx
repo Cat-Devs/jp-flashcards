@@ -1,7 +1,14 @@
 export type CardMode = 'en' | 'hiragana' | 'kanji' | 'kana';
 export type GameLevel = '1' | '2' | '3' | '4';
 export type CardResult = 'correct' | 'wrong' | 'void';
-export type GameMode = 'guest' | 'learn' | 'practice';
+export type GameMode = 'guest' | 'learn' | 'weak' | 'practice';
+
+export interface UserStats {
+  userHash: string;
+  learnedCards: number;
+  weakCards: number;
+  level: number;
+}
 
 export interface AppState {
   loading: Boolean;
@@ -16,6 +23,7 @@ export interface AppState {
   cardMode: CardMode;
   gameLevel: GameLevel;
   gameMode: GameMode;
+  userStats: UserStats;
 }
 
 export enum AppActionType {
@@ -25,6 +33,7 @@ export enum AppActionType {
   'SET_GAME_MODE',
   'SET_CARDS',
   'SET_LEVEL',
+  'SET_USER_STATS',
   'LOADING',
   'PLAY_WRONG_CARDS',
 }
@@ -68,6 +77,11 @@ type PlayWrongCardsAction = {
   type: AppActionType.PLAY_WRONG_CARDS;
 };
 
+type SetUserStatsAction = {
+  type: AppActionType.SET_USER_STATS;
+  payload: UserStats;
+};
+
 export type AppAction =
   | LoadingAction
   | LoadingSoundAction
@@ -76,4 +90,5 @@ export type AppAction =
   | SetCardModeAction
   | SetGameModeAction
   | SetLevelAction
-  | PlayWrongCardsAction;
+  | PlayWrongCardsAction
+  | SetUserStatsAction;

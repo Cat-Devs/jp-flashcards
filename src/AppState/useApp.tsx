@@ -1,4 +1,3 @@
-import { createHash } from 'crypto';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
@@ -7,28 +6,27 @@ import { PrepareGameConfig } from '../types';
 import { AppContext } from './AppContext';
 import { AppActionType, CardMode, CardResult, GameLevel } from './types';
 
-interface Stats {
+interface GameStats {
   usedCards: number;
   totalCards: number;
   wrongCards: number;
   progress: number;
 }
 
+const initialGameStats: GameStats = {
+  progress: 0,
+  totalCards: 0,
+  usedCards: 0,
+  wrongCards: 0,
+};
+
 export function useApp() {
-  const initialStats: Stats = {
-    progress: 0,
-    totalCards: 0,
-    usedCards: 0,
-    wrongCards: 0,
-  };
   const router = useRouter();
   const context = useContext(AppContext);
   const audioPlayer = useRef<HTMLAudioElement>();
   const { data: session, status } = useSession();
-  const [userHash, setUserHash] = useState<string>();
-  const [stats, setStats] = useState<Stats>(initialStats);
+  const [gameStats, setGameStats] = useState<GameStats>(initialGameStats);
   const userLoggedIn = Boolean(session?.user?.email);
-  const userEmail = session?.user?.email;
 
   if (!context) {
     throw new Error(`useApp must be used within an AppProvider`);
@@ -36,14 +34,22 @@ export function useApp() {
 
   const { state, dispatch } = context;
 
-  useEffect(() => {
+  const fetchUserData = useCallback(async () => {
     if (userLoggedIn) {
-      const hash = createHash('sha256').update(userEmail).digest('hex');
-      setUserHash(hash);
+      const userStatsReq = await fetch('/api/get-user-stats', { method: 'POST' });
+      const userStats = await userStatsReq.json();
+      dispatch({ type: AppActionType.SET_USER_STATS, payload: userStats });
     } else {
-      setUserHash(null);
+      dispatch({ type: AppActionType.SET_USER_STATS, payload: undefined });
     }
-  }, [userEmail, userLoggedIn]);
+  }, [userLoggedIn, dispatch]);
+
+  useEffect(() => {
+    if (userLoggedIn && !state.userStats) {
+      fetchUserData();
+      dispatch({ type: AppActionType.SET_GAME_MODE, payload: 'learn' });
+    }
+  }, [userLoggedIn, state.userStats, fetchUserData, dispatch]);
 
   useEffect(() => {
     const usedCards = state.usedCards.length || 0;
@@ -52,7 +58,7 @@ export function useApp() {
       (state.usedCards.length || 0) + (state.remainingCards.length || 0) + ([state.currentCard].length || 0);
     const progress = Number(((100 * usedCards) / totalCards).toFixed(2));
 
-    setStats({
+    setGameStats({
       usedCards,
       totalCards,
       wrongCards,
@@ -208,7 +214,7 @@ export function useApp() {
     async (cardResult: CardResult) => {
       unloadSound();
 
-      if (userHash) {
+      if (userLoggedIn) {
         await fetch('/api/update', {
           method: 'POST',
           body: JSON.stringify({ cardId: state.currentCard, cardResult }),
@@ -221,7 +227,7 @@ export function useApp() {
         router.push(`/shuffle/${state.nextCard}`);
       }
     },
-    [dispatch, router, unloadSound, userHash, state.nextCard, state.currentCard]
+    [dispatch, router, unloadSound, userLoggedIn, state.nextCard, state.currentCard]
   );
 
   const playWrongCards = useCallback(() => {
@@ -250,14 +256,15 @@ export function useApp() {
     cardMode: state.cardMode,
     gameLevel: state.gameLevel,
     gameMode: state.gameMode,
+    userStats: state.userStats,
     loading: Boolean(state.loading),
     authenticating: Boolean(status !== 'authenticated' && status !== 'unauthenticated'),
-    userLoggedIn,
     canPlaySounds: userLoggedIn,
+    fetchUserData,
+    gameStats,
+    userLoggedIn,
     logIn,
     logOut,
-    stats,
-    userHash,
     setCardMode,
     setLevel,
     setGameMode,

@@ -17,10 +17,6 @@ describe('Settings', () => {
       cy.dataCy('game-level-settings');
       cy.get('input[name="game-level-buttons-group"]:checked').should('have.value', '1');
     });
-
-    it('should not see the game mode settings', () => {
-      cy.dataCy('game-mode-settings').should('not.exist');
-    });
   });
 
   describe('card mode', () => {

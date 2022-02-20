@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/router';
 import Copyright from '../src/Components/Copyright';
 import { Settings } from '../src/Components/Settings';
+import { UserStats } from '../src/Components/UserStats';
 
 const Index: React.FC = () => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const Index: React.FC = () => {
             </Typography>
           </Box>
           <Settings />
+          <UserStats />
           <Box my={4}>
             <Button variant="outlined" onClick={handleStartGame}>
               Play

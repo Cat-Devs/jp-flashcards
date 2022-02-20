@@ -15,6 +15,7 @@ describe('appReducer', () => {
     loading: false,
     loadingData: false,
     loadingSound: false,
+    userStats: undefined,
   };
 
   describe('default', () => {

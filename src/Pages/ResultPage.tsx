@@ -10,7 +10,7 @@ import { useApp } from '../AppState';
 import { LoadingCard } from '../Components/LoadingCard';
 
 export const ResultPage: React.FC = () => {
-  const { goHome, loading, playWrongCards, stats } = useApp();
+  const { goHome, loading, playWrongCards, gameStats } = useApp();
 
   if (loading) {
     return (
@@ -30,9 +30,9 @@ export const ResultPage: React.FC = () => {
             <Typography gutterBottom variant="h5" component="div">
               Challenge completed.
             </Typography>
-            {stats.wrongCards ? (
+            {gameStats.wrongCards ? (
               <Typography gutterBottom variant="h5" component="div">
-                You have missed {stats.wrongCards} cards.
+                You have missed {gameStats.wrongCards} cards.
               </Typography>
             ) : (
               <Typography gutterBottom variant="h5" component="div">
@@ -44,7 +44,7 @@ export const ResultPage: React.FC = () => {
             <Button color="primary" onClick={goHome}>
               Go Home
             </Button>
-            {stats.wrongCards ? (
+            {gameStats.wrongCards ? (
               <Button color="primary" onClick={playWrongCards}>
                 Play wrong cards
               </Button>

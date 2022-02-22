@@ -4,6 +4,18 @@
     "id": "1",
     "level": "3",
     "image": "0000",
+    "en": "cherry blossom",
+    "jp": "さくら",
+    "kanji": "桜",
+    "hiragana": "さくら",
+    "katakana": "サクラ",
+    "romaji": "sakura"
+  },
+  {
+    "category": "plants",
+    "id": "1",
+    "level": "3",
+    "image": "0000",
     "en": "tree",
     "jp": "き",
     "kanji": "木",

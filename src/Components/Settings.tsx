@@ -9,7 +9,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import type { CardMode, GameLevel, GameMode } from '../AppState';
 import { useApp } from '../AppState';
 
@@ -29,6 +29,8 @@ const enum CARD_MODE_LABELS {
 
 export const Settings: React.FC = () => {
   const { cardMode, gameLevel, gameMode, setGameMode, setLevel, setCardMode, userLoggedIn } = useApp();
+  const [cardModeExpanded, setCardModeExpanded] = useState(false);
+  const [gameModeExpanded, setGameModeExpanded] = useState(false);
 
   const cardModeLabel = useMemo(() => {
     if (cardMode === 'hiragana') {
@@ -61,6 +63,7 @@ export const Settings: React.FC = () => {
   const handleCardMode = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setCardMode(event.target.value as CardMode);
+      setCardModeExpanded(false);
     },
     [setCardMode]
   );
@@ -75,6 +78,7 @@ export const Settings: React.FC = () => {
   const handleGameMode = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setGameMode(event.target.value as GameMode);
+      setGameModeExpanded(false);
     },
     [setGameMode]
   );
@@ -83,7 +87,11 @@ export const Settings: React.FC = () => {
     <Box sx={{ my: 4 }}>
       {userLoggedIn && (
         <Box sx={{ pb: 4 }}>
-          <Accordion variant="outlined">
+          <Accordion
+            variant="outlined"
+            expanded={gameModeExpanded}
+            onChange={() => setGameModeExpanded(!gameModeExpanded)}
+          >
             <AccordionSummary expandIcon={<ExpandMoreIcon />} data-cy="game-mode-settings">
               <Typography>{gameModeLabel}</Typography>
             </AccordionSummary>
@@ -103,7 +111,11 @@ export const Settings: React.FC = () => {
 
       {gameMode !== 'learn' && (
         <Box sx={{ pb: 4 }}>
-          <Accordion variant="outlined">
+          <Accordion
+            variant="outlined"
+            expanded={cardModeExpanded}
+            onChange={() => setCardModeExpanded(!cardModeExpanded)}
+          >
             <AccordionSummary expandIcon={<ExpandMoreIcon />} data-cy="card-mode-settings">
               <Typography>{cardModeLabel}</Typography>
             </AccordionSummary>

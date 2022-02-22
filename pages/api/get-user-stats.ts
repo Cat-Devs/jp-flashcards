@@ -65,11 +65,17 @@ const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
       .promise();
 
     const userResponse = data.Item as UserData;
+    const level = Number(userResponse?.current_level || initialUserStats.level);
+    const weakCards = Number(
+      userResponse?.weak_cards ? Object.keys(userResponse.weak_cards)?.length : initialUserStats.weakCards
+    );
+    const learnedCards = Number(userResponse?.learned_cards?.length || initialUserStats.learnedCards) + weakCards;
+
     const userData: UserStats = {
-      ...initialUserStats,
-      level: Number(userResponse?.current_level || 1),
-      learnedCards: Number(userResponse?.learned_cards?.length || 0),
-      weakCards: Number(userResponse?.weak_cards ? Object.keys(userResponse.weak_cards)?.length : 0),
+      userHash,
+      level,
+      learnedCards,
+      weakCards,
     };
     res.json(userData);
   } catch (err) {

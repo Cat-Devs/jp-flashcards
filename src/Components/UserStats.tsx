@@ -17,13 +17,10 @@ export const UserStats: React.FC<UserStatsProps> = ({}) => {
       return null;
     }
 
-    if (!userStats.weakCards) {
-      return "You rock! You don't have any card to improve";
-    }
     if (userStats.weakCards === 1) {
-      return 'You only have 1 card to improve';
+      return 'You only have 1 word to improve';
     }
-    return `You have ${userStats.weakCards} cards to improve`;
+    return `You have ${userStats.weakCards} word to improve`;
   }, [userStats?.weakCards]);
 
   const learnedCardsCopy = useMemo(() => {
@@ -32,12 +29,12 @@ export const UserStats: React.FC<UserStatsProps> = ({}) => {
     }
 
     if (!userStats.learnedCards) {
-      return "You haven't learned any card yet.";
+      return "You haven't learned any word yet";
     }
     if (userStats.learnedCards === 1) {
-      return 'You know only 1 card for now.';
+      return 'You know only 1 word for now';
     }
-    return `You have learned ${userStats.learnedCards} cards so far.`;
+    return `You have studied a total of ${userStats.learnedCards} words so far`;
   }, [userStats?.learnedCards]);
 
   if (!userLoggedIn || !userStats || gameMode !== 'learn') {
@@ -46,9 +43,11 @@ export const UserStats: React.FC<UserStatsProps> = ({}) => {
 
   return (
     <Box sx={{ my: 4 }}>
-      <Typography>Your current level is: {userStats.level}</Typography>
-      {(userStats.learnedCards && <Typography>{weakCardsCopy}</Typography>) || null}
-      <Typography gutterBottom>{learnedCardsCopy}</Typography>
+      <Box sx={{ pb: 2 }}>
+        <Typography>Your current level is {userStats.level}</Typography>
+        <Typography>{learnedCardsCopy}</Typography>
+        {(userStats.learnedCards && userStats.weakCards && <Typography>{weakCardsCopy}</Typography>) || null}
+      </Box>
       <Typography>That{"'"}s amazing. Keep learning!</Typography>
     </Box>
   );

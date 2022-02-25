@@ -4,6 +4,4 @@ export const mockSession = (mockValue: any) => {
   _mockValue = mockValue;
 };
 
-export const getSession = () => {
-  return _mockValue;
-};
+export const getSession = () => _mockValue;

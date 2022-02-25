@@ -3,7 +3,7 @@ import './aws';
 const localDB = require(`../data/table-data-local.json`);
 
 const TableName = process.env.NEXT_DYNAMO_TABLE_NAME;
-const isDev = Boolean(process.env.DEV);
+const isDev = Boolean(process.env.DEV) || process.env.NODE_ENV === 'test';
 
 const client =
   !isDev &&
@@ -67,6 +67,26 @@ export const dynamoDb = {
 
       const putItem = await client.put({ TableName, ...params }).promise();
       return putItem;
+    } catch (err) {
+      console.warn(err);
+
+      console.error(
+        'Your AWS credentials are probably wrong or missing inside your environment variables or .env file'
+      );
+      console.error(err?.message);
+      return {};
+    }
+  },
+  update: async (
+    params: Omit<DynamoDB.DocumentClient.UpdateItemInput, 'TableName'>
+  ): Promise<DynamoDB.DocumentClient.UpdateItemOutput> => {
+    try {
+      if (isDev) {
+        return {};
+      }
+
+      const updateItem = await client.update({ TableName, ...params }).promise();
+      return updateItem;
     } catch (err) {
       console.warn(err);
 

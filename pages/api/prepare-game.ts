@@ -2,8 +2,8 @@ import { createHash } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import { dynamoDb } from '../../lib/dynamo-db';
-import type { CardMode, FlashCardData, GameLevel, GameMode, PrepareGameConfig } from '../../src/types';
-import type { UserData } from './types';
+import { trainCards } from '../../lib/train-cards';
+import type { CardMode, FlashCardData, GameLevel, GameMode, PrepareGameConfig, UserData } from '../../src/types';
 
 const practiceCards = async (userEmail: string, items: FlashCardData[], cardMode: CardMode): Promise<string[]> => {
   const userHash = createHash('sha256').update(userEmail).digest('hex') || null;
@@ -73,46 +73,6 @@ const practiceWeakCards = async (userEmail: string, items: FlashCardData[], card
       return true;
     })
     .filter((card: FlashCardData) => weakCardIds.includes(card.id))
-    .map((card: FlashCardData) => card.id)
-    .sort(() => Math.random() - 0.5)
-    .splice(0, 20);
-};
-
-const learnNewCards = async (userEmail: string, items: FlashCardData[], cardMode: CardMode): Promise<string[]> => {
-  const userHash = createHash('sha256').update(userEmail).digest('hex') || null;
-  const initialUserData: UserData = {
-    type: 'user',
-    current_level: '1',
-    id: userHash,
-    weak_cards: {},
-    learned_cards: [],
-  };
-  const data = await dynamoDb.get({
-    Key: {
-      id: userHash,
-    },
-  });
-
-  const userData: UserData = { ...initialUserData, ...data.Item };
-  const learnedCards = userData?.learned_cards;
-
-  return items
-    .filter((card: FlashCardData) => {
-      if (cardMode === 'hiragana') {
-        return card.hiragana;
-      } else if (cardMode === 'kanji') {
-        return card.kanji;
-      }
-      return true;
-    })
-    .filter((card: FlashCardData) => {
-      const level = userData.current_level;
-
-      return Number(level) >= Number(card.level);
-    })
-    .filter((card: FlashCardData) => {
-      return !learnedCards.includes(card.id);
-    })
     .map((card: FlashCardData) => card.id)
     .sort(() => Math.random() - 0.5)
     .splice(0, 20);
@@ -190,7 +150,11 @@ const getGuestUserCards = (items: FlashCardData[], cardMode: CardMode, gameLevel
 const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
   const { config }: { config: PrepareGameConfig } = JSON.parse(req?.body || '{}');
 
-  if (!config?.cardMode || !config?.gameLevel || !config?.gameMode) {
+  if (!config?.gameMode) {
+    return res.json({ error: 'Error! Missing required information' });
+  }
+
+  if (config.gameMode !== 'learn' && (!config?.cardMode || !config?.gameLevel)) {
     return res.json({ error: 'Error! Missing required information' });
   }
 
@@ -218,7 +182,7 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (gameMode === 'learn') {
-    const cardIds = await learnNewCards(session.user?.email, items, cardMode);
+    const cardIds = await trainCards(session.user?.email, items);
     console.warn('learn new words', cardIds);
     return res.json({ cardIds });
   }

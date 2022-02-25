@@ -22,7 +22,8 @@
     "lib/**/*.ts",
     "lib/**/*.tsx",
     "pages/**/*.ts",
-    "pages/**/*.tsx"
+    "pages/**/*.tsx",
+    "__tests__/**/*.*"
   ],
   "exclude": ["node_modules"]
 }

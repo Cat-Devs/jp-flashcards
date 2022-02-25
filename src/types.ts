@@ -14,7 +14,17 @@ export interface FlashCardData {
 }
 
 export interface PrepareGameConfig {
-  cardMode: CardMode;
-  gameLevel: GameLevel;
   gameMode: GameMode;
+  cardMode?: CardMode;
+  gameLevel?: GameLevel;
+}
+
+export interface UserData {
+  id: string;
+  type: 'user' | 'card';
+  weak_cards: {
+    [id: string]: string;
+  };
+  learned_cards: string[];
+  current_level: GameLevel;
 }

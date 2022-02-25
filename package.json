@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "DEV=true PORT=3000 next dev",
-    "prod": "next dev",
+    "dev": "PORT=3000 next dev",
+    "prod": "PROD=true next dev",
     "test": "jest --watchAll",
     "test:ci": "jest",
     "build": "next build",

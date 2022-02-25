@@ -2,18 +2,16 @@ import { DynamoDB } from 'aws-sdk';
 import { createHash } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-import { CardResult } from '../../src/types';
-import { UserData } from './types';
-
+import { isDev } from '../../lib/constants';
+import { CardResult, UserData } from '../../src/types';
 interface InputData {
   cardId: string;
   cardResult: CardResult;
 }
 
 const TableName = process.env.NEXT_DYNAMO_TABLE_NAME;
-const isDev = Boolean(process.env.DEV);
 
-function getClient(isDev) {
+function getClient() {
   if (isDev) {
     return {
       get: () => ({
@@ -40,7 +38,7 @@ function getClient(isDev) {
 const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const { cardId, cardResult }: InputData = JSON.parse(req.body || '{}');
   const session = await getSession({ req });
-  const client = getClient(isDev);
+  const client = getClient();
 
   if (!session) {
     return res.status(401).json({ error: 'Unauthorized request' });

@@ -2,12 +2,12 @@ import { DynamoDB } from 'aws-sdk';
 import { createHash } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
+import { isDev } from '../../lib/constants';
 import { UserData } from '../../src/types';
 
 const TableName = process.env.NEXT_DYNAMO_TABLE_NAME;
-const isDev = Boolean(process.env.DEV);
 
-function getClient(isDev) {
+function getClient() {
   if (isDev) {
     return {
       get: () => ({
@@ -40,7 +40,7 @@ interface UserStats {
 
 const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
-  const client = getClient(isDev);
+  const client = getClient();
 
   if (!session) {
     return res.status(200).json({});

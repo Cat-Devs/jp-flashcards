@@ -1,8 +1,7 @@
 import { Polly } from 'aws-sdk';
 import fetch from 'node-fetch';
 import './aws';
-
-const isDev = Boolean(process.env.DEV);
+import { isDev } from './constants';
 
 const synthesizeSpeech = async (text: string): Promise<Polly.AudioStream | undefined> => {
   return new Promise((resolve, reject) => {

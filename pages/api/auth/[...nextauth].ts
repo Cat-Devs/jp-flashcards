@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
-const isDev = Boolean(process.env.DEV);
+import { isDev } from '../../../lib/constants';
 
 export default async function auth(req, res) {
   const devProviders = [];

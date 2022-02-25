@@ -1,12 +1,12 @@
 import { DynamoDB } from 'aws-sdk';
 import './aws';
+import { isDev, isProd } from './constants';
 const localDB = require(`../data/table-data-local.json`);
 
 const TableName = process.env.NEXT_DYNAMO_TABLE_NAME;
-const isDev = Boolean(process.env.DEV) || process.env.NODE_ENV === 'test';
 
 const client =
-  !isDev &&
+  isProd &&
   new DynamoDB.DocumentClient({
     region: process.env.NEXT_AWS_REGION,
     params: { TableName },

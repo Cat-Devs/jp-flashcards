@@ -2,7 +2,7 @@ import { DynamoDB } from 'aws-sdk';
 import { createHash } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-import { UserData } from './types';
+import { UserData } from '../../src/types';
 
 const TableName = process.env.NEXT_DYNAMO_TABLE_NAME;
 const isDev = Boolean(process.env.DEV);

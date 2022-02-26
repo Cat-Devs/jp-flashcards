@@ -1,3 +1,4 @@
+import { createHash } from 'crypto';
 import { FlashCardData, UserData } from '../src/types';
 import { bumpUserLevel } from './bump-user-level';
 import * as getUserData from './get-user-data';
@@ -157,6 +158,7 @@ describe('Train Cards', () => {
   });
 
   it('should bump the level when there are no card left', async () => {
+    const userHash = createHash('sha256').update(testMail).digest('hex') || null;
     const testUserData: UserData = {
       ...userData,
       learned_cards: ['1', '4'],

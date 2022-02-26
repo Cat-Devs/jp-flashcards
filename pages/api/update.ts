@@ -75,15 +75,6 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
     const currentAccuracyScore = Number(cardResult === 'correct' ? 100 : 0);
     const newAccuracy = Number((cardAccuracy + currentAccuracyScore) / 2);
 
-    console.warn(
-      'currentAccuracyScore',
-      currentAccuracyScore,
-      'cardAccuracy',
-      cardAccuracy,
-      'newAccuracy',
-      newAccuracy
-    );
-
     if (cardResult === 'void') {
       return res.json({});
     }

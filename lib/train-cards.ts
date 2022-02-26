@@ -9,7 +9,7 @@ export const trainCards = async (
   items: FlashCardData[],
   userLevelBumped?: boolean
 ): Promise<string[]> => {
-  const userHash = createHash('sha256').update(userEmail).digest('hex') || null;
+  const userHash = createHash('sha256').update(userEmail).digest('hex');
   const initialUserData: UserData = {
     type: 'user',
     current_level: '1',
@@ -23,29 +23,38 @@ export const trainCards = async (
     },
   });
 
-  const userData: UserData = { ...initialUserData, ...data.Item };
-  const learnedCards = userData?.learned_cards;
+  const userData: UserData = {
+    ...initialUserData,
+    current_level: data.Item?.current_level || initialUserData.current_level,
+    weak_cards: data.Item?.weak_cards || initialUserData.weak_cards,
+    learned_cards: data.Item?.learned_cards || initialUserData.learned_cards,
+  };
+
+  const learnedCards = userData.learned_cards;
+  const weakCards = Object.keys(userData.weak_cards);
   const randomLearnedCards = pickRandomCards(learnedCards, 2);
 
   const cardIds = items
     .filter((card: FlashCardData) => Number(userData.current_level) === Number(card.level))
-    .filter((card: FlashCardData) => !learnedCards.includes(card.id))
+    .filter((card: FlashCardData) => !learnedCards.includes(card.id) && !weakCards.includes(card.id))
     .map((card: FlashCardData) => card.id);
 
-  if (!cardIds.length && Number(userData.current_level) >= 5) {
-    // Max level reach
-    return [];
+  if (!weakCards.length) {
+    if (!cardIds.length && Number(userData.current_level) >= 5) {
+      // Max level reach
+      return [];
+    }
+
+    // Promote user to the next level
+    if (!cardIds.length && !userLevelBumped) {
+      await bumpUserLevel(userHash);
+      return trainCards(userEmail, items, true);
+    }
   }
 
-  // Promote user to the next level
-  if (!cardIds.length && !userLevelBumped) {
-    await bumpUserLevel(userHash);
-    return trainCards(userEmail, items, true);
-  }
-
-  return cardIds
-    .sort(() => Math.random() - 0.5)
+  return [...weakCards, ...cardIds]
     .splice(0, 13)
+    .sort(() => Math.random() - 0.5)
     .concat(randomLearnedCards)
     .sort(() => Math.random() - 0.5);
 };

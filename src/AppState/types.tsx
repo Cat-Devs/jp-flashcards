@@ -1,5 +1,5 @@
 export type CardMode = 'en' | 'hiragana' | 'kanji' | 'kana';
-export type GameLevel = '1' | '2' | '3' | '4';
+export type GameLevel = '1' | '2' | '3' | '4' | '5';
 export type CardResult = 'correct' | 'wrong' | 'void';
 export type GameMode = 'guest' | 'learn' | 'weak' | 'practice';
 

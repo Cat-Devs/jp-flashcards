@@ -163,7 +163,7 @@ describe('Prepare game', () => {
     });
   });
 
-  describe('Learn new words', () => {
+  describe('Training mode', () => {
     const gameMode: GameMode = 'learn';
     const userData: UserData = {
       id: '123',
@@ -187,60 +187,6 @@ describe('Prepare game', () => {
       const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
       const testRes: any = { json: jest.fn() };
       const expectedRes = [testData[0].id, testData[3].id];
-
-      await prepareGame(testReq, testRes);
-
-      expect(testRes.json).toBeCalledWith({ cardIds: expect.arrayContaining(expectedRes) });
-    });
-
-    it('should discard cards already learned', async () => {
-      const testUserData: UserData = {
-        ...userData,
-        learned_cards: ['4'],
-      };
-      jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: { email: 'test' }, expires: '' });
-      jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
-      jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
-      const testBody = { config: { gameMode } };
-      const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
-      const testRes: any = { json: jest.fn() };
-      const expectedRes = [testData[0].id];
-
-      await prepareGame(testReq, testRes);
-
-      expect(testRes.json).toBeCalledWith({ cardIds: expect.arrayContaining(expectedRes) });
-    });
-
-    it('should include weak cards', async () => {
-      const testUserData: UserData = {
-        ...userData,
-        weak_cards: { '4': '50' },
-      };
-      jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: { email: 'test' }, expires: '' });
-      jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
-      jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
-      const testBody = { config: { gameMode } };
-      const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
-      const testRes: any = { json: jest.fn() };
-      const expectedRes = ['1', '4'];
-
-      await prepareGame(testReq, testRes);
-
-      expect(testRes.json).toBeCalledWith({ cardIds: expect.arrayContaining(expectedRes) });
-    });
-
-    it('should include 2 random learned cards', async () => {
-      const testUserData: UserData = {
-        ...userData,
-        learned_cards: ['1', '2'],
-      };
-      jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: { email: 'test' }, expires: '' });
-      jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
-      jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
-      const testBody = { config: { gameMode } };
-      const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
-      const testRes: any = { json: jest.fn() };
-      const expectedRes = ['1', '4'];
 
       await prepareGame(testReq, testRes);
 

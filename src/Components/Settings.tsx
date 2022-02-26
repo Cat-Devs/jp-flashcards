@@ -14,7 +14,7 @@ import type { CardMode, GameLevel, GameMode } from '../AppState';
 import { useApp } from '../AppState';
 
 const enum GAME_MODE_LABELS {
-  LEARN = 'Keep learning',
+  TRAIN = 'Keep learning',
   PRACTICE = 'Repeat all learned words',
   WEAK = 'Repeat only your weak words',
   GUEST = 'Play with all words',
@@ -47,8 +47,8 @@ export const Settings: React.FC = () => {
   }, [cardMode]);
 
   const gameModeLabel = useMemo(() => {
-    if (gameMode === 'learn') {
-      return GAME_MODE_LABELS.LEARN;
+    if (gameMode === 'train') {
+      return GAME_MODE_LABELS.TRAIN;
     }
     if (gameMode === 'practice') {
       return GAME_MODE_LABELS.PRACTICE;
@@ -98,7 +98,7 @@ export const Settings: React.FC = () => {
             <AccordionDetails>
               <FormControl>
                 <RadioGroup name="game-mode-buttons-group" value={gameMode} onChange={handleGameMode}>
-                  <FormControlLabel value="learn" control={<Radio />} label={GAME_MODE_LABELS.LEARN} />
+                  <FormControlLabel value="train" control={<Radio />} label={GAME_MODE_LABELS.TRAIN} />
                   <FormControlLabel value="practice" control={<Radio />} label={GAME_MODE_LABELS.PRACTICE} />
                   <FormControlLabel value="weak" control={<Radio />} label={GAME_MODE_LABELS.WEAK} />
                   <FormControlLabel value="guest" control={<Radio />} label={GAME_MODE_LABELS.GUEST} />
@@ -109,7 +109,7 @@ export const Settings: React.FC = () => {
         </Box>
       )}
 
-      {gameMode !== 'learn' && (
+      {gameMode !== 'train' && (
         <Box sx={{ pb: 4 }}>
           <Accordion
             variant="outlined"

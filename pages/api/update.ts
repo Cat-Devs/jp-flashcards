@@ -73,7 +73,7 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
     const isLearnedCard = Boolean(userData['learned_cards'].find((card) => card === cardId));
     const cardAccuracy = Number(userData['weak_cards']?.[cardId] || 0);
     const currentAccuracyScore = Number(cardResult === 'correct' ? 100 : 0);
-    const newAccuracy = Number(cardAccuracy + currentAccuracyScore / 2);
+    const newAccuracy = Number((cardAccuracy + currentAccuracyScore) / 2);
 
     if (cardResult === 'void') {
       return res.json({});

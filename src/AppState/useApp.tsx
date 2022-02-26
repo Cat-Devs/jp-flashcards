@@ -47,7 +47,7 @@ export function useApp() {
   useEffect(() => {
     if (userLoggedIn && !state.userStats) {
       fetchUserData();
-      dispatch({ type: AppActionType.SET_GAME_MODE, payload: 'learn' });
+      dispatch({ type: AppActionType.SET_GAME_MODE, payload: 'train' });
     }
   }, [userLoggedIn, state.userStats, fetchUserData, dispatch]);
 

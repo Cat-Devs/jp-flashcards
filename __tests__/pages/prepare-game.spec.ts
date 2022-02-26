@@ -1,9 +1,19 @@
+import { createHash } from 'crypto';
 import { NextApiRequest } from 'next';
 import * as nextAuth from 'next-auth/react';
 import { dynamoDb } from '../../lib/dynamo-db';
+import * as getAllCards from '../../lib/get-all-cards';
+import * as guestUserCards from '../../lib/guest-user-cards';
+import * as practice from '../../lib/practice-all-learned-cards';
+import * as practiceWeak from '../../lib/practice-weak-cards';
+import * as trainCards from '../../lib/train-cards';
 import prepareGame from '../../pages/api/prepare-game';
 import { CardMode, GameLevel, GameMode } from '../../src/AppState';
-import { FlashCardData, UserData } from '../../src/types';
+import { FlashCardData } from '../../src/types';
+
+jest.mock('../../lib/dynamo-db');
+jest.mock('../../lib/guest-user-cards');
+jest.mock('../../lib/train-cards');
 
 describe('Prepare game', () => {
   it.each([
@@ -22,21 +32,34 @@ describe('Prepare game', () => {
     expect(testRes.json).toBeCalledWith({ error: testError });
   });
 
-  it('should return some card ids', async () => {
-    jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
-    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: [{}] });
-    const testBody = { config: { cardMode: 'a', gameLevel: 'b', gameMode: 'c' } };
+  it('should return an error when the game mode is not train but the cardMode is missing', async () => {
+    const gameMode: GameMode = 'practice';
+    const gameLevel: GameLevel = '2';
+    const testError = 'Error! Missing required information';
+    const testBody = { config: { gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
     const testRes: any = { json: jest.fn() };
-    const expectedRes = { cardIds: [] };
 
     await prepareGame(testReq, testRes);
 
-    expect(testRes.json).toBeCalledWith(expectedRes);
+    expect(testRes.json).toBeCalledWith({ error: testError });
+  });
+
+  it('should return an error when the game mode is not train but the gameLevel is missing', async () => {
+    const gameMode: GameMode = 'practice';
+    const cardMode: CardMode = 'en';
+    const testError = 'Error! Missing required information';
+    const testBody = { config: { cardMode, gameMode } };
+    const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
+    const testRes: any = { json: jest.fn() };
+
+    await prepareGame(testReq, testRes);
+
+    expect(testRes.json).toBeCalledWith({ error: testError });
   });
 
   it('should return an error when the user data is invalid', async () => {
-    const gameMode: GameMode = 'learn';
+    const gameMode: GameMode = 'train';
     const cardMode: CardMode = 'en';
     const gameLevel: GameLevel = '2';
     const testData: FlashCardData[] = [{ id: '1', en: 'test', jp: 'test', category: 'test', level: '1' }];
@@ -52,145 +75,136 @@ describe('Prepare game', () => {
     expect(testRes.json).toBeCalledWith({ error: expectedError });
   });
 
-  describe('Guest user', () => {
-    it('should return an error when not able to fetch the cards from the DB', async () => {
-      const testError = 'Error! Missing data';
-      jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
-      jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: [] });
-      const testBody = { config: { cardMode: 'a', gameLevel: 'b', gameMode: 'c' } };
-      const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
-      const testRes: any = { json: jest.fn() };
+  it('should return an error when not able to fetch the cards from the DB', async () => {
+    const testError = 'Error! Missing data';
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
+    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: [] });
+    const testBody = { config: { cardMode: 'a', gameLevel: 'b', gameMode: 'c' } };
+    const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
+    const testRes: any = { json: jest.fn() };
 
-      await prepareGame(testReq, testRes);
+    await prepareGame(testReq, testRes);
 
-      expect(testRes.json).toBeCalledWith({ error: testError });
-    });
-
-    it('should return all the cards when choosing the English card mode', async () => {
-      const cardMode: CardMode = 'en';
-      const testData: FlashCardData[] = [
-        { id: '1', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
-        { id: '2', en: 'test', jp: 'test', katakana: 'test', category: 'test', level: '1' },
-        { id: '3', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '1' },
-      ];
-      jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
-      jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
-      const testBody = { config: { cardMode, gameLevel: '1', gameMode: 'c' } };
-      const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
-      const testRes: any = { json: jest.fn() };
-      const expectedRes = testData.map((card) => card.id);
-
-      await prepareGame(testReq, testRes);
-
-      expect(testRes.json).toBeCalledWith({ cardIds: expect.arrayContaining(expectedRes) });
-    });
-
-    it('should return all the cards when choosing the Kana card mode', async () => {
-      const cardMode: CardMode = 'kana';
-      const testData: FlashCardData[] = [
-        { id: '1', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
-        { id: '2', en: 'test', jp: 'test', katakana: 'test', category: 'test', level: '1' },
-        { id: '3', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '1' },
-      ];
-      jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
-      jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
-      const testBody = { config: { cardMode, gameLevel: '1', gameMode: 'c' } };
-      const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
-      const testRes: any = { json: jest.fn() };
-      const expectedRes = testData.map((card) => card.id);
-
-      await prepareGame(testReq, testRes);
-
-      expect(testRes.json).toBeCalledWith({ cardIds: expect.arrayContaining(expectedRes) });
-    });
-
-    it('should only return the cards having an Hiragana version', async () => {
-      const cardMode: CardMode = 'hiragana';
-      const testData: FlashCardData[] = [
-        { id: '1', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
-        { id: '2', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
-        { id: '3', en: 'test', jp: 'test', category: 'test', level: '1' },
-      ];
-      jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
-      jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
-      const testBody = { config: { cardMode, gameLevel: '1', gameMode: 'c' } };
-      const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
-      const testRes: any = { json: jest.fn() };
-      const expectedRes = testData.filter((card) => card.hiragana).map((card) => card.id);
-
-      await prepareGame(testReq, testRes);
-
-      expect(testRes.json).toBeCalledWith({ cardIds: expect.arrayContaining(expectedRes) });
-    });
-
-    it('should only return the cards having a Kanji version', async () => {
-      const cardMode: CardMode = 'kanji';
-      const testData: FlashCardData[] = [
-        { id: '1', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '1' },
-        { id: '2', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '1' },
-        { id: '3', en: 'test', jp: 'test', category: 'test', level: '1' },
-      ];
-      jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
-      jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
-      const testBody = { config: { cardMode, gameLevel: '1', gameMode: 'c' } };
-      const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
-      const testRes: any = { json: jest.fn() };
-      const expectedRes = testData.filter((card) => card.hiragana).map((card) => card.id);
-
-      await prepareGame(testReq, testRes);
-
-      expect(testRes.json).toBeCalledWith({ cardIds: expect.arrayContaining(expectedRes) });
-    });
-
-    it('should return all the cards matching the requested level', async () => {
-      const cardMode: CardMode = 'en';
-      const gameLevel: GameLevel = '2';
-      const testData: FlashCardData[] = [
-        { id: '1', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
-        { id: '2', en: 'test', jp: 'test', katakana: 'test', category: 'test', level: '2' },
-        { id: '3', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '3' },
-      ];
-      jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
-      jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
-      const testBody = { config: { cardMode, gameLevel, gameMode: 'c' } };
-      const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
-      const testRes: any = { json: jest.fn() };
-      const expectedRes = testData.filter((card) => card.level <= gameLevel).map((card) => card.id);
-
-      await prepareGame(testReq, testRes);
-
-      expect(testRes.json).toBeCalledWith({ cardIds: expect.arrayContaining(expectedRes) });
-    });
+    expect(testRes.json).toBeCalledWith({ error: testError });
   });
 
-  describe('Training mode', () => {
-    const gameMode: GameMode = 'learn';
-    const userData: UserData = {
-      id: '123',
-      type: 'user',
-      current_level: '1',
-      learned_cards: [],
-      weak_cards: {},
-    };
+  it('should return some guest cards when the user is not authenticated', async () => {
+    const cardMode: CardMode = 'en';
+    const gameLevel: GameLevel = '1';
+    const gameMode: GameMode = 'guest';
+    const testData: FlashCardData[] = [{ id: '1', en: 'test', jp: 'test', category: 'test', level: '1' }];
+    const expectedRes = testData.map((card) => card.id);
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
+    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
+    jest.spyOn(guestUserCards, 'guestUserCards').mockReturnValue(expectedRes);
+    const testBody = { config: { cardMode, gameLevel, gameMode } };
+    const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
+    const testRes: any = { json: jest.fn() };
+    await prepareGame(testReq, testRes);
+
+    expect(testRes.json).toBeCalledWith({ cardIds: expectedRes });
+    expect(guestUserCards.guestUserCards).toBeCalledWith(testData, cardMode, gameLevel);
+  });
+
+  it('should return some train cards when the user is authenticated and "learn" is the Game Mode', async () => {
+    const cardMode: CardMode = 'en';
+    const gameLevel: GameLevel = '1';
+    const gameMode: GameMode = 'train';
     const testData: FlashCardData[] = [
       { id: '1', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
-      { id: '2', en: 'test', jp: 'test', katakana: 'test', category: 'test', level: '2' },
-      { id: '3', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '3' },
-      { id: '4', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '1' },
+      { id: '2', en: 'test', jp: 'test', katakana: 'test', category: 'test', level: '1' },
+      { id: '3', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '1' },
+    ];
+    const testUser = { email: 'test' };
+    const userHash = createHash('sha256').update(testUser.email).digest('hex');
+    const expectedRes = testData.map((card) => card.id);
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
+    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
+    jest.spyOn(trainCards, 'trainCards').mockResolvedValue(expectedRes);
+    const testBody = { config: { cardMode, gameLevel, gameMode } };
+    const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
+    const testRes: any = { json: jest.fn() };
+
+    await prepareGame(testReq, testRes);
+
+    expect(trainCards.trainCards).toBeCalledWith(userHash, testData);
+    expect(testRes.json).toBeCalledWith({ cardIds: expectedRes });
+  });
+
+  it('should return the learned cards when the user is authenticated and "practice" is the Game Mode', async () => {
+    const cardMode: CardMode = 'en';
+    const gameLevel: GameLevel = '1';
+    const gameMode: GameMode = 'practice';
+    const testData: FlashCardData[] = [
+      { id: '1', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
+      { id: '2', en: 'test', jp: 'test', katakana: 'test', category: 'test', level: '1' },
+      { id: '3', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '1' },
+    ];
+    const testUser = { email: 'test' };
+    const userHash = createHash('sha256').update(testUser.email).digest('hex');
+    const expectedRes = testData.map((card) => card.id);
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
+    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
+    jest.spyOn(practice, 'practiceAllLearnedCards').mockResolvedValue(expectedRes);
+    const testBody = { config: { cardMode, gameLevel, gameMode } };
+    const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
+    const testRes: any = { json: jest.fn() };
+
+    await prepareGame(testReq, testRes);
+
+    expect(practice.practiceAllLearnedCards).toBeCalledWith(userHash, testData, cardMode);
+    expect(testRes.json).toBeCalledWith({ cardIds: expectedRes });
+  });
+
+  it('should return the weak cards when the user is authenticated and "weak" is the Game Mode', async () => {
+    const cardMode: CardMode = 'en';
+    const gameLevel: GameLevel = '1';
+    const gameMode: GameMode = 'weak';
+    const testData: FlashCardData[] = [
+      { id: '1', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
+      { id: '2', en: 'test', jp: 'test', katakana: 'test', category: 'test', level: '1' },
+      { id: '3', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '1' },
     ];
 
-    it('should return all the cards not learned matching the current user level', async () => {
-      jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: { email: 'test' }, expires: '' });
-      jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: userData });
-      jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
-      const testBody = { config: { gameMode } };
-      const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
-      const testRes: any = { json: jest.fn() };
-      const expectedRes = [testData[0].id, testData[3].id];
+    const testUser = { email: 'test' };
+    const userHash = createHash('sha256').update(testUser.email).digest('hex');
+    const expectedRes = testData.map((card) => card.id);
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
+    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
+    jest.spyOn(practiceWeak, 'practiceWeakCards').mockResolvedValue(expectedRes);
+    const testBody = { config: { cardMode, gameLevel, gameMode } };
+    const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
+    const testRes: any = { json: jest.fn() };
 
-      await prepareGame(testReq, testRes);
+    await prepareGame(testReq, testRes);
 
-      expect(testRes.json).toBeCalledWith({ cardIds: expect.arrayContaining(expectedRes) });
-    });
+    expect(practiceWeak.practiceWeakCards).toBeCalledWith(userHash, testData, cardMode);
+    expect(testRes.json).toBeCalledWith({ cardIds: expectedRes });
+  });
+
+  it('should return all the cards with the given level when the user is authenticated and "guest" is the Game Mode', async () => {
+    const cardMode: CardMode = 'en';
+    const gameLevel: GameLevel = '1';
+    const gameMode: GameMode = 'guest';
+    const testData: FlashCardData[] = [
+      { id: '1', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
+      { id: '2', en: 'test', jp: 'test', katakana: 'test', category: 'test', level: '1' },
+      { id: '3', en: 'test', jp: 'test', kanji: 'test', category: 'test', level: '1' },
+    ];
+
+    const testUser = { email: 'test' };
+    const userHash = createHash('sha256').update(testUser.email).digest('hex');
+    const expectedRes = testData.map((card) => card.id);
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
+    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
+    jest.spyOn(getAllCards, 'getAllCards').mockResolvedValue(expectedRes);
+    const testBody = { config: { cardMode, gameLevel, gameMode } };
+    const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
+    const testRes: any = { json: jest.fn() };
+
+    await prepareGame(testReq, testRes);
+
+    expect(getAllCards.getAllCards).toBeCalledWith(userHash, testData, cardMode, gameLevel);
+    expect(testRes.json).toBeCalledWith({ cardIds: expectedRes });
   });
 });

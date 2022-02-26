@@ -453,7 +453,7 @@ describe('appReducer', () => {
         ...initialState,
         gameMode: 'guest',
       };
-      const testGameMode: GameMode = 'learn';
+      const testGameMode: GameMode = 'train';
 
       const res = appReducer(appState, {
         type: AppActionType.SET_GAME_MODE,

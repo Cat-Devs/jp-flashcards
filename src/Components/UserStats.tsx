@@ -37,7 +37,7 @@ export const UserStats: React.FC<UserStatsProps> = ({}) => {
     return `You have studied a total of ${userStats.learnedCards} words so far`;
   }, [userStats?.learnedCards]);
 
-  if (!userLoggedIn || !userStats || gameMode !== 'learn') {
+  if (!userLoggedIn || !userStats || gameMode !== 'train') {
     return null;
   }
 

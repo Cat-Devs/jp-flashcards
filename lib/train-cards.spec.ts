@@ -1,14 +1,13 @@
-import { createHash } from 'crypto';
 import { FlashCardData, UserData } from '../src/types';
 import { bumpUserLevel } from './bump-user-level';
-import { dynamoDb } from './dynamo-db';
+import * as getUserData from './get-user-data';
 import { trainCards } from './train-cards';
 
-jest.mock('./dynamo-db');
+jest.mock('./get-user-data');
 jest.mock('./bump-user-level');
 
 describe('Train Cards', () => {
-  const testMail = 'test@mail.com';
+  const userHash = 'test_user_hash';
 
   beforeEach(() => {
     jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
@@ -35,21 +34,10 @@ describe('Train Cards', () => {
   ];
 
   it('should return all the cards matching the current user level', async () => {
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: userData });
     const expectedRes = [testData[0].id, testData[3].id];
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(userData);
 
-    const res = await trainCards(testMail, testData);
-
-    expect(res).toEqual(expectedRes);
-  });
-
-  it('should return a default user data when playing the first time', async () => {
-    const testUserData = undefined;
-
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
-    const expectedRes = [testData[0].id, testData[3].id];
-
-    const res = await trainCards(testMail, testData);
+    const res = await trainCards(userHash, testData);
 
     expect(res).toEqual(expectedRes);
   });
@@ -89,10 +77,10 @@ describe('Train Cards', () => {
       { id: '17', level: '1' },
       { id: '18', level: '1' },
     ] as FlashCardData[];
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
     const expectedRes = ['10', '11', '12', '13', '14', '15', '16', '17', '18', '1', '2', '3', '4'];
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
-    const res = await trainCards(testMail, cardItems);
+    const res = await trainCards(userHash, cardItems);
 
     expect(res).toEqual(expectedRes);
   });
@@ -102,10 +90,10 @@ describe('Train Cards', () => {
       ...userData,
       learned_cards: ['2', '3'],
     };
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
     const expectedRes = [testData[0].id, testData[3].id, ...testUserData.learned_cards];
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
-    const res = await trainCards(testMail, testData);
+    const res = await trainCards(userHash, testData);
 
     expect(res.sort()).toEqual(expectedRes.sort());
   });
@@ -146,10 +134,10 @@ describe('Train Cards', () => {
       { id: '17', level: '1' },
       { id: '18', level: '1' },
     ] as FlashCardData[];
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
     const expectedRes = ['10', '11', '12', '13', '14', '15', '16', '17', '18', '1', '2', '3', '4', '8', '7'];
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
-    const res = await trainCards(testMail, cardItems);
+    const res = await trainCards(userHash, cardItems);
 
     expect(res).toEqual(expectedRes);
   });
@@ -160,23 +148,22 @@ describe('Train Cards', () => {
       ...userData,
       learned_cards: ['2', ...expectedLearnedCards, '6'],
     };
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
     const expectedRes = [testData[0].id, testData[3].id, ...expectedLearnedCards];
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
-    const res = await trainCards(testMail, testData);
+    const res = await trainCards(userHash, testData);
 
     expect(res.sort()).toEqual(expectedRes.sort());
   });
 
   it('should bump the level when there are no card left', async () => {
-    const userHash = createHash('sha256').update(testMail).digest('hex') || null;
     const testUserData: UserData = {
       ...userData,
       learned_cards: ['1', '4'],
     };
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
-    await trainCards(testMail, testData);
+    await trainCards(userHash, testData);
 
     expect(bumpUserLevel).toHaveBeenCalledWith(userHash);
   });
@@ -187,10 +174,10 @@ describe('Train Cards', () => {
       weak_cards: { '2': '50' },
       learned_cards: ['1', '4'],
     };
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
     const expectedRes = [testData[0].id, testData[1].id, testData[3].id];
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
-    const res = await trainCards(testMail, testData);
+    const res = await trainCards(userHash, testData);
 
     expect(bumpUserLevel).not.toHaveBeenCalled();
     expect(res.sort()).toEqual(expectedRes.sort());
@@ -203,10 +190,10 @@ describe('Train Cards', () => {
       current_level: userLevel,
       learned_cards: ['1', '4'],
     };
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: testUserData });
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
     const expectedRes = [];
 
-    const res = await trainCards(testMail, testData);
+    const res = await trainCards(userHash, testData);
 
     expect(bumpUserLevel).not.toHaveBeenCalled();
     expect(res.sort()).toEqual(expectedRes.sort());

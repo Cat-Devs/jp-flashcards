@@ -1,7 +1,8 @@
-import { dynamoDb } from './dynamo-db';
+import { getDbClient } from './dynamo-db';
 
 export const bumpUserLevel = async (userHash: string) => {
-  const data = await dynamoDb.get({
+  const client = getDbClient();
+  const data = await client.get({
     Key: {
       id: userHash,
     },
@@ -13,7 +14,7 @@ export const bumpUserLevel = async (userHash: string) => {
 
   const newLevel = `${Number(data.Item.current_level) + 1}`;
 
-  await dynamoDb.update({
+  await client.update({
     Key: {
       id: userHash,
     },

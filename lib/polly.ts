@@ -1,6 +1,5 @@
 import { Polly } from 'aws-sdk';
 import fetch from 'node-fetch';
-import './aws';
 import { isDev } from './constants';
 
 const synthesizeSpeech = async (text: string): Promise<Polly.AudioStream | undefined> => {
@@ -15,7 +14,13 @@ const synthesizeSpeech = async (text: string): Promise<Polly.AudioStream | undef
       Engine: 'neural',
     };
 
-    const polly = new Polly({ region: process.env.NEXT_AWS_REGION });
+    const polly = new Polly({
+      region: process.env.NEXT_AWS_REGION,
+      credentials: {
+        accessKeyId: process.env.NEXT_DYNAMO_READ_KEY,
+        secretAccessKey: process.env.NEXT_DYNAMO_READ_SECRET,
+      },
+    });
 
     return polly.synthesizeSpeech(pollyParams, (error: AWS.AWSError, data: AWS.Polly.Types.SynthesizeSpeechOutput) => {
       if (error) {

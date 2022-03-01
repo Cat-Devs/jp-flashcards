@@ -1,4 +1,4 @@
-import { CardMode, FlashCardData } from '../src/types';
+import type { CardMode, FlashCardData } from '../src/types';
 import { getUserData } from './get-user-data';
 
 export const practiceWeakCards = async (

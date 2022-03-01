@@ -1,10 +1,9 @@
 import React from 'react';
-
-import { dynamoDb } from '../../lib/dynamo-db';
+import { getDbClient } from '../../lib/dynamo-db';
 import { useApp } from '../../src/AppState';
 import { FlashcardPage } from '../../src/Pages/FlashcardPage';
 import { ResultPage } from '../../src/Pages/ResultPage';
-import { FlashCardData } from '../../src/types';
+import type { FlashCardData } from '../../src/types';
 
 interface CardPageProps {
   card?: FlashCardData;
@@ -21,7 +20,8 @@ const CardPage: React.FC<CardPageProps> = ({ card }) => {
 };
 
 export async function getStaticProps({ params }) {
-  const { Item: item } = await dynamoDb.get({
+  const client = getDbClient();
+  const { Item: item } = await client.get({
     Key: {
       id: params.id,
     },

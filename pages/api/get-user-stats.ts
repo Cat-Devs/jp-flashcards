@@ -3,7 +3,7 @@ import { createHash } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import { isDev } from '../../lib/constants';
-import { UserData } from '../../src/types';
+import type { UserData } from '../../src/types';
 
 const TableName = process.env.NEXT_DYNAMO_TABLE_NAME;
 

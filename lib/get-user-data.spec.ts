@@ -1,5 +1,5 @@
 import { UserData } from '../src/types';
-import { dynamoDb } from './dynamo-db';
+import * as getDb from './dynamo-db';
 import { getUserData } from './get-user-data';
 jest.mock('./dynamo-db');
 
@@ -13,7 +13,9 @@ describe('getUserData', () => {
       weak_cards: {},
     };
 
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: userData });
+    jest
+      .spyOn(getDb, 'getDbClient')
+      .mockImplementation(() => ({ get: () => Promise.resolve({ Item: userData }) } as any));
 
     const res = await getUserData(userData.id);
 
@@ -31,7 +33,9 @@ describe('getUserData', () => {
       weak_cards: {},
     };
 
-    jest.spyOn(dynamoDb, 'get').mockResolvedValue({ Item: userData });
+    jest
+      .spyOn(getDb, 'getDbClient')
+      .mockImplementation(() => ({ get: () => Promise.resolve({ Item: userData }) } as any));
 
     const res = await getUserData(userId);
 

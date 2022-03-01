@@ -54,7 +54,6 @@ describe('Train Cards', () => {
         '15': '50',
         '16': '50',
         '17': '50',
-        '18': '50',
       },
     };
     const cardItems = [
@@ -75,9 +74,8 @@ describe('Train Cards', () => {
       { id: '15', level: '1' },
       { id: '16', level: '1' },
       { id: '17', level: '1' },
-      { id: '18', level: '1' },
     ] as FlashCardData[];
-    const expectedRes = ['10', '11', '12', '13', '14', '15', '16', '17', '18', '1', '2', '3', '4'];
+    const expectedRes = ['10', '11', '12', '13', '14', '15', '16', '17', '1', '2'];
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, cardItems);
@@ -98,7 +96,7 @@ describe('Train Cards', () => {
     expect(res.sort()).toEqual(expectedRes.sort());
   });
 
-  it('should include all the weak cards and 2 learned cards', async () => {
+  it('should include all the weak cards and 3 learned cards', async () => {
     const testUserData: UserData = {
       ...userData,
       weak_cards: {
@@ -112,7 +110,7 @@ describe('Train Cards', () => {
         '17': '50',
         '18': '50',
       },
-      learned_cards: ['7', '8'],
+      learned_cards: ['7', '8', '9'],
     };
     const cardItems = [
       { id: '1', level: '1' },
@@ -134,7 +132,7 @@ describe('Train Cards', () => {
       { id: '17', level: '1' },
       { id: '18', level: '1' },
     ] as FlashCardData[];
-    const expectedRes = ['10', '11', '12', '13', '14', '15', '16', '17', '18', '1', '2', '3', '4', '8', '7'];
+    const expectedRes = ['10', '11', '12', '13', '14', '15', '16', '17', '18', '1', '8', '9', '7'];
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, cardItems);
@@ -142,8 +140,8 @@ describe('Train Cards', () => {
     expect(res).toEqual(expectedRes);
   });
 
-  it('should include only 2 random learned cards', async () => {
-    const expectedLearnedCards = ['3', '5'];
+  it('should include only 3 random learned cards', async () => {
+    const expectedLearnedCards = ['3', '5', '6'];
     const testUserData: UserData = {
       ...userData,
       learned_cards: ['2', ...expectedLearnedCards, '6'],

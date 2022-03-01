@@ -1,8 +1,4 @@
 describe('Settings', () => {
-  beforeEach(() => {
-    cy.clearStorage();
-  });
-
   describe('Guest user', () => {
     beforeEach(() => {
       cy.visit('/');
@@ -20,6 +16,10 @@ describe('Settings', () => {
   });
 
   describe('card mode', () => {
+    beforeEach(() => {
+      cy.visit('/');
+    });
+
     const accordionSummaryEl = '[data-cy="card-mode-settings"]';
     const cardModeSettingsGroup = 'input[name="card-mode-buttons-group"]';
 
@@ -38,6 +38,10 @@ describe('Settings', () => {
   });
 
   describe('game level', () => {
+    beforeEach(() => {
+      cy.visit('/');
+    });
+
     const gameLevelGroup = 'input[name="game-level-buttons-group"]';
 
     it('should set a different game level', () => {

@@ -1,4 +1,4 @@
-import { FlashCardData } from '../src/types';
+import type { FlashCardData } from '../src/types';
 import { bumpUserLevel } from './bump-user-level';
 import { getUserData } from './get-user-data';
 import { pickRandomCards } from './pick-random-card';
@@ -11,7 +11,7 @@ export const trainCards = async (
   const userData = await getUserData(userHash);
   const learnedCards = userData.learned_cards;
   const weakCards = Object.keys(userData.weak_cards);
-  const randomLearnedCards = pickRandomCards(learnedCards, 2);
+  const randomLearnedCards = pickRandomCards(learnedCards, 3);
 
   const cardIds = items
     .filter((card: FlashCardData) => Number(userData.current_level) === Number(card.level))
@@ -32,7 +32,7 @@ export const trainCards = async (
   }
 
   return [...weakCards, ...cardIds]
-    .splice(0, 13)
+    .splice(0, 10)
     .sort(() => Math.random() - 0.5)
     .concat(randomLearnedCards)
     .sort(() => Math.random() - 0.5);

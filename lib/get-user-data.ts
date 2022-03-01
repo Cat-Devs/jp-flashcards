@@ -1,7 +1,8 @@
-import { UserData } from '../src/types';
-import { dynamoDb } from './dynamo-db';
+import type { UserData } from '../src/types';
+import { getDbClient } from './dynamo-db';
 
 export const getUserData = async (userHash: string): Promise<UserData> => {
+  const client = getDbClient();
   const initialUserData: UserData = {
     type: 'user',
     current_level: '1',
@@ -9,7 +10,7 @@ export const getUserData = async (userHash: string): Promise<UserData> => {
     weak_cards: {},
     learned_cards: [],
   };
-  const data = await dynamoDb.get({
+  const data = await client.get({
     Key: {
       id: userHash,
     },

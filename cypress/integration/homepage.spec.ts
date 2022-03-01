@@ -1,6 +1,5 @@
 describe('Home page', () => {
   beforeEach(() => {
-    cy.clearStorage();
     cy.visit('/');
   });
 

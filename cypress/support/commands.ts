@@ -1,9 +1,3 @@
-Cypress.Commands.add('clearStorage', () => {
-  cy.window().then((win) => {
-    win.sessionStorage.clear();
-  });
-});
-
 Cypress.Commands.add('hideCookieBanner', () => {
   cy.setCookie('cookie-consent', 'true');
 });

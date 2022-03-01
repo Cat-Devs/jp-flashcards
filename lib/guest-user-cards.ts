@@ -1,4 +1,4 @@
-import { CardMode, FlashCardData, GameLevel } from '../src/types';
+import type { CardMode, FlashCardData, GameLevel } from '../src/types';
 
 export const guestUserCards = (items: FlashCardData[], cardMode: CardMode, gameLevel: GameLevel): string[] => {
   return items

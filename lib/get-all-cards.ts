@@ -1,4 +1,4 @@
-import { CardMode, FlashCardData, GameLevel } from '../src/types';
+import type { CardMode, FlashCardData, GameLevel } from '../src/types';
 import { getUserData } from './get-user-data';
 
 export const getAllCards = async (

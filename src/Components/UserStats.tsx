@@ -20,7 +20,7 @@ export const UserStats: React.FC<UserStatsProps> = ({}) => {
     if (userStats.weakCards === 1) {
       return 'You only have 1 word to improve';
     }
-    return `You have ${userStats.weakCards} word to improve`;
+    return `You have ${userStats.weakCards} words to improve`;
   }, [userStats?.weakCards]);
 
   const learnedCardsCopy = useMemo(() => {

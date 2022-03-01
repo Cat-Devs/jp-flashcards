@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 import { NextApiRequest } from 'next';
 import * as nextAuth from 'next-auth/react';
-import { dynamoDb } from '../../lib/dynamo-db';
+import * as dbClient from '../../lib/dynamo-db';
 import * as getAllCards from '../../lib/get-all-cards';
 import * as guestUserCards from '../../lib/guest-user-cards';
 import * as practice from '../../lib/practice-all-learned-cards';
@@ -9,13 +9,19 @@ import * as practiceWeak from '../../lib/practice-weak-cards';
 import * as trainCards from '../../lib/train-cards';
 import prepareGame from '../../pages/api/prepare-game';
 import { CardMode, GameLevel, GameMode } from '../../src/AppState';
-import { FlashCardData } from '../../src/types';
+import type { FlashCardData } from '../../src/types';
 
 jest.mock('../../lib/dynamo-db');
 jest.mock('../../lib/guest-user-cards');
+jest.mock('../../lib/get-all-cards');
+jest.mock('../../lib/practice-all-learned-cards');
 jest.mock('../../lib/train-cards');
 
 describe('Prepare game', () => {
+  const mockDBClient = {
+    scan: jest.fn(),
+  };
+
   it.each([
     '',
     JSON.stringify({}),
@@ -62,9 +68,7 @@ describe('Prepare game', () => {
     const gameMode: GameMode = 'train';
     const cardMode: CardMode = 'en';
     const gameLevel: GameLevel = '2';
-    const testData: FlashCardData[] = [{ id: '1', en: 'test', jp: 'test', category: 'test', level: '1' }];
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({} as any);
-    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
     const testRes: any = { json: jest.fn() };
@@ -76,16 +80,20 @@ describe('Prepare game', () => {
   });
 
   it('should return an error when not able to fetch the cards from the DB', async () => {
-    const testError = 'Error! Missing data';
+    const gameMode: GameMode = 'train';
+    const cardMode: CardMode = 'en';
+    const gameLevel: GameLevel = '2';
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
-    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: [] });
-    const testBody = { config: { cardMode: 'a', gameLevel: 'b', gameMode: 'c' } };
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: [] }));
+    const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
     const testRes: any = { json: jest.fn() };
+    const expectedError = 'Error! Missing data';
 
     await prepareGame(testReq, testRes);
 
-    expect(testRes.json).toBeCalledWith({ error: testError });
+    expect(testRes.json).toBeCalledWith({ error: expectedError });
   });
 
   it('should return some guest cards when the user is not authenticated', async () => {
@@ -95,7 +103,8 @@ describe('Prepare game', () => {
     const testData: FlashCardData[] = [{ id: '1', en: 'test', jp: 'test', category: 'test', level: '1' }];
     const expectedRes = testData.map((card) => card.id);
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
-    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(guestUserCards, 'guestUserCards').mockReturnValue(expectedRes);
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
@@ -119,7 +128,8 @@ describe('Prepare game', () => {
     const userHash = createHash('sha256').update(testUser.email).digest('hex');
     const expectedRes = testData.map((card) => card.id);
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
-    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(trainCards, 'trainCards').mockResolvedValue(expectedRes);
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
@@ -144,7 +154,8 @@ describe('Prepare game', () => {
     const userHash = createHash('sha256').update(testUser.email).digest('hex');
     const expectedRes = testData.map((card) => card.id);
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
-    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(practice, 'practiceAllLearnedCards').mockResolvedValue(expectedRes);
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
@@ -170,7 +181,8 @@ describe('Prepare game', () => {
     const userHash = createHash('sha256').update(testUser.email).digest('hex');
     const expectedRes = testData.map((card) => card.id);
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
-    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(practiceWeak, 'practiceWeakCards').mockResolvedValue(expectedRes);
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
@@ -196,7 +208,8 @@ describe('Prepare game', () => {
     const userHash = createHash('sha256').update(testUser.email).digest('hex');
     const expectedRes = testData.map((card) => card.id);
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
-    jest.spyOn(dynamoDb, 'scan').mockResolvedValue({ Items: testData });
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(getAllCards, 'getAllCards').mockResolvedValue(expectedRes);
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;

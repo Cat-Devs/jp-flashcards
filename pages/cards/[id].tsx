@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { dynamoDb } from '../../lib/dynamo-db';
+import { getDbClient } from '../../lib/dynamo-db';
 import { FlashcardPage } from '../../src/Pages/FlashcardPage';
 import { FlashCardData } from '../../src/types';
 
@@ -13,7 +12,8 @@ const CardPage: React.FC<WordsProps> = ({ card }) => {
 };
 
 export async function getStaticProps({ params }) {
-  const { Item: item } = await dynamoDb.get({
+  const client = getDbClient();
+  const { Item: item } = await client.get({
     Key: {
       id: params.id,
     },

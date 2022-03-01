@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-import { dynamoDb } from '../../lib/dynamo-db';
+import { getDbClient } from '../../lib/dynamo-db';
 import { getAllCards } from '../../lib/get-all-cards';
 import { guestUserCards } from '../../lib/guest-user-cards';
 import { practiceAllLearnedCards } from '../../lib/practice-all-learned-cards';
@@ -21,16 +21,20 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const { cardMode, gameLevel, gameMode } = config;
+  const session = await getSession({ req });
 
-  const { Items: items } = await dynamoDb.scan<FlashCardData>({
+  if (session && !session?.user?.email) {
+    return res.json({ error: 'Cannot find user session' });
+  }
+
+  const client = getDbClient();
+  const { Items: items } = await client.scan<FlashCardData>({
     FilterExpression: 'attribute_exists(category)',
   });
 
   if (!items.length) {
     return res.json({ error: 'Error! Missing data' });
   }
-
-  const session = await getSession({ req });
 
   if (!session) {
     const cardIds = guestUserCards(items, cardMode, gameLevel);
@@ -39,15 +43,11 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.json({ cardIds });
   }
 
-  if (!session.user?.email) {
-    return res.json({ error: 'Cannot find user session' });
-  }
-
   const userHash = createHash('sha256').update(session.user.email).digest('hex');
 
   if (gameMode === 'train') {
     const cardIds = await trainCards(userHash, items);
-    console.warn('learn new words', cardIds);
+    console.warn('train cards', cardIds);
     return res.json({ cardIds });
   }
 

@@ -34,23 +34,6 @@ export function useApp() {
 
   const { state, dispatch } = context;
 
-  const fetchUserData = useCallback(async () => {
-    if (userLoggedIn) {
-      const userStatsReq = await fetch('/api/get-user-stats', { method: 'POST' });
-      const userStats = await userStatsReq.json();
-      dispatch({ type: AppActionType.SET_USER_STATS, payload: userStats });
-    } else {
-      dispatch({ type: AppActionType.SET_USER_STATS, payload: undefined });
-    }
-  }, [userLoggedIn, dispatch]);
-
-  useEffect(() => {
-    if (userLoggedIn && !state.userStats) {
-      fetchUserData();
-      dispatch({ type: AppActionType.SET_GAME_MODE, payload: 'train' });
-    }
-  }, [userLoggedIn, state.userStats, fetchUserData, dispatch]);
-
   useEffect(() => {
     const usedCards = state.usedCards.length || 0;
     const wrongCards = state.wrongCards.length || 0;
@@ -65,6 +48,21 @@ export function useApp() {
       progress,
     });
   }, [state.currentCard, state.remainingCards, state.usedCards, state.wrongCards]);
+
+  const fetchUserData = useCallback(async () => {
+    if (userLoggedIn) {
+      try {
+        const userStatsReq = await fetch('/api/get-user-stats', { method: 'POST' });
+        const userStats = await userStatsReq.json();
+        dispatch({ type: AppActionType.SET_USER_STATS, payload: userStats });
+      } catch (err) {
+        console.error(err?.message);
+        dispatch({ type: AppActionType.SET_USER_STATS, payload: undefined });
+      }
+    } else {
+      dispatch({ type: AppActionType.SET_USER_STATS, payload: undefined });
+    }
+  }, [userLoggedIn, dispatch]);
 
   const loadData = useCallback(async () => {
     if (!state.cardMode || !state.gameLevel) {
@@ -214,7 +212,7 @@ export function useApp() {
     async (cardResult: CardResult) => {
       unloadSound();
 
-      if (userLoggedIn) {
+      if (userLoggedIn && state.gameMode !== 'guest' && cardResult !== 'void') {
         await fetch('/api/update', {
           method: 'POST',
           body: JSON.stringify({ cardId: state.currentCard, cardResult }),
@@ -227,7 +225,7 @@ export function useApp() {
         router.push(`/shuffle/${state.nextCard}`);
       }
     },
-    [dispatch, router, unloadSound, userLoggedIn, state.nextCard, state.currentCard]
+    [dispatch, router, unloadSound, userLoggedIn, state.nextCard, state.gameMode, state.currentCard]
   );
 
   const playWrongCards = useCallback(() => {

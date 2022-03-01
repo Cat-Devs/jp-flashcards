@@ -9,7 +9,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { CardMode, GameLevel, GameMode } from '../AppState';
 import { useApp } from '../AppState';
 
@@ -31,6 +31,12 @@ export const Settings: React.FC = () => {
   const { cardMode, gameLevel, gameMode, setGameMode, setLevel, setCardMode, userLoggedIn } = useApp();
   const [cardModeExpanded, setCardModeExpanded] = useState(false);
   const [gameModeExpanded, setGameModeExpanded] = useState(false);
+
+  useEffect(() => {
+    if (userLoggedIn) {
+      setGameMode('train');
+    }
+  }, [userLoggedIn, setGameMode]);
 
   const cardModeLabel = useMemo(() => {
     if (cardMode === 'hiragana') {

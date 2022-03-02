@@ -1,4 +1,4 @@
-import type { CardMode, FlashCardData, GameLevel } from '../src/types';
+import type { CardMode, CardStats, FlashCardData, GameLevel } from '../src/types';
 import { getUserData } from './get-user-data';
 
 export const getAllCards = async (
@@ -6,12 +6,12 @@ export const getAllCards = async (
   items: FlashCardData[],
   cardMode: CardMode,
   gameLevel: GameLevel
-): Promise<string[]> => {
+): Promise<{ cardsStats: CardStats[]; cardIds: string[] }> => {
   const userData = await getUserData(userHash);
   const weakCards = Object.keys(userData.weak_cards);
   const learnedCards = userData.learned_cards;
 
-  return items
+  const cardIds = items
     .filter((card: FlashCardData) => {
       if (cardMode === 'hiragana') {
         return card.hiragana;
@@ -25,4 +25,6 @@ export const getAllCards = async (
     .concat(weakCards)
     .sort(() => Math.random() - 0.5)
     .splice(0, 15);
+
+  return { cardsStats: undefined, cardIds };
 };

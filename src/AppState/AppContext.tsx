@@ -24,6 +24,7 @@ const initialState: AppState = {
   usedCards: [],
   wrongCards: [],
   correctCards: [],
+  cardsStats: undefined,
   userStats: undefined,
 };
 

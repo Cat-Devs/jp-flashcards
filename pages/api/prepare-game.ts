@@ -37,35 +37,35 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (!session) {
-    const cardIds = guestUserCards(items, cardMode, gameLevel);
-    console.warn('getGuestUserCards', cardIds);
+    const cardData = guestUserCards(items, cardMode, gameLevel);
+    console.warn('getGuestUserCards', cardData);
 
-    return res.json({ cardIds });
+    return res.json({ cardData });
   }
 
   const userHash = createHash('sha256').update(session.user.email).digest('hex');
 
   if (gameMode === 'train') {
-    const cardIds = await trainCards(userHash, items);
-    console.warn('train cards', cardIds);
-    return res.json({ cardIds });
+    const cardData = await trainCards(userHash, items);
+    console.warn('train cards', cardData);
+    return res.json({ cardData });
   }
 
   if (gameMode === 'practice') {
-    const cardIds = await practiceAllLearnedCards(userHash, items, cardMode);
-    console.warn('practiceCards', cardIds);
-    return res.json({ cardIds });
+    const cardData = await practiceAllLearnedCards(userHash, items, cardMode);
+    console.warn('practiceCards', cardData);
+    return res.json({ cardData });
   }
 
   if (gameMode === 'weak') {
-    const cardIds = await practiceWeakCards(userHash, items, cardMode);
-    console.warn('practiceWeakCards', cardIds);
-    return res.json({ cardIds });
+    const cardData = await practiceWeakCards(userHash, items, cardMode);
+    console.warn('practiceWeakCards', cardData);
+    return res.json({ cardData });
   }
 
-  const cardIds = await getAllCards(userHash, items, cardMode, gameLevel);
-  console.warn('getAllCards', cardIds);
-  return res.json({ cardIds });
+  const cardData = await getAllCards(userHash, items, cardMode, gameLevel);
+  console.warn('getAllCards', cardData);
+  return res.json({ cardData });
 };
 
 export default prepareGame;

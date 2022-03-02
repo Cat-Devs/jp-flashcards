@@ -1,4 +1,4 @@
-import { red } from '@mui/material/colors';
+import { blue, blueGrey, red } from '@mui/material/colors';
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { createBreakpoints } from '@mui/system';
 
@@ -14,11 +14,17 @@ const baseTheme = createTheme({
         fontSize: '1.6rem',
       },
     },
+    caption: {
+      color: blueGrey['300'],
+    },
+    overline: {
+      color: blue['400'],
+    },
   },
   palette: {
     mode: 'dark',
     primary: {
-      main: '#2196f3',
+      main: blue['400'],
     },
     secondary: {
       main: '#ff1744',

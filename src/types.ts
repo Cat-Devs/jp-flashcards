@@ -1,5 +1,5 @@
-import { CardMode, CardResult, GameLevel, GameMode } from './AppState';
-export type { CardMode, GameLevel, GameMode, CardResult };
+import type { CardMode, CardResult, CardStats, GameLevel, GameMode } from './AppState';
+export type { CardMode, GameLevel, GameMode, CardResult, CardStats };
 
 export interface FlashCardData {
   id: string;

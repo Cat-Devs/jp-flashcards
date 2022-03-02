@@ -15,23 +15,25 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React, { memo, useCallback, useState } from 'react';
-import { CardResult } from '../AppState';
+import { CardResult, CardStats } from '../AppState';
 import { useKeyPress } from '../Hooks/use-key-press';
 
 export interface FlashCardItem {
   firstLine: { text: string; lang: string };
   solution: { text: string; lang: string }[];
+  category: string;
 }
 
 interface FlashcardProps {
   card: FlashCardItem;
   canPlaySounds: boolean;
   onPlaySound: () => void;
+  stats?: CardStats;
   quiz?: boolean;
   onNext?: (cardResult: CardResult) => void;
 }
 
-const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, canPlaySounds, onPlaySound, onNext }) => {
+const FlashcardCmp: React.FC<FlashcardProps> = ({ card, stats, quiz, canPlaySounds, onPlaySound, onNext }) => {
   const [expanded, setExpanded] = useState(!quiz);
 
   const handleCheckAnswer = useCallback(() => {
@@ -67,9 +69,14 @@ const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, canPlaySounds, onP
           onChange={handleCheckAnswer}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-            <Typography fontWeight={500} lang={card.firstLine.lang} gutterBottom variant="h4">
-              {card.firstLine.text}
-            </Typography>
+            <Box>
+              <Typography variant="overline" gutterBottom lang="en-US">
+                {card.category}
+              </Typography>
+              <Typography fontWeight={500} lang={card.firstLine.lang} gutterBottom variant="h4">
+                {card.firstLine.text}
+              </Typography>
+            </Box>
           </AccordionSummary>
           <AccordionDetails>
             <Box sx={{ display: 'flex' }}>
@@ -93,6 +100,11 @@ const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, canPlaySounds, onP
                   </IconButton>
                 </Tooltip>
               </Box>
+            </Box>
+            <Box mt={2}>
+              <Typography variant="caption" lang="en-US">
+                Card Accuracy: {stats.score}%
+              </Typography>
             </Box>
           </AccordionDetails>
         </Accordion>

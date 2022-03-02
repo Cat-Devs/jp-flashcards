@@ -68,7 +68,7 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
   await client.put({ Item: updatedUserData });
 
-  res.status(204).json({});
+  res.json({});
 };
 
 export default updateUser;

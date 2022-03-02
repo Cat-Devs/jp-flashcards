@@ -28,6 +28,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         remainingCards,
         nextCard: `${nextCard}`,
         currentCard: `${action.payload.nextCard}`,
+        cardsStats: action.payload.cardsStats,
         usedCards: [],
         wrongCards: [],
         correctCards: [],

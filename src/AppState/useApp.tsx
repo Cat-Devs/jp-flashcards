@@ -1,7 +1,7 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { GameMode } from '.';
+import { CardStats, GameMode } from '.';
 import { PrepareGameConfig } from '../types';
 import { AppContext } from './AppContext';
 import { AppActionType, CardMode, CardResult, GameLevel } from './types';
@@ -11,6 +11,7 @@ interface GameStats {
   totalCards: number;
   wrongCards: number;
   progress: number;
+  cardsStats?: CardStats[];
 }
 
 const initialGameStats: GameStats = {
@@ -18,6 +19,7 @@ const initialGameStats: GameStats = {
   totalCards: 0,
   usedCards: 0,
   wrongCards: 0,
+  cardsStats: undefined,
 };
 
 export function useApp() {
@@ -46,8 +48,9 @@ export function useApp() {
       totalCards,
       wrongCards,
       progress,
+      cardsStats: state.cardsStats,
     });
-  }, [state.currentCard, state.remainingCards, state.usedCards, state.wrongCards]);
+  }, [state.currentCard, state.remainingCards, state.usedCards, state.wrongCards, state.cardsStats]);
 
   const fetchUserData = useCallback(async () => {
     if (userLoggedIn) {
@@ -74,7 +77,11 @@ export function useApp() {
       payload: true,
     });
 
-    async function fetchData(cardMode: CardMode, gameLevel: GameLevel, gameMode: GameMode): Promise<string[]> {
+    async function fetchData(
+      cardMode: CardMode,
+      gameLevel: GameLevel,
+      gameMode: GameMode
+    ): Promise<{ cardIds: string[]; cardsStats: CardStats[] }> {
       try {
         const res = await fetch(`/api/prepare-game`, {
           method: 'POST',
@@ -88,32 +95,32 @@ export function useApp() {
         });
         const data = await res.json();
 
-        if (!data.cardIds?.length) {
+        if (!data.cardData?.cardIds) {
           throw new Error('Missing cards. Cannot prepare the game');
         }
 
-        return data.cardIds;
+        return data.cardData;
       } catch (error) {
         console.error(error);
       }
     }
 
-    const cardIds = await fetchData(state.cardMode, state.gameLevel, state.gameMode);
+    const cardData = await fetchData(state.cardMode, state.gameLevel, state.gameMode);
 
-    if (!cardIds?.length) {
+    if (!cardData) {
       console.error('Cannot fetch flashcards data');
       dispatch({
         type: AppActionType.LOAD_DATA,
-        payload: { cardIds: [], nextCard: '' },
+        payload: { cardIds: [], cardsStats: [], nextCard: '' },
       });
       return router.push(`/shuffle/0`);
     }
 
-    const nextCard = cardIds[Math.floor(Math.random() * cardIds.length)];
+    const nextCard = cardData.cardIds[Math.floor(Math.random() * cardData.cardIds.length)];
 
     dispatch({
       type: AppActionType.LOAD_DATA,
-      payload: { cardIds, nextCard },
+      payload: { cardIds: cardData.cardIds, cardsStats: cardData.cardsStats, nextCard },
     });
     router.push(`/shuffle/${nextCard}`);
   }, [dispatch, router, state.gameLevel, state.gameMode, state.cardMode]);

@@ -89,12 +89,8 @@ export function getDbClient(
         }
 
         const updateItem = await client.update({ TableName, ...params }).promise();
-        console.warn('update prod', updateItem);
-
         return updateItem;
       } catch (err) {
-        console.warn(err);
-
         console.error(
           'Your AWS credentials are probably wrong or missing inside your environment variables or .env file'
         );

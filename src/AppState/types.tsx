@@ -10,6 +10,11 @@ export interface UserStats {
   level: number;
 }
 
+export interface CardStats {
+  id: string;
+  score: string;
+}
+
 export interface AppState {
   loading: Boolean;
   loadingSound: Boolean;
@@ -24,6 +29,7 @@ export interface AppState {
   gameLevel: GameLevel;
   gameMode: GameMode;
   userStats: UserStats;
+  cardsStats?: CardStats[];
 }
 
 export enum AppActionType {
@@ -50,7 +56,7 @@ type LoadingSoundAction = {
 
 type LoadDataAction = {
   type: AppActionType.LOAD_DATA;
-  payload: { cardIds: string[]; nextCard: string };
+  payload: { cardIds: string[]; cardsStats: { id: string; score: string }[]; nextCard: string };
 };
 
 type NextCardAction = {

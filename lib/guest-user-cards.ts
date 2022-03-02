@@ -1,7 +1,11 @@
-import type { CardMode, FlashCardData, GameLevel } from '../src/types';
+import type { CardMode, CardStats, FlashCardData, GameLevel } from '../src/types';
 
-export const guestUserCards = (items: FlashCardData[], cardMode: CardMode, gameLevel: GameLevel): string[] => {
-  return items
+export const guestUserCards = (
+  items: FlashCardData[],
+  cardMode: CardMode,
+  gameLevel: GameLevel
+): { cardsStats: CardStats[]; cardIds: string[] } => {
+  const cardIds = items
     .filter((card: FlashCardData) => {
       if (cardMode === 'hiragana') {
         return card.hiragana;
@@ -19,4 +23,6 @@ export const guestUserCards = (items: FlashCardData[], cardMode: CardMode, gameL
     .map((card: FlashCardData) => card.id)
     .sort(() => Math.random() - 0.5)
     .splice(0, 15);
+
+  return { cardsStats: undefined, cardIds };
 };

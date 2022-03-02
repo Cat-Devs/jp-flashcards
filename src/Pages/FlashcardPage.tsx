@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import React, { memo, useEffect, useMemo } from 'react';
 import { isMobile } from 'react-device-detect';
-import { useApp } from '../AppState';
+import { CardStats, useApp } from '../AppState';
 import { Flashcard, FlashCardItem } from '../Components/Flashcard';
 import { KeyboardHelper } from '../Components/KeyboardHelper';
 import { LoadingCard } from '../Components/LoadingCard';
@@ -33,48 +33,59 @@ const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
     };
   }, [cardJp, canPlaySounds, loadSound, unloadSound]);
 
+  const cardStats: CardStats = useMemo(() => {
+    if (!card || !gameStats.cardsStats) {
+      return undefined;
+    }
+    return gameStats.cardsStats.find((cardStat) => cardStat.id === card.id);
+  }, [card, gameStats.cardsStats]);
+
   const cardData: FlashCardItem = useMemo(() => {
     if (!card) {
-      return null;
+      return undefined;
     } else if (cardMode === 'hiragana') {
       return {
-        firstLine: { text: card?.hiragana, lang: 'ja-jp' },
+        category: card.category,
+        firstLine: { text: card.hiragana, lang: 'ja-jp' },
         solution: [
-          { text: card?.katakana, lang: 'ja-jp' },
-          { text: card?.kanji, lang: 'ja-jp' },
-          { text: card?.romaji, lang: 'ja-jp' },
-          { text: card?.en, lang: 'en-us' },
+          { text: card.katakana, lang: 'ja-jp' },
+          { text: card.kanji, lang: 'ja-jp' },
+          { text: card.romaji, lang: 'ja-jp' },
+          { text: card.en, lang: 'en-us' },
         ],
       };
     } else if (cardMode === 'kanji') {
       return {
-        firstLine: { text: card?.kanji, lang: 'ja-jp' },
+        category: card.category,
+        firstLine: { text: card.kanji, lang: 'ja-jp' },
         solution: [
-          { text: card?.hiragana, lang: 'ja-jp' },
-          { text: card?.katakana, lang: 'ja-jp' },
-          { text: card?.romaji, lang: 'ja-jp' },
-          { text: card?.en, lang: 'en-us' },
+          { text: card.hiragana, lang: 'ja-jp' },
+          { text: card.katakana, lang: 'ja-jp' },
+          { text: card.romaji, lang: 'ja-jp' },
+          { text: card.en, lang: 'en-us' },
         ],
       };
     } else if (cardMode === 'kana') {
       return {
-        firstLine: { text: card?.hiragana || card?.katakana, lang: 'ja-jp' },
+        category: card.category,
+        firstLine: { text: card.hiragana || card.katakana, lang: 'ja-jp' },
         solution: [
-          { text: card?.hiragana, lang: 'ja-jp' },
-          { text: card?.katakana, lang: 'ja-jp' },
-          { text: card?.kanji, lang: 'ja-jp' },
-          { text: card?.romaji, lang: 'ja-jp' },
-          { text: card?.en, lang: 'en-us' },
+          { text: card.hiragana, lang: 'ja-jp' },
+          { text: card.katakana, lang: 'ja-jp' },
+          { text: card.kanji, lang: 'ja-jp' },
+          { text: card.romaji, lang: 'ja-jp' },
+          { text: card.en, lang: 'en-us' },
         ],
       };
     } else {
       return {
-        firstLine: { text: card?.en, lang: 'en-us' },
+        category: card.category,
+        firstLine: { text: card.en, lang: 'en-us' },
         solution: [
-          { text: card?.hiragana, lang: 'ja-jp' },
-          { text: card?.katakana, lang: 'ja-jp' },
-          { text: card?.kanji, lang: 'ja-jp' },
-          { text: card?.romaji, lang: 'ja-jp' },
+          { text: card.hiragana, lang: 'ja-jp' },
+          { text: card.katakana, lang: 'ja-jp' },
+          { text: card.kanji, lang: 'ja-jp' },
+          { text: card.romaji, lang: 'ja-jp' },
         ],
       };
     }
@@ -124,6 +135,7 @@ const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
       <Box sx={{ p: 2 }}>
         <Flashcard
           card={cardData}
+          stats={cardStats}
           canPlaySounds={canPlaySounds}
           quiz={quiz}
           onPlaySound={playSound}

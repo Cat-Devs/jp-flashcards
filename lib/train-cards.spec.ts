@@ -39,7 +39,7 @@ describe('Train Cards', () => {
 
     const res = await trainCards(userHash, testData);
 
-    expect(res).toEqual(expectedRes);
+    expect(res.cardIds).toEqual(expectedRes);
   });
 
   it('should include all the weak cards first', async () => {
@@ -80,7 +80,7 @@ describe('Train Cards', () => {
 
     const res = await trainCards(userHash, cardItems);
 
-    expect(res).toEqual(expectedRes);
+    expect(res.cardIds).toEqual(expectedRes);
   });
 
   it('should include 2 random learned cards', async () => {
@@ -93,7 +93,7 @@ describe('Train Cards', () => {
 
     const res = await trainCards(userHash, testData);
 
-    expect(res.sort()).toEqual(expectedRes.sort());
+    expect(res.cardIds.sort()).toEqual(expectedRes.sort());
   });
 
   it('should include all the weak cards and 3 learned cards', async () => {
@@ -137,7 +137,7 @@ describe('Train Cards', () => {
 
     const res = await trainCards(userHash, cardItems);
 
-    expect(res).toEqual(expectedRes);
+    expect(res.cardIds).toEqual(expectedRes);
   });
 
   it('should include only 3 random learned cards', async () => {
@@ -151,7 +151,7 @@ describe('Train Cards', () => {
 
     const res = await trainCards(userHash, testData);
 
-    expect(res.sort()).toEqual(expectedRes.sort());
+    expect(res.cardIds.sort()).toEqual(expectedRes.sort());
   });
 
   it('should bump the level when there are no card left', async () => {
@@ -178,7 +178,7 @@ describe('Train Cards', () => {
     const res = await trainCards(userHash, testData);
 
     expect(bumpUserLevel).not.toHaveBeenCalled();
-    expect(res.sort()).toEqual(expectedRes.sort());
+    expect(res.cardIds.sort()).toEqual(expectedRes.sort());
   });
 
   it('should not bump the level when the user is already at the max level', async () => {
@@ -189,11 +189,10 @@ describe('Train Cards', () => {
       learned_cards: ['1', '4'],
     };
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
-    const expectedRes = [];
 
     const res = await trainCards(userHash, testData);
 
     expect(bumpUserLevel).not.toHaveBeenCalled();
-    expect(res.sort()).toEqual(expectedRes.sort());
+    expect(res).toBeUndefined();
   });
 });

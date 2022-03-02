@@ -1,4 +1,4 @@
-import { AppAction, AppActionType, AppState } from './types';
+import { AppAction, AppActionType, AppState, CardMode } from './types';
 
 export function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
@@ -111,10 +111,13 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     }
 
     case AppActionType.SET_GAME_MODE: {
+      const cardMode: CardMode = action.payload === 'train' ? 'en' : state.game.cardMode;
+
       return {
         ...state,
         game: {
           ...state.game,
+          cardMode,
           gameMode: action.payload,
         },
       };

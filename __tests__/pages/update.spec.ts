@@ -1,0 +1,193 @@
+import { createHash } from 'crypto';
+import { NextApiRequest } from 'next';
+import * as nextAuth from 'next-auth/react';
+import * as dbClient from '../../lib/dynamo-db';
+import * as getUserData from '../../lib/get-user-data';
+import updateUser, { InputData } from '../../pages/api/update';
+import type { UserData } from '../../src/types';
+
+describe('update', () => {
+  const testUser = { email: 'test' };
+  const userHash = createHash('sha256').update(testUser.email).digest('hex');
+  const mockDBClient = {
+    put: jest.fn(),
+  };
+  const testRes: any = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+
+  it('should return an error when the user is not authenticated', async () => {
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
+    const testReq = { body: JSON.stringify({ cardId: '', cardResult: 'wrong' }) } as NextApiRequest;
+
+    await updateUser(testReq, testRes);
+
+    expect(testRes.status).toBeCalledWith(401);
+    expect(testRes.json).toBeCalledWith({ error: 'Unauthorized request' });
+  });
+
+  it.each([
+    undefined,
+    {},
+    { cards: [] },
+    { wrongCards: [] },
+    { cards: undefined },
+    { wrongCards: undefined },
+    { cards: ['1'] },
+    { wrongCards: [] },
+    { cards: [], wrongCards: [] },
+  ])(`should return an error when the required data is not provided: %p`, async (body) => {
+    const testReq = { body: JSON.stringify(body) } as NextApiRequest;
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
+
+    await updateUser(testReq, testRes);
+
+    expect(testRes.status).toBeCalledWith(400);
+    expect(testRes.json).toBeCalledWith({ error: 'Missing data' });
+  });
+
+  it('should update the database information', async () => {
+    const userData: UserData = {
+      id: userHash,
+      type: 'user',
+      current_level: '1',
+      learned_cards: [],
+      weak_cards: {},
+    };
+    const testData: InputData = {
+      cards: ['1'],
+      wrongCards: [],
+    };
+    const testReq = { body: JSON.stringify(testData) } as NextApiRequest;
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(userData);
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+
+    await updateUser(testReq, testRes);
+
+    expect(dbClient.getDbClient).toBeCalled();
+    expect(getUserData.getUserData).toBeCalledWith(userHash);
+    expect(mockDBClient.put).toBeCalled();
+    expect(testRes.json).toBeCalledWith({});
+  });
+
+  it('should add the new weak words', async () => {
+    const userData: UserData = {
+      id: userHash,
+      type: 'user',
+      current_level: '1',
+      learned_cards: [],
+      weak_cards: {},
+    };
+    const testData: InputData = {
+      cards: ['1', '2', '3'],
+      wrongCards: ['1', '2'],
+    };
+    const testReq = { body: JSON.stringify(testData) } as NextApiRequest;
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(userData);
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+    const expectedWeakWords = { '1': '0', '2': '0', '3': '50' };
+    const expectedItem: UserData = {
+      ...userData,
+      weak_cards: expectedWeakWords,
+    };
+    await updateUser(testReq, testRes);
+
+    expect(dbClient.getDbClient).toBeCalled();
+    expect(getUserData.getUserData).toBeCalledWith(userHash);
+    expect(mockDBClient.put).toBeCalledWith({ Item: expectedItem });
+    expect(testRes.json).toBeCalledWith({});
+  });
+
+  it('should add the new learned words', async () => {
+    const userData: UserData = {
+      id: userHash,
+      type: 'user',
+      current_level: '1',
+      learned_cards: [],
+      weak_cards: { '1': '93' },
+    };
+    const testData: InputData = {
+      cards: ['1', '2', '3'],
+      wrongCards: ['2', '3'],
+    };
+    const testReq = { body: JSON.stringify(testData) } as NextApiRequest;
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(userData);
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+    const expectedWeakWords = { '2': '0', '3': '0' };
+    const expectedItem: UserData = {
+      ...userData,
+      learned_cards: ['1'],
+      weak_cards: expectedWeakWords,
+    };
+    await updateUser(testReq, testRes);
+
+    expect(dbClient.getDbClient).toBeCalled();
+    expect(getUserData.getUserData).toBeCalledWith(userHash);
+    expect(mockDBClient.put).toBeCalledWith({ Item: expectedItem });
+    expect(testRes.json).toBeCalledWith({});
+  });
+
+  it('should preserve the learned words', async () => {
+    const userData: UserData = {
+      id: userHash,
+      type: 'user',
+      current_level: '1',
+      learned_cards: ['4'],
+      weak_cards: { '1': '93' },
+    };
+    const testData: InputData = {
+      cards: ['1', '2', '3', '4'],
+      wrongCards: ['2', '3'],
+    };
+    const testReq = { body: JSON.stringify(testData) } as NextApiRequest;
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(userData);
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+    const expectedWeakWords = { '2': '0', '3': '0' };
+    const expectedItem: UserData = {
+      ...userData,
+      learned_cards: ['4', '1'],
+      weak_cards: expectedWeakWords,
+    };
+    await updateUser(testReq, testRes);
+
+    expect(dbClient.getDbClient).toBeCalled();
+    expect(getUserData.getUserData).toBeCalledWith(userHash);
+    expect(mockDBClient.put).toBeCalledWith({ Item: expectedItem });
+    expect(testRes.json).toBeCalledWith({});
+  });
+
+  it('should remove the card from the learned ones and add it to the weak cards', async () => {
+    const userData: UserData = {
+      id: userHash,
+      type: 'user',
+      current_level: '1',
+      learned_cards: ['4'],
+      weak_cards: {},
+    };
+    const testData: InputData = {
+      cards: ['4'],
+      wrongCards: ['4'],
+    };
+    const testReq = { body: JSON.stringify(testData) } as NextApiRequest;
+    jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
+    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(userData);
+    jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
+    const expectedWeakWords = { '4': '50' };
+    const expectedItem: UserData = {
+      ...userData,
+      learned_cards: [],
+      weak_cards: expectedWeakWords,
+    };
+    await updateUser(testReq, testRes);
+
+    expect(dbClient.getDbClient).toBeCalled();
+    expect(getUserData.getUserData).toBeCalledWith(userHash);
+    expect(mockDBClient.put).toBeCalledWith({ Item: expectedItem });
+    expect(testRes.json).toBeCalledWith({});
+  });
+});

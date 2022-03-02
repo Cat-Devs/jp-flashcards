@@ -1,7 +1,9 @@
 import { getDbClient } from './dynamo-db';
 
 export const bumpUserLevel = async (userHash: string) => {
-  const client = getDbClient();
+  const accessKeyId = process.env.NEXT_DYNAMO_WRITE_KEY;
+  const secretAccessKey = process.env.NEXT_DYNAMO_WRITE_SECRET;
+  const client = getDbClient(accessKeyId, secretAccessKey);
   const data = await client.get({
     Key: {
       id: userHash,
@@ -14,13 +16,20 @@ export const bumpUserLevel = async (userHash: string) => {
 
   const newLevel = `${Number(data.Item.current_level) + 1}`;
 
-  await client.update({
-    Key: {
-      id: userHash,
-    },
-    UpdateExpression: 'set level = :l',
-    ExpressionAttributeValues: {
-      ':l': `${newLevel}`,
-    },
-  });
+  try {
+    await client.update({
+      Key: {
+        id: userHash,
+      },
+      UpdateExpression: 'set #l = :l',
+      ExpressionAttributeNames: {
+        '#l': 'current_level',
+      },
+      ExpressionAttributeValues: {
+        ':l': `${newLevel}`,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };

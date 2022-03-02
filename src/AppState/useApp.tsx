@@ -246,10 +246,13 @@ export function useApp() {
     async (cardResult: CardResult) => {
       unloadSound();
 
-      if (userLoggedIn && state.game.gameMode !== 'guest' && cardResult !== 'void') {
+      if (userLoggedIn && state.game.gameMode !== 'guest' && cardResult !== 'void' && !state.game.nextCard) {
         await fetch('/api/update', {
           method: 'POST',
-          body: JSON.stringify({ cardId: state.game.currentCard, cardResult }),
+          body: JSON.stringify({
+            wrongCards: state.game.wrongCards,
+            cards: state.game.usedCards,
+          }),
         });
       }
 
@@ -259,7 +262,7 @@ export function useApp() {
         router.push(`/shuffle/${state.game.nextCard}`);
       }
     },
-    [dispatch, router, unloadSound, userLoggedIn, state.game.nextCard, state.game.gameMode, state.game.currentCard]
+    [dispatch, router, unloadSound, userLoggedIn, state.game]
   );
 
   const playWrongCards = useCallback(() => {

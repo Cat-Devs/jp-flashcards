@@ -102,9 +102,12 @@ const FlashcardCmp: React.FC<FlashcardProps> = ({ card, stats, quiz, canPlaySoun
               </Box>
             </Box>
             <Box mt={2}>
-              <Typography variant="caption" lang="en-US">
-                Card Accuracy: {stats.score}%
-              </Typography>
+              {(stats && (
+                <Typography variant="caption" lang="en-US">
+                  Card Accuracy: {stats.score}%
+                </Typography>
+              )) ||
+                null}
             </Box>
           </AccordionDetails>
         </Accordion>

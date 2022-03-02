@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { createContext, Dispatch, useEffect, useMemo, useReducer } from 'react';
+import { GameState } from '.';
 import { appReducer } from './appReducer';
 import { AppAction, AppActionType, AppState } from './types';
 
@@ -12,22 +13,26 @@ export const AppContext = createContext<{
 });
 
 const initialState: AppState = {
-  loading: false,
-  loadingData: false,
-  loadingSound: false,
-  loadingUser: false,
-  loadingUserStats: false,
-  nextCard: '',
-  currentCard: '',
-  cardMode: 'en',
-  gameMode: 'guest',
-  gameLevel: '1',
-  remainingCards: [],
-  usedCards: [],
-  wrongCards: [],
-  correctCards: [],
-  cardsStats: undefined,
   userStats: undefined,
+  loading: {
+    loading: false,
+    loadingData: false,
+    loadingSound: false,
+    loadingUser: false,
+    loadingUserStats: false,
+  },
+  game: {
+    nextCard: '',
+    currentCard: '',
+    cardMode: 'en',
+    gameMode: 'guest',
+    gameLevel: '1',
+    remainingCards: [],
+    usedCards: [],
+    wrongCards: [],
+    correctCards: [],
+    cardsStats: undefined,
+  },
 };
 
 export function AppProvider(props) {
@@ -51,8 +56,8 @@ export function AppProvider(props) {
   }, [router]);
 
   const sessionState = typeof window !== 'undefined' && sessionStorage.getItem('app-state');
-  const storedState = JSON.parse(sessionState || '{}');
-  const appState = { ...initialState, ...storedState };
+  const storedGameState = JSON.parse(sessionState || '{}');
+  const appState = { ...initialState, game: { ...initialState.game, ...storedGameState } };
   const [state, dispatch] = useReducer(appReducer, appState);
 
   useEffect(() => {
@@ -61,23 +66,17 @@ export function AppProvider(props) {
     if (
       router.route === '/shuffle/[id]' &&
       router.query?.id &&
-      state?.currentCard &&
-      state.currentCard !== router.query.id
+      state.game?.currentCard &&
+      state.game.currentCard !== router.query.id
     ) {
-      router.push(`/shuffle/${state.currentCard}`);
+      router.push(`/shuffle/${state.game.currentCard}`);
     }
-  }, [router, state.currentCard]);
+  }, [router, state.game.currentCard]);
 
   useEffect(() => {
     // Store the app state into the session storage
-    const storedState: AppState = {
-      ...state,
-      loading: undefined,
-      loadingData: undefined,
-      loadingSound: undefined,
-      loadingUser: undefined,
-      loadingUserStats: undefined,
-      userStats: undefined,
+    const storedState: GameState = {
+      ...state.game,
     };
 
     sessionStorage.setItem('app-state', JSON.stringify(storedState));

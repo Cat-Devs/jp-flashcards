@@ -3,19 +3,25 @@ import { AppAction, AppActionType, AppState, CardMode, GameLevel, GameMode } fro
 
 describe('appReducer', () => {
   const initialState: AppState = {
-    remainingCards: [],
-    usedCards: [],
-    wrongCards: [],
-    correctCards: [],
-    nextCard: '',
-    cardMode: 'en',
-    gameLevel: '1',
-    gameMode: 'guest',
-    currentCard: '',
-    loading: false,
-    loadingData: false,
-    loadingSound: false,
     userStats: undefined,
+    loading: {
+      loading: false,
+      loadingUser: false,
+      loadingUserStats: false,
+      loadingData: false,
+      loadingSound: false,
+    },
+    game: {
+      remainingCards: [],
+      usedCards: [],
+      wrongCards: [],
+      correctCards: [],
+      nextCard: '',
+      cardMode: 'en',
+      gameLevel: '1',
+      gameMode: 'guest',
+      currentCard: '',
+    },
   };
 
   describe('default', () => {
@@ -33,7 +39,7 @@ describe('appReducer', () => {
         payload: true,
       });
 
-      expect(res.loading).toBe(true);
+      expect(res.loading.loading).toBe(true);
     });
 
     it('should set the loading to false', () => {
@@ -42,14 +48,17 @@ describe('appReducer', () => {
         payload: false,
       });
 
-      expect(res.loading).toBe(false);
+      expect(res.loading.loading).toBe(false);
     });
 
     it('should not set the loading to false when still loading a sound', () => {
       const loadingSound = true;
       const testState: AppState = {
         ...initialState,
-        loadingSound,
+        loading: {
+          ...initialState.loading,
+          loadingSound,
+        },
       };
 
       const res = appReducer(testState, {
@@ -57,8 +66,8 @@ describe('appReducer', () => {
         payload: false,
       });
 
-      expect(res.loadingData).toBe(false);
-      expect(res.loading).toBe(true);
+      expect(res.loading.loadingData).toBe(false);
+      expect(res.loading.loading).toBe(true);
     });
   });
 
@@ -69,7 +78,7 @@ describe('appReducer', () => {
         payload: true,
       });
 
-      expect(res.loading).toBe(true);
+      expect(res.loading.loading).toBe(true);
     });
 
     it('should set the loading to false', () => {
@@ -78,7 +87,7 @@ describe('appReducer', () => {
         payload: false,
       });
 
-      expect(res.loading).toBe(false);
+      expect(res.loading.loading).toBe(false);
     });
 
     it('should set the loading sound to true', () => {
@@ -87,7 +96,7 @@ describe('appReducer', () => {
         payload: true,
       });
 
-      expect(res.loadingSound).toBe(true);
+      expect(res.loading.loadingSound).toBe(true);
     });
 
     it('should set the loading sound to false', () => {
@@ -96,14 +105,17 @@ describe('appReducer', () => {
         payload: false,
       });
 
-      expect(res.loadingSound).toBe(false);
+      expect(res.loading.loadingSound).toBe(false);
     });
 
     it('should not set the loading to false when still loading data', () => {
       const loadingData = true;
       const testState: AppState = {
         ...initialState,
-        loadingData,
+        loading: {
+          ...initialState.loading,
+          loadingData,
+        },
       };
 
       const res = appReducer(testState, {
@@ -111,8 +123,8 @@ describe('appReducer', () => {
         payload: false,
       });
 
-      expect(res.loadingSound).toBe(false);
-      expect(res.loading).toBe(true);
+      expect(res.loading.loadingSound).toBe(false);
+      expect(res.loading.loading).toBe(true);
     });
   });
 
@@ -123,10 +135,13 @@ describe('appReducer', () => {
       const currentCard = '1';
       const testState: AppState = {
         ...initialState,
-        currentCard,
-        remainingCards: ['2'],
-        usedCards: ['3', '4', '5'],
-        nextCard: '6',
+        game: {
+          ...initialState.game,
+          currentCard,
+          remainingCards: ['2'],
+          usedCards: ['3', '4', '5'],
+          nextCard: '6',
+        },
       };
 
       const res = appReducer(
@@ -135,6 +150,7 @@ describe('appReducer', () => {
           type: AppActionType.LOAD_DATA,
           payload: {
             cardIds,
+            cardsStats: undefined,
             nextCard: currentCard,
           },
         }
@@ -147,15 +163,19 @@ describe('appReducer', () => {
       const currentCard = '1';
       const testState: AppState = {
         ...initialState,
-        currentCard,
-        remainingCards: [],
-        usedCards: [],
-        nextCard: '',
+        game: {
+          ...initialState.game,
+          currentCard,
+          remainingCards: [],
+          usedCards: [],
+          nextCard: '',
+        },
       };
 
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
+          cardsStats: undefined,
           cardIds: [currentCard],
           nextCard: currentCard,
         },
@@ -169,12 +189,13 @@ describe('appReducer', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
+          cardsStats: undefined,
           cardIds,
           nextCard,
         },
       });
 
-      expect(res.currentCard).toBe(nextCard);
+      expect(res.game.currentCard).toBe(nextCard);
     });
 
     it('should correctly set the next card to use', () => {
@@ -183,13 +204,14 @@ describe('appReducer', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
+          cardsStats: undefined,
           cardIds: testCardIds,
           nextCard: currentCard,
         },
       });
       const expectedNextCard = testCardIds.filter((cardId) => cardId !== currentCard)[0];
 
-      expect(res.nextCard).toBe(expectedNextCard);
+      expect(res.game.nextCard).toBe(expectedNextCard);
     });
 
     it('should correctly set the remaining cards', () => {
@@ -197,14 +219,15 @@ describe('appReducer', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
+          cardsStats: undefined,
           cardIds,
           nextCard: currentCard,
         },
       });
       const remainingCards = cardIds.filter((cardId) => cardId !== currentCard);
 
-      expect(res.remainingCards).toEqual(remainingCards);
-      expect(res.currentCard).toEqual(currentCard);
+      expect(res.game.remainingCards).toEqual(remainingCards);
+      expect(res.game.currentCard).toEqual(currentCard);
     });
 
     it('should correctly set the used cards', () => {
@@ -212,12 +235,13 @@ describe('appReducer', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
+          cardsStats: undefined,
           cardIds,
           nextCard: currentCard,
         },
       });
 
-      expect(res.usedCards).toEqual([]);
+      expect(res.game.usedCards).toEqual([]);
     });
   });
 
@@ -228,25 +252,31 @@ describe('appReducer', () => {
       const nextCard = '2';
       const appState: AppState = {
         ...initialState,
-        nextCard,
-        remainingCards,
-        currentCard: '1',
+        game: {
+          ...initialState.game,
+          nextCard,
+          remainingCards,
+          currentCard: '1',
+        },
       };
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
         payload: 'correct',
       });
 
-      expect(res.currentCard).toBe(nextCard);
+      expect(res.game.currentCard).toBe(nextCard);
     });
 
     it('should correctly set a new next card to use', () => {
       const nextCard = '2';
       const appState: AppState = {
         ...initialState,
-        nextCard,
-        remainingCards,
-        currentCard: '1',
+        game: {
+          ...initialState.game,
+          nextCard,
+          remainingCards,
+          currentCard: '1',
+        },
       };
 
       const res = appReducer(appState, {
@@ -254,8 +284,8 @@ describe('appReducer', () => {
         payload: 'correct',
       });
 
-      expect(res.nextCard).not.toBe(nextCard);
-      expect(remainingCards).toContain(res.nextCard);
+      expect(res.game.nextCard).not.toBe(nextCard);
+      expect(remainingCards).toContain(res.game.nextCard);
     });
 
     it('should remove the new current card from the remaining ones', () => {
@@ -264,19 +294,22 @@ describe('appReducer', () => {
 
       const appState: AppState = {
         ...initialState,
-        currentCard,
-        nextCard,
-        remainingCards,
+        game: {
+          ...initialState.game,
+          currentCard,
+          nextCard,
+          remainingCards,
+        },
       };
 
-      expect(appState.remainingCards).toContain(nextCard);
+      expect(appState.game.remainingCards).toContain(nextCard);
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
         payload: 'correct',
       });
 
-      expect(res.remainingCards).not.toContain(nextCard);
+      expect(res.game.remainingCards).not.toContain(nextCard);
     });
 
     it('should add the current card to the used ones', () => {
@@ -285,19 +318,22 @@ describe('appReducer', () => {
 
       const appState: AppState = {
         ...initialState,
-        currentCard,
-        nextCard,
-        remainingCards,
+        game: {
+          ...initialState.game,
+          currentCard,
+          nextCard,
+          remainingCards,
+        },
       };
 
-      expect(appState.usedCards).not.toContain(currentCard);
+      expect(appState.game.usedCards).not.toContain(currentCard);
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
         payload: 'correct',
       });
 
-      expect(res.usedCards).toContain(currentCard);
+      expect(res.game.usedCards).toContain(currentCard);
     });
 
     it('should add the current card to the correct ones', () => {
@@ -306,19 +342,22 @@ describe('appReducer', () => {
 
       const appState: AppState = {
         ...initialState,
-        currentCard,
-        nextCard,
-        remainingCards,
+        game: {
+          ...initialState.game,
+          currentCard,
+          nextCard,
+          remainingCards,
+        },
       };
 
-      expect(appState.correctCards).not.toContain(currentCard);
+      expect(appState.game.correctCards).not.toContain(currentCard);
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
         payload: 'correct',
       });
 
-      expect(res.correctCards).toContain(currentCard);
+      expect(res.game.correctCards).toContain(currentCard);
     });
 
     it('should add the current card to the wrong ones', () => {
@@ -327,19 +366,22 @@ describe('appReducer', () => {
 
       const appState: AppState = {
         ...initialState,
-        currentCard,
-        nextCard,
-        remainingCards,
+        game: {
+          ...initialState.game,
+          currentCard,
+          nextCard,
+          remainingCards,
+        },
       };
 
-      expect(appState.wrongCards).not.toContain(currentCard);
+      expect(appState.game.wrongCards).not.toContain(currentCard);
 
       const res = appReducer(appState, {
         type: AppActionType.NEXT_CARD,
         payload: 'wrong',
       });
 
-      expect(res.wrongCards).toContain(currentCard);
+      expect(res.game.wrongCards).toContain(currentCard);
     });
 
     it('should pick the last card from the remaining and not create a new next card', () => {
@@ -348,9 +390,12 @@ describe('appReducer', () => {
 
       const appState: AppState = {
         ...initialState,
-        currentCard,
-        nextCard,
-        remainingCards: [nextCard],
+        game: {
+          ...initialState.game,
+          currentCard,
+          nextCard,
+          remainingCards: [nextCard],
+        },
       };
 
       const res = appReducer(appState, {
@@ -358,7 +403,7 @@ describe('appReducer', () => {
         payload: 'correct',
       });
 
-      expect(res.nextCard).toBe('');
+      expect(res.game.nextCard).toBe('');
     });
 
     it('should not create a new current card when the next card is empty', () => {
@@ -367,8 +412,11 @@ describe('appReducer', () => {
 
       const appState: AppState = {
         ...initialState,
-        currentCard,
-        nextCard,
+        game: {
+          ...initialState.game,
+          currentCard,
+          nextCard,
+        },
       };
 
       const res = appReducer(appState, {
@@ -376,10 +424,10 @@ describe('appReducer', () => {
         payload: 'correct',
       });
 
-      expect(res.currentCard).toBe('');
-      expect(res.nextCard).toBe('');
-      expect(res.remainingCards).toEqual([]);
-      expect(res.usedCards).toEqual([currentCard]);
+      expect(res.game.currentCard).toBe('');
+      expect(res.game.nextCard).toBe('');
+      expect(res.game.remainingCards).toEqual([]);
+      expect(res.game.usedCards).toEqual([currentCard]);
     });
   });
 
@@ -387,7 +435,10 @@ describe('appReducer', () => {
     it('should change the game mode to hiragana', () => {
       const appState: AppState = {
         ...initialState,
-        cardMode: 'en',
+        game: {
+          ...initialState.game,
+          cardMode: 'en',
+        },
       };
       const testCardMode: CardMode = 'hiragana';
 
@@ -396,13 +447,16 @@ describe('appReducer', () => {
         payload: testCardMode,
       });
 
-      expect(res.cardMode).toEqual(testCardMode);
+      expect(res.game.cardMode).toEqual(testCardMode);
     });
 
     it('should change the game mode to kanji', () => {
       const appState: AppState = {
         ...initialState,
-        cardMode: 'en',
+        game: {
+          ...initialState.game,
+          cardMode: 'en',
+        },
       };
       const testCardMode: CardMode = 'kanji';
 
@@ -411,13 +465,16 @@ describe('appReducer', () => {
         payload: testCardMode,
       });
 
-      expect(res.cardMode).toEqual(testCardMode);
+      expect(res.game.cardMode).toEqual(testCardMode);
     });
 
     it('should change the game mode to kana', () => {
       const appState: AppState = {
         ...initialState,
-        cardMode: 'en',
+        game: {
+          ...initialState.game,
+          cardMode: 'en',
+        },
       };
       const testCardMode: CardMode = 'kana';
 
@@ -426,7 +483,7 @@ describe('appReducer', () => {
         payload: testCardMode,
       });
 
-      expect(res.cardMode).toEqual(testCardMode);
+      expect(res.game.cardMode).toEqual(testCardMode);
     });
   });
 
@@ -434,7 +491,10 @@ describe('appReducer', () => {
     it('should change the game level', () => {
       const appState: AppState = {
         ...initialState,
-        gameLevel: '1',
+        game: {
+          ...initialState.game,
+          gameLevel: '1',
+        },
       };
       const testGameLevel: GameLevel = '2';
 
@@ -443,7 +503,7 @@ describe('appReducer', () => {
         payload: testGameLevel,
       });
 
-      expect(res.gameLevel).toEqual(testGameLevel);
+      expect(res.game.gameLevel).toEqual(testGameLevel);
     });
   });
 
@@ -451,7 +511,10 @@ describe('appReducer', () => {
     it('should change the game mode', () => {
       const appState: AppState = {
         ...initialState,
-        gameMode: 'guest',
+        game: {
+          ...initialState.game,
+          gameMode: 'guest',
+        },
       };
       const testGameMode: GameMode = 'train';
 
@@ -460,7 +523,7 @@ describe('appReducer', () => {
         payload: testGameMode,
       });
 
-      expect(res.gameMode).toEqual(testGameMode);
+      expect(res.game.gameMode).toEqual(testGameMode);
     });
   });
 
@@ -469,47 +532,56 @@ describe('appReducer', () => {
       const testWrongCards = ['1', '2', '3', '4'];
       const appState: AppState = {
         ...initialState,
-        currentCard: '',
-        wrongCards: testWrongCards,
+        game: {
+          ...initialState.game,
+          currentCard: '',
+          wrongCards: testWrongCards,
+        },
       };
 
       const res = appReducer(appState, { type: AppActionType.PLAY_WRONG_CARDS });
 
-      expect(res.wrongCards).toEqual([]);
-      expect(res.remainingCards.length).toEqual(testWrongCards.length - 1);
-      expect(testWrongCards.includes(res.currentCard)).toBe(true);
-      expect(testWrongCards.includes(res.nextCard)).toBe(true);
+      expect(res.game.wrongCards).toEqual([]);
+      expect(res.game.remainingCards.length).toEqual(testWrongCards.length - 1);
+      expect(testWrongCards.includes(res.game.currentCard)).toBe(true);
+      expect(testWrongCards.includes(res.game.nextCard)).toBe(true);
     });
 
     it('should only ask for 1 card when the wrong cards pool contains only 1 item', () => {
       const testWrongCards = ['1'];
       const appState: AppState = {
         ...initialState,
-        currentCard: '',
-        wrongCards: testWrongCards,
+        game: {
+          ...initialState.game,
+          currentCard: '',
+          wrongCards: testWrongCards,
+        },
       };
 
       const res = appReducer(appState, { type: AppActionType.PLAY_WRONG_CARDS });
 
-      expect(res.wrongCards).toEqual([]);
-      expect(res.remainingCards.length).toEqual(testWrongCards.length - 1);
-      expect(testWrongCards.includes(res.currentCard)).toBe(true);
-      expect(testWrongCards.includes(res.nextCard)).toBe(false);
+      expect(res.game.wrongCards).toEqual([]);
+      expect(res.game.remainingCards.length).toEqual(testWrongCards.length - 1);
+      expect(testWrongCards.includes(res.game.currentCard)).toBe(true);
+      expect(testWrongCards.includes(res.game.nextCard)).toBe(false);
     });
 
     it('should do nothing when there are no wrong cards left', () => {
       const testWrongCards = [];
       const appState: AppState = {
         ...initialState,
-        currentCard: '',
-        wrongCards: testWrongCards,
+        game: {
+          ...initialState.game,
+          currentCard: '',
+          wrongCards: testWrongCards,
+        },
       };
 
       const res = appReducer(appState, { type: AppActionType.PLAY_WRONG_CARDS });
 
-      expect(res.wrongCards).toEqual([]);
-      expect(res.remainingCards.length).toEqual(0);
-      expect(res.currentCard).toEqual('');
+      expect(res.game.wrongCards).toEqual([]);
+      expect(res.game.remainingCards.length).toEqual(0);
+      expect(res.game.currentCard).toEqual('');
     });
   });
 });

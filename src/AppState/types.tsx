@@ -15,12 +15,8 @@ export interface CardStats {
   score: string;
 }
 
-export interface AppState {
-  loading: boolean;
-  loadingSound: boolean;
-  loadingData: boolean;
-  loadingUser: boolean;
-  loadingUserStats: boolean;
+export interface LoadingState {}
+export interface GameState {
   currentCard: string;
   remainingCards: string[];
   usedCards: string[];
@@ -30,8 +26,20 @@ export interface AppState {
   cardMode: CardMode;
   gameLevel: GameLevel;
   gameMode: GameMode;
-  userStats: UserStats;
   cardsStats?: CardStats[];
+}
+
+export interface LoadingState {
+  loading: boolean;
+  loadingSound: boolean;
+  loadingData: boolean;
+  loadingUser: boolean;
+  loadingUserStats: boolean;
+}
+export interface AppState {
+  loading: LoadingState;
+  userStats: UserStats;
+  game: GameState;
 }
 
 export enum AppActionType {

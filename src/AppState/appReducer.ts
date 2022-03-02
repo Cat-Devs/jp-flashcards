@@ -5,30 +5,42 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case AppActionType.LOADING: {
       return {
         ...state,
-        loadingData: Boolean(action.payload),
-        loading: Boolean(action.payload || state.loadingSound),
+        loading: {
+          ...state.loading,
+          loadingData: Boolean(action.payload),
+          loading: Boolean(action.payload || state.loading.loadingSound),
+        },
       };
     }
 
     case AppActionType.LOADING_SOUND: {
       return {
         ...state,
-        loadingSound: Boolean(action.payload),
-        loading: Boolean(action.payload || state.loadingData),
+        loading: {
+          ...state.loading,
+          loadingSound: Boolean(action.payload),
+          loading: Boolean(action.payload || state.loading.loadingData),
+        },
       };
     }
 
     case AppActionType.LOADING_USER: {
       return {
         ...state,
-        loadingUser: Boolean(action.payload),
+        loading: {
+          ...state.loading,
+          loadingUser: Boolean(action.payload),
+        },
       };
     }
 
     case AppActionType.LOADING_USER_STATS: {
       return {
         ...state,
-        loadingUserStats: Boolean(action.payload),
+        loading: {
+          ...state.loading,
+          loadingUserStats: Boolean(action.payload),
+        },
       };
     }
 
@@ -39,76 +51,97 @@ export function appReducer(state: AppState, action: AppAction): AppState {
 
       return {
         ...state,
-        remainingCards,
-        nextCard: `${nextCard}`,
-        currentCard: `${action.payload.nextCard}`,
-        cardsStats: action.payload.cardsStats,
-        usedCards: [],
-        wrongCards: [],
-        correctCards: [],
+        game: {
+          ...state.game,
+          remainingCards,
+          nextCard: `${nextCard}`,
+          currentCard: `${action.payload.nextCard}`,
+          cardsStats: action.payload.cardsStats,
+          usedCards: [],
+          wrongCards: [],
+          correctCards: [],
+        },
       };
     }
 
     case AppActionType.NEXT_CARD: {
-      const newCurrentCard = state.nextCard;
-      const newRemainingCards = state.remainingCards.filter((card) => card !== newCurrentCard);
+      const newCurrentCard = state.game.nextCard;
+      const newRemainingCards = state.game.remainingCards.filter((card) => card !== newCurrentCard);
       const random = Math.floor(Math.random() * newRemainingCards.length);
       const nextCard = newRemainingCards.length ? newRemainingCards[random] : '';
-      const newUsedCards = [...state.usedCards, state.currentCard];
-      const newCorrectCards = [...state.correctCards, ...(action.payload === 'correct' ? [state.currentCard] : [])];
-      const newWrongCards = [...state.wrongCards, ...(action.payload === 'wrong' ? [state.currentCard] : [])];
+      const newUsedCards = [...state.game.usedCards, state.game.currentCard];
+      const newCorrectCards = [
+        ...state.game.correctCards,
+        ...(action.payload === 'correct' ? [state.game.currentCard] : []),
+      ];
+      const newWrongCards = [...state.game.wrongCards, ...(action.payload === 'wrong' ? [state.game.currentCard] : [])];
 
       return {
         ...state,
-        currentCard: `${newCurrentCard}`,
-        nextCard: `${nextCard}`,
-        remainingCards: newRemainingCards,
-        usedCards: newUsedCards,
-        correctCards: newCorrectCards,
-        wrongCards: newWrongCards,
+        game: {
+          ...state.game,
+          currentCard: `${newCurrentCard}`,
+          nextCard: `${nextCard}`,
+          remainingCards: newRemainingCards,
+          usedCards: newUsedCards,
+          correctCards: newCorrectCards,
+          wrongCards: newWrongCards,
+        },
       };
     }
 
     case AppActionType.SET_CARDS: {
       return {
         ...state,
-        cardMode: action.payload,
+        game: {
+          ...state.game,
+          cardMode: action.payload,
+        },
       };
     }
 
     case AppActionType.SET_LEVEL: {
       return {
         ...state,
-        gameLevel: action.payload,
+        game: {
+          ...state.game,
+          gameLevel: action.payload,
+        },
       };
     }
 
     case AppActionType.SET_GAME_MODE: {
       return {
         ...state,
-        gameMode: action.payload,
+        game: {
+          ...state.game,
+          gameMode: action.payload,
+        },
       };
     }
 
     case AppActionType.PLAY_WRONG_CARDS: {
-      if (!state.wrongCards.length) {
+      if (!state.game.wrongCards.length) {
         return state;
       }
 
-      const random = Math.floor(Math.random() * state.wrongCards.length);
-      const currentCard: string = state.wrongCards[random];
-      const remainingCards: string[] = state.wrongCards.filter((card) => card !== currentCard);
+      const random = Math.floor(Math.random() * state.game.wrongCards.length);
+      const currentCard: string = state.game.wrongCards[random];
+      const remainingCards: string[] = state.game.wrongCards.filter((card) => card !== currentCard);
       const nextCardRandom = Math.floor(Math.random() * remainingCards.length);
       const nextCard: string = remainingCards.length ? remainingCards[nextCardRandom] : '';
 
       return {
         ...state,
-        currentCard,
-        nextCard,
-        remainingCards,
-        correctCards: [],
-        usedCards: [],
-        wrongCards: [],
+        game: {
+          ...state.game,
+          currentCard,
+          nextCard,
+          remainingCards,
+          correctCards: [],
+          usedCards: [],
+          wrongCards: [],
+        },
       };
     }
 

@@ -37,10 +37,12 @@ export function useApp() {
   const { state, dispatch } = context;
 
   const getGameStats = useCallback(async () => {
-    const usedCards = state.usedCards.length || 0;
-    const wrongCards = state.wrongCards.length || 0;
+    const usedCards = state.game.usedCards.length || 0;
+    const wrongCards = state.game.wrongCards.length || 0;
     const totalCards =
-      (state.usedCards.length || 0) + (state.remainingCards.length || 0) + ([state.currentCard].length || 0);
+      (state.game.usedCards.length || 0) +
+      (state.game.remainingCards.length || 0) +
+      ([state.game.currentCard].length || 0);
     const progress = Number(((100 * usedCards) / totalCards).toFixed(2));
 
     setGameStats({
@@ -48,9 +50,15 @@ export function useApp() {
       totalCards,
       wrongCards,
       progress,
-      cardsStats: state.cardsStats,
+      cardsStats: state.game.cardsStats,
     });
-  }, [state.currentCard, state.remainingCards, state.usedCards, state.wrongCards, state.cardsStats]);
+  }, [
+    state.game.currentCard,
+    state.game.remainingCards,
+    state.game.usedCards,
+    state.game.wrongCards,
+    state.game.cardsStats,
+  ]);
 
   const getUserStats = useCallback(async () => {
     if (userLoggedIn) {
@@ -86,7 +94,7 @@ export function useApp() {
   }, [userLoggedIn, dispatch]);
 
   const loadData = useCallback(async () => {
-    if (!state.cardMode || !state.gameLevel) {
+    if (!state.game.cardMode || !state.game.gameLevel) {
       throw new Error('Missing required information.');
     }
 
@@ -123,7 +131,7 @@ export function useApp() {
       }
     }
 
-    const cardData = await fetchData(state.cardMode, state.gameLevel, state.gameMode);
+    const cardData = await fetchData(state.game.cardMode, state.game.gameLevel, state.game.gameMode);
 
     if (!cardData) {
       console.error('Cannot fetch flashcards data');
@@ -141,7 +149,7 @@ export function useApp() {
       payload: { cardIds: cardData.cardIds, cardsStats: cardData.cardsStats, nextCard },
     });
     router.push(`/shuffle/${nextCard}`);
-  }, [dispatch, router, state.gameLevel, state.gameMode, state.cardMode]);
+  }, [dispatch, router, state.game.gameLevel, state.game.gameMode, state.game.cardMode]);
 
   const setCardMode = useCallback(
     (cardMode: CardMode) => {
@@ -238,29 +246,29 @@ export function useApp() {
     async (cardResult: CardResult) => {
       unloadSound();
 
-      if (userLoggedIn && state.gameMode !== 'guest' && cardResult !== 'void') {
+      if (userLoggedIn && state.game.gameMode !== 'guest' && cardResult !== 'void') {
         await fetch('/api/update', {
           method: 'POST',
-          body: JSON.stringify({ cardId: state.currentCard, cardResult }),
+          body: JSON.stringify({ cardId: state.game.currentCard, cardResult }),
         });
       }
 
       dispatch({ type: AppActionType.NEXT_CARD, payload: cardResult });
 
-      if (state.nextCard) {
-        router.push(`/shuffle/${state.nextCard}`);
+      if (state.game.nextCard) {
+        router.push(`/shuffle/${state.game.nextCard}`);
       }
     },
-    [dispatch, router, unloadSound, userLoggedIn, state.nextCard, state.gameMode, state.currentCard]
+    [dispatch, router, unloadSound, userLoggedIn, state.game.nextCard, state.game.gameMode, state.game.currentCard]
   );
 
   const playWrongCards = useCallback(() => {
     dispatch({ type: AppActionType.PLAY_WRONG_CARDS });
 
-    if (state.nextCard) {
-      router.push(`/shuffle/${state.nextCard}`);
+    if (state.game.nextCard) {
+      router.push(`/shuffle/${state.game.nextCard}`);
     }
-  }, [dispatch, router, state.nextCard]);
+  }, [dispatch, router, state.game.nextCard]);
 
   const logIn = useCallback(() => {
     signIn();
@@ -276,14 +284,14 @@ export function useApp() {
   }, [dispatch]);
 
   return {
-    currentCard: state.currentCard,
-    cardMode: state.cardMode,
-    gameLevel: state.gameLevel,
-    gameMode: state.gameMode,
+    currentCard: state.game.currentCard,
+    cardMode: state.game.cardMode,
+    gameLevel: state.game.gameLevel,
+    gameMode: state.game.gameMode,
     userStats: state.userStats,
-    loading: Boolean(state.loading),
-    userStatsLoading: Boolean(state.loadingUserStats),
-    authenticating: Boolean(state.loadingUser || (status !== 'authenticated' && status !== 'unauthenticated')),
+    loading: Boolean(state.loading.loading),
+    userStatsLoading: Boolean(state.loading.loadingUserStats),
+    authenticating: Boolean(state.loading.loadingUser || (status !== 'authenticated' && status !== 'unauthenticated')),
     fetchUserData,
     getGameStats,
     gameStats,

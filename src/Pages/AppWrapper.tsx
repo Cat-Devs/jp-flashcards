@@ -7,13 +7,17 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useApp } from '../AppState';
 import { UserMenu } from '../Components/UserMenu';
 import { theme } from '../theme';
 
 export const AppWrapper = (props) => {
-  const { goHome, userLoggedIn, userStats, logIn, logOut, authenticating } = useApp();
+  const { goHome, userLoggedIn, userStats, logIn, logOut, fetchUserData, authenticating } = useApp();
+
+  useEffect(() => {
+    fetchUserData();
+  }, [fetchUserData]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -33,7 +37,7 @@ export const AppWrapper = (props) => {
             <Box sx={{ flexGrow: 0 }}>
               <UserMenu
                 loading={authenticating}
-                signedIn={Boolean(userLoggedIn && userStats?.userHash)}
+                signedIn={userLoggedIn}
                 userHash={userStats?.userHash}
                 onLogIn={logIn}
                 onLogOut={logOut}

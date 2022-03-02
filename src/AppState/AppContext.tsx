@@ -15,6 +15,8 @@ const initialState: AppState = {
   loading: false,
   loadingData: false,
   loadingSound: false,
+  loadingUser: false,
+  loadingUserStats: false,
   nextCard: '',
   currentCard: '',
   cardMode: 'en',
@@ -73,6 +75,8 @@ export function AppProvider(props) {
       loading: undefined,
       loadingData: undefined,
       loadingSound: undefined,
+      loadingUser: undefined,
+      loadingUserStats: undefined,
       userStats: undefined,
     };
 

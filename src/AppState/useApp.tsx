@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useRef, useState } from 'react';
 import { CardStats, GameMode } from '.';
 import { PrepareGameConfig } from '../types';
 import { AppContext } from './AppContext';
@@ -36,7 +36,7 @@ export function useApp() {
 
   const { state, dispatch } = context;
 
-  useEffect(() => {
+  const getGameStats = useCallback(async () => {
     const usedCards = state.usedCards.length || 0;
     const wrongCards = state.wrongCards.length || 0;
     const totalCards =
@@ -52,8 +52,24 @@ export function useApp() {
     });
   }, [state.currentCard, state.remainingCards, state.usedCards, state.wrongCards, state.cardsStats]);
 
+  const getUserStats = useCallback(async () => {
+    if (userLoggedIn) {
+      dispatch({ type: AppActionType.LOADING_USER_STATS, payload: true });
+      try {
+        const userStatsReq = await fetch('/api/get-user-stats', { method: 'POST' });
+        const userStats = await userStatsReq.json();
+        dispatch({ type: AppActionType.SET_USER_STATS, payload: userStats });
+      } catch (err) {
+        console.error(err?.message);
+      } finally {
+        dispatch({ type: AppActionType.LOADING_USER_STATS, payload: false });
+      }
+    }
+  }, [dispatch, userLoggedIn]);
+
   const fetchUserData = useCallback(async () => {
     if (userLoggedIn) {
+      dispatch({ type: AppActionType.LOADING_USER, payload: true });
       try {
         const userStatsReq = await fetch('/api/get-user-stats', { method: 'POST' });
         const userStats = await userStatsReq.json();
@@ -61,6 +77,8 @@ export function useApp() {
       } catch (err) {
         console.error(err?.message);
         dispatch({ type: AppActionType.SET_USER_STATS, payload: undefined });
+      } finally {
+        dispatch({ type: AppActionType.LOADING_USER, payload: false });
       }
     } else {
       dispatch({ type: AppActionType.SET_USER_STATS, payload: undefined });
@@ -156,8 +174,9 @@ export function useApp() {
   );
 
   const goHome = useCallback(() => {
+    getUserStats();
     router.push(`/`);
-  }, [router]);
+  }, [router, getUserStats]);
 
   const openSettings = useCallback(() => {
     router.push('/profile');
@@ -263,9 +282,10 @@ export function useApp() {
     gameMode: state.gameMode,
     userStats: state.userStats,
     loading: Boolean(state.loading),
-    authenticating: Boolean(status !== 'authenticated' && status !== 'unauthenticated'),
-    canPlaySounds: userLoggedIn,
+    userStatsLoading: Boolean(state.loadingUserStats),
+    authenticating: Boolean(state.loadingUser || (status !== 'authenticated' && status !== 'unauthenticated')),
     fetchUserData,
+    getGameStats,
     gameStats,
     userLoggedIn,
     logIn,

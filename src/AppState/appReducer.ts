@@ -18,6 +18,20 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       };
     }
 
+    case AppActionType.LOADING_USER: {
+      return {
+        ...state,
+        loadingUser: Boolean(action.payload),
+      };
+    }
+
+    case AppActionType.LOADING_USER_STATS: {
+      return {
+        ...state,
+        loadingUserStats: Boolean(action.payload),
+      };
+    }
+
     case AppActionType.LOAD_DATA: {
       const remainingCards = action.payload.cardIds.filter((cardId) => cardId !== action.payload.nextCard);
       const random = Math.floor(Math.random() * remainingCards.length);

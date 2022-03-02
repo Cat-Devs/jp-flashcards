@@ -20,18 +20,33 @@ interface FlashcardPageProps {
 }
 
 const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
-  const { cardMode, nextCard, goHome, loading, loadSound, unloadSound, playSound, canPlaySounds, gameStats } = useApp();
+  const {
+    cardMode,
+    nextCard,
+    goHome,
+    loading,
+    loadSound,
+    unloadSound,
+    playSound,
+    userLoggedIn,
+    getGameStats,
+    gameStats,
+  } = useApp();
   const cardJp = card?.jp;
 
   useEffect(() => {
-    if (canPlaySounds && cardJp) {
+    getGameStats();
+  }, [getGameStats]);
+
+  useEffect(() => {
+    if (userLoggedIn && cardJp) {
       loadSound(cardJp);
     }
 
     return () => {
       unloadSound();
     };
-  }, [cardJp, canPlaySounds, loadSound, unloadSound]);
+  }, [cardJp, userLoggedIn, loadSound, unloadSound]);
 
   const cardStats: CardStats = useMemo(() => {
     if (!card || !gameStats.cardsStats) {
@@ -136,7 +151,7 @@ const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
         <Flashcard
           card={cardData}
           stats={cardStats}
-          canPlaySounds={canPlaySounds}
+          canPlaySounds={userLoggedIn}
           quiz={quiz}
           onPlaySound={playSound}
           onNext={nextCard}

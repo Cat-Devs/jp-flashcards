@@ -16,9 +16,11 @@ export interface CardStats {
 }
 
 export interface AppState {
-  loading: Boolean;
-  loadingSound: Boolean;
-  loadingData: Boolean;
+  loading: boolean;
+  loadingSound: boolean;
+  loadingData: boolean;
+  loadingUser: boolean;
+  loadingUserStats: boolean;
   currentCard: string;
   remainingCards: string[];
   usedCards: string[];
@@ -35,6 +37,8 @@ export interface AppState {
 export enum AppActionType {
   'LOAD_DATA',
   'LOADING_SOUND',
+  'LOADING_USER',
+  'LOADING_USER_STATS',
   'NEXT_CARD',
   'SET_GAME_MODE',
   'SET_CARDS',
@@ -51,6 +55,16 @@ type LoadingAction = {
 
 type LoadingSoundAction = {
   type: AppActionType.LOADING_SOUND;
+  payload: boolean;
+};
+
+type LoadingUserAction = {
+  type: AppActionType.LOADING_USER;
+  payload: boolean;
+};
+
+type LoadingUserStatsAction = {
+  type: AppActionType.LOADING_USER_STATS;
   payload: boolean;
 };
 
@@ -91,6 +105,8 @@ type SetUserStatsAction = {
 export type AppAction =
   | LoadingAction
   | LoadingSoundAction
+  | LoadingUserAction
+  | LoadingUserStatsAction
   | LoadDataAction
   | NextCardAction
   | SetCardModeAction

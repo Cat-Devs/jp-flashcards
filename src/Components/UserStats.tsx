@@ -1,22 +1,19 @@
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
-import { useEffect, useMemo } from 'react';
-import { useApp } from '../AppState';
+import { useMemo } from 'react';
+import { UserStats as UserStatsData } from '../AppState';
 
-interface UserStatsProps {}
+interface UserStatsProps {
+  userStats: UserStatsData;
+  loading: boolean;
+}
 
-export const UserStats: React.FC<UserStatsProps> = ({}) => {
-  const { userLoggedIn, userStats, fetchUserData, gameMode } = useApp();
-
-  useEffect(() => {
-    fetchUserData();
-  }, [fetchUserData]);
-
+export const UserStats: React.FC<UserStatsProps> = ({ userStats, loading }) => {
   const weakCardsCopy = useMemo(() => {
-    if (!userStats?.weakCards) {
+    if (!userStats.weakCards) {
       return null;
     }
-
     if (userStats.weakCards === 1) {
       return 'You only have 1 word to improve';
     }
@@ -27,7 +24,6 @@ export const UserStats: React.FC<UserStatsProps> = ({}) => {
     if (!userStats?.learnedCards) {
       return null;
     }
-
     if (!userStats.learnedCards) {
       return "You haven't learned any word yet";
     }
@@ -37,8 +33,8 @@ export const UserStats: React.FC<UserStatsProps> = ({}) => {
     return `You have studied a total of ${userStats.learnedCards} words so far`;
   }, [userStats?.learnedCards]);
 
-  if (!userLoggedIn || !userStats || gameMode !== 'train') {
-    return null;
+  if (loading) {
+    return <CircularProgress size={80} />;
   }
 
   return (

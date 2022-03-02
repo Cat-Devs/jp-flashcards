@@ -5,12 +5,16 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useApp } from '../AppState';
 import { LoadingCard } from '../Components/LoadingCard';
 
 export const ResultPage: React.FC = () => {
-  const { goHome, loading, playWrongCards, gameStats } = useApp();
+  const { goHome, loading, playWrongCards, gameStats, getGameStats } = useApp();
+
+  useEffect(() => {
+    getGameStats();
+  }, [getGameStats]);
 
   if (loading) {
     return (

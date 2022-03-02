@@ -38,8 +38,6 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!session) {
     const cardData = guestUserCards(items, cardMode, gameLevel);
-    console.warn('getGuestUserCards', cardData);
-
     return res.json({ cardData });
   }
 
@@ -47,24 +45,20 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (gameMode === 'train') {
     const cardData = await trainCards(userHash, items);
-    console.warn('train cards', cardData);
     return res.json({ cardData });
   }
 
   if (gameMode === 'practice') {
     const cardData = await practiceAllLearnedCards(userHash, items, cardMode);
-    console.warn('practiceCards', cardData);
     return res.json({ cardData });
   }
 
   if (gameMode === 'weak') {
     const cardData = await practiceWeakCards(userHash, items, cardMode);
-    console.warn('practiceWeakCards', cardData);
     return res.json({ cardData });
   }
 
   const cardData = await getAllCards(userHash, items, cardMode, gameLevel);
-  console.warn('getAllCards', cardData);
   return res.json({ cardData });
 };
 

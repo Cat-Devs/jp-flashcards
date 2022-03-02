@@ -14,6 +14,7 @@ const customJestConfig = {
   moduleDirectories: ['node_modules', '<rootDir>/'],
   testEnvironment: 'jest-environment-jsdom',
   clearMocks: true,
+  resetMocks: true,
   collectCoverage: true,
   coverageDirectory: 'coverage',
   testPathIgnorePatterns: ['cypress'],

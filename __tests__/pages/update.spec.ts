@@ -12,12 +12,13 @@ describe('update', () => {
   const mockDBClient = {
     put: jest.fn(),
   };
-  const testRes: any = {
-    status: jest.fn().mockReturnThis(),
-    json: jest.fn(),
-  };
 
   it('should return an error when the user is not authenticated', async () => {
+    const testRes: any = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
     const testReq = { body: JSON.stringify({ cardId: '', cardResult: 'wrong' }) } as NextApiRequest;
 
@@ -38,6 +39,11 @@ describe('update', () => {
     { wrongCards: [] },
     { cards: [], wrongCards: [] },
   ])(`should return an error when the required data is not provided: %p`, async (body) => {
+    const testRes: any = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
     const testReq = { body: JSON.stringify(body) } as NextApiRequest;
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
 
@@ -48,6 +54,11 @@ describe('update', () => {
   });
 
   it('should update the database information', async () => {
+    const testRes: any = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
     const userData: UserData = {
       id: userHash,
       type: 'user',
@@ -73,6 +84,11 @@ describe('update', () => {
   });
 
   it('should add the new weak words', async () => {
+    const testRes: any = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
     const userData: UserData = {
       id: userHash,
       type: 'user',
@@ -102,6 +118,11 @@ describe('update', () => {
   });
 
   it('should add the new learned words', async () => {
+    const testRes: any = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
     const userData: UserData = {
       id: userHash,
       type: 'user',
@@ -132,6 +153,11 @@ describe('update', () => {
   });
 
   it('should preserve the learned words', async () => {
+    const testRes: any = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
     const userData: UserData = {
       id: userHash,
       type: 'user',
@@ -162,6 +188,11 @@ describe('update', () => {
   });
 
   it('should remove the card from the learned ones and add it to the weak cards', async () => {
+    const testRes: any = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+
     const userData: UserData = {
       id: userHash,
       type: 'user',

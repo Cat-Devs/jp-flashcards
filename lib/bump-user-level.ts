@@ -31,5 +31,6 @@ export const bumpUserLevel = async (userHash: string) => {
     });
   } catch (err) {
     console.error(err);
+    throw new Error(err);
   }
 };

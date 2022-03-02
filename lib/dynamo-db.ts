@@ -1,18 +1,17 @@
 import { DynamoDB } from 'aws-sdk';
 import { isDev, isProd } from './constants';
-const localDB = require(`../data/table-data-local.json`);
+const localDB = require('../data/table-data-local.json');
 
 export function getDbClient(
   accessKeyId: string = process.env.NEXT_DYNAMO_READ_KEY,
   secretAccessKey: string = process.env.NEXT_DYNAMO_READ_SECRET
 ) {
-  const region = process.env.NEXT_AWS_REGION;
-  const TableName = process.env.NEXT_DYNAMO_TABLE_NAME;
   let client: DynamoDB.DocumentClient;
+  const TableName = process.env.NEXT_DYNAMO_TABLE_NAME;
 
   if (isProd) {
     client = new DynamoDB.DocumentClient({
-      region,
+      region: process.env.NEXT_AWS_REGION,
       credentials: { accessKeyId, secretAccessKey },
       params: { TableName },
     });

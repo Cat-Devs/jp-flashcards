@@ -11,7 +11,7 @@ export const Footer: React.FC<FooterProps> = ({ version }) => (
   <Box py={1}>
     <Copyright />
     <Typography variant="body2" color="textSecondary" align="center">
-      release version <Typography variant="overline">{version || 'dev'}</Typography>
+      release version <Typography variant="overline">{version}</Typography>
     </Typography>
   </Box>
 );

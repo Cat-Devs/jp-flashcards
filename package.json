@@ -7,7 +7,7 @@
     "prod": "PROD=true next dev",
     "test": "jest --watchAll",
     "test:ci": "jest",
-    "build": "next build",
+    "build": "REACT_APP_GIT_HASH=\"$(VERCEL_GIT_COMMIT_SHA)\" next build",
     "start": "next start",
     "lint": "next lint",
     "db:create": "AWS_USERS_TABLE=$AWS_USERS_TABLE AWS_REGION=$AWS_REGION node ./data/upload.js",

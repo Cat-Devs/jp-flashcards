@@ -251,7 +251,7 @@ export function useApp() {
           method: 'POST',
           body: JSON.stringify({
             wrongCards: state.game.wrongCards,
-            cards: state.game.usedCards,
+            cards: [...state.game.usedCards, state.game.currentCard],
           }),
         });
       }

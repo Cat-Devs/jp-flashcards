@@ -1,4 +1,4 @@
-export const pickRandomCards = (cardsInput: string[], cardsToPick: number = 1, result: string[] = []) => {
+export const pickRandomCards = (cardsInput: string[], cardsToPick: number = 1, result: string[] = []): string[] => {
   if (!cardsInput.length) {
     return result;
   }

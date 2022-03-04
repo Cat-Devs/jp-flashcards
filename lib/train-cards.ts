@@ -11,31 +11,30 @@ export const trainCards = async (
   const userData = await getUserData(userHash);
   const learnedCards = userData.learned_cards;
   const weakCards = Object.keys(userData.weak_cards);
-  const randomLearnedCards = pickRandomCards(learnedCards, 3);
 
-  const cardItems = items
+  const newCardItems = items
     .filter((card: FlashCardData) => Number(userData.current_level) === Number(card.level))
     .filter((card: FlashCardData) => !learnedCards.includes(card.id) && !weakCards.includes(card.id))
     .map((card: FlashCardData) => card.id);
 
-  if (!weakCards.length) {
-    if (!cardItems.length && Number(userData.current_level) >= 5) {
-      // Max level reach
-      return;
-    }
-
+  if (!weakCards.length && !newCardItems.length && !userLevelBumped) {
     // Promote user to the next level
-    if (!cardItems.length && !userLevelBumped) {
+    if (Number(userData.current_level) < 5) {
       await bumpUserLevel(userHash);
       return trainCards(userHash, items, true);
     }
   }
 
-  const cardIds = [...weakCards, ...cardItems]
-    .splice(0, 10)
-    .sort(() => Math.random() - 0.5)
-    .concat(randomLearnedCards)
-    .sort(() => Math.random() - 0.5);
+  const totalCards = 15;
+  const weakCardsLenth = weakCards.length;
+  const learnedCardsLength = learnedCards.length;
+  const newWordsCount = weakCardsLenth + learnedCardsLength < 5 ? 4 : 2;
+  const weakCardsCount = learnedCardsLength <= 2 ? 10 : 8;
+  const randomNewWords = pickRandomCards(newCardItems, newWordsCount);
+  const randomWeakCards = pickRandomCards(weakCards, weakCardsCount);
+  const remainingCards = totalCards - randomWeakCards.length - randomNewWords.length;
+  const randomLearnedCards = pickRandomCards(learnedCards, remainingCards);
+  const cardIds = [...randomLearnedCards, ...randomWeakCards, ...randomNewWords].sort(() => Math.random() - 0.5);
 
   const cardsStats = cardIds.reduce((acc, curr) => {
     if (learnedCards.includes(curr)) {

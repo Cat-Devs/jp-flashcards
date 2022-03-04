@@ -1,22 +1,27 @@
 import { pickRandomCards } from './pick-random-card';
 
 describe('pickRandomCards', () => {
+  beforeEach(() => {
+    jest.spyOn(global.Math, 'random').mockReturnValue(0);
+  });
+
   it('should return one random card', () => {
     const input = ['1', '2', '3'];
-
+    const expectedOutput = [input[0]];
     const res = pickRandomCards(input);
 
     expect(res.length).toBe(1);
-    expect(input).toEqual(expect.arrayContaining(res));
+    expect(res).toEqual(expectedOutput);
   });
 
   it('should return two random card', () => {
     const input = ['1', '2', '3'];
+    const expectedOutput = [input[0], input[1]];
 
     const res = pickRandomCards(input, 2);
 
     expect(res.length).toBe(2);
-    expect(input).toEqual(expect.arrayContaining(res));
+    expect(res).toEqual(expectedOutput);
   });
 
   it('should return three random card', () => {
@@ -25,7 +30,7 @@ describe('pickRandomCards', () => {
     const res = pickRandomCards(input, 3);
 
     expect(res.length).toBe(3);
-    expect(input).toEqual(expect.arrayContaining(res));
+    expect(res).toEqual(input);
   });
 
   it('should not exceed the maximum size of the given input', () => {
@@ -44,5 +49,14 @@ describe('pickRandomCards', () => {
 
     expect(res.length).toBe(input.length);
     expect(input.sort()).toEqual(res.sort());
+  });
+
+  it('should not alter the provided input', () => {
+    const input = ['1', '2', '3'];
+    const inputLength = input.length;
+
+    pickRandomCards(input, 2);
+
+    expect(input.length).toBe(inputLength);
   });
 });

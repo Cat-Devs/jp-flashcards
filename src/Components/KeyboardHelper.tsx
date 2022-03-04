@@ -1,23 +1,15 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import { blueGrey } from '@mui/material/colors';
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
 import SpaceBarIcon from '@mui/icons-material/SpaceBar';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import { blueGrey } from '@mui/material/colors';
+import Typography from '@mui/material/Typography';
+import React from 'react';
 
 export const KeyboardHelper = () => {
   return (
-    <Box
-      sx={{
-        textAlign: 'center',
-        position: 'absolute',
-        left: 0,
-        bottom: 0,
-        width: '100%',
-      }}
-    >
+    <Box pb={2} sx={{ textAlign: 'center' }}>
       <Typography gutterBottom variant="h6">
         Navigate with your keyboard
       </Typography>

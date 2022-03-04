@@ -145,7 +145,12 @@ const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
   }
 
   return (
-    <Container maxWidth="md" disableGutters>
+    <Container
+      id="FlashCardPage"
+      sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      maxWidth="md"
+      disableGutters
+    >
       <Progress status={gameStats.progress} />
       <Box sx={{ p: 2 }}>
         <Flashcard
@@ -157,6 +162,7 @@ const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
           onNext={nextCard}
         />
       </Box>
+      <Box sx={{ flex: '1 1 auto' }} />
       {!isMobile && quiz && <KeyboardHelper />}
     </Container>
   );

@@ -10,7 +10,6 @@ export const Copyright = () => {
         Japanese Flashcards
       </MuiLink>{' '}
       {new Date().getFullYear()}
-      {'.'}
     </Typography>
   );
 };

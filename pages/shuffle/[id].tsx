@@ -1,21 +1,13 @@
 import React from 'react';
 import { getDbClient } from '../../lib/dynamo-db';
-import { useApp } from '../../src/AppState';
 import { FlashcardPage } from '../../src/Pages/FlashcardPage';
-import { ResultPage } from '../../src/Pages/ResultPage';
 import type { FlashCardData } from '../../src/types';
 
-interface CardPageProps {
+interface ShufflePageProps {
   card?: FlashCardData;
 }
 
-const CardPage: React.FC<CardPageProps> = ({ card }) => {
-  const { currentCard, loading } = useApp();
-
-  if (!loading && !Boolean(currentCard)) {
-    return <ResultPage />;
-  }
-
+const ShufflePage: React.FC<ShufflePageProps> = ({ card }) => {
   return <FlashcardPage card={card} quiz={true} />;
 };
 
@@ -48,4 +40,4 @@ export async function getStaticPaths() {
   };
 }
 
-export default CardPage;
+export default ShufflePage;

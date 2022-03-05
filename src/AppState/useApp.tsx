@@ -254,6 +254,7 @@ export function useApp() {
             cards: [...state.game.usedCards, state.game.currentCard],
           }),
         });
+        router.push(`/shuffle/summary`);
       }
 
       dispatch({ type: AppActionType.NEXT_CARD, payload: cardResult });
@@ -267,11 +268,7 @@ export function useApp() {
 
   const playWrongCards = useCallback(() => {
     dispatch({ type: AppActionType.PLAY_WRONG_CARDS });
-
-    if (state.game.nextCard) {
-      router.push(`/shuffle/${state.game.nextCard}`);
-    }
-  }, [dispatch, router, state.game.nextCard]);
+  }, [dispatch]);
 
   const logIn = useCallback(() => {
     signIn();

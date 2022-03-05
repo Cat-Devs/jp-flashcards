@@ -28,8 +28,15 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const client = getDbClient();
-  const { Items: items } = await client.scan<FlashCardData>({
-    FilterExpression: 'attribute_exists(category)',
+  const { Items: items } = await client.query<FlashCardData>({
+    IndexName: 'type-index',
+    KeyConditionExpression: '#type = :type',
+    ExpressionAttributeNames: {
+      '#type': 'type',
+    },
+    ExpressionAttributeValues: {
+      ':type': 'card',
+    },
   });
 
   if (!items.length) {

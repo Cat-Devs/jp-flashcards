@@ -19,7 +19,7 @@ jest.mock('../../lib/train-cards');
 
 describe('Prepare game', () => {
   const mockDBClient = {
-    scan: jest.fn(),
+    query: jest.fn(),
   };
 
   it.each([
@@ -85,7 +85,7 @@ describe('Prepare game', () => {
     const gameLevel: GameLevel = '2';
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
-    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: [] }));
+    jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: [] }));
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
     const testRes: any = { json: jest.fn() };
@@ -104,7 +104,7 @@ describe('Prepare game', () => {
     const expectedRes = { cardsStats: undefined, cardIds: testData.map((card) => card.id) };
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
-    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: testData }));
+    jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(guestUserCards, 'guestUserCards').mockReturnValue(expectedRes);
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
@@ -129,7 +129,7 @@ describe('Prepare game', () => {
     const expectedRes = { cardsStats: undefined, cardIds: testData.map((card) => card.id) };
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
-    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: testData }));
+    jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(trainCards, 'trainCards').mockResolvedValue(expectedRes);
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
@@ -155,7 +155,7 @@ describe('Prepare game', () => {
     const expectedRes = { cardsStats: undefined, cardIds: testData.map((card) => card.id) };
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
-    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: testData }));
+    jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(practice, 'practiceAllLearnedCards').mockResolvedValue(expectedRes);
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
@@ -182,7 +182,7 @@ describe('Prepare game', () => {
     const expectedRes = { cardsStats: undefined, cardIds: testData.map((card) => card.id) };
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
-    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: testData }));
+    jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(practiceWeak, 'practiceWeakCards').mockResolvedValue(expectedRes);
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
@@ -209,7 +209,7 @@ describe('Prepare game', () => {
     const expectedRes = { cardsStats: undefined, cardIds: testData.map((card) => card.id) };
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
-    jest.spyOn(mockDBClient, 'scan').mockImplementation(() => ({ Items: testData }));
+    jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(getAllCards, 'getAllCards').mockResolvedValue(expectedRes);
     const testBody = { config: { cardMode, gameLevel, gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;

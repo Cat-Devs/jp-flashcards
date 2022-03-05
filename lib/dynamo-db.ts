@@ -41,7 +41,7 @@ export function getDbClient(
         };
       }
     },
-    scan: async <T>(params: Omit<DynamoDB.DocumentClient.ScanInput, 'TableName'>): Promise<{ Items: T[] }> => {
+    query: async <T>(params: Omit<DynamoDB.DocumentClient.QueryInput, 'TableName'>): Promise<{ Items: T[] }> => {
       try {
         if (isDev) {
           return {
@@ -49,8 +49,8 @@ export function getDbClient(
           };
         }
 
-        const scanItems: unknown = await client.scan({ TableName, ...params }).promise();
-        return scanItems as { Items: T[] };
+        const queryItems: unknown = await client.query({ TableName, ...params }).promise();
+        return queryItems as { Items: T[] };
       } catch (err) {
         console.error(
           'Your AWS credentials are probably wrong or missing inside your environment variables or .env file'

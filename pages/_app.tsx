@@ -1,11 +1,13 @@
 import { SessionProvider } from 'next-auth/react';
+import App from 'next/app';
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import CookieConsent from 'react-cookie-consent';
 import { AppProvider } from '../src/AppState';
 import { AppWrapper } from '../src/Pages/AppWrapper';
+const { VERCEL_GIT_COMMIT_SHA } = process.env;
 
-const App = (props) => {
+const JPFlashCardApp = (props) => {
   const { Component, pageProps } = props;
   const [ready, setReady] = useState(false);
 
@@ -22,7 +24,7 @@ const App = (props) => {
       <SessionProvider session={pageProps.session} refetchInterval={600}>
         <AppProvider>
           {ready && (
-            <AppWrapper>
+            <AppWrapper version={pageProps.version}>
               <Component {...pageProps} />
             </AppWrapper>
           )}
@@ -35,4 +37,11 @@ const App = (props) => {
   );
 };
 
-export default App;
+JPFlashCardApp.getInitialProps = async (appContext) => {
+  const version = VERCEL_GIT_COMMIT_SHA && VERCEL_GIT_COMMIT_SHA.split('').splice(0, 7).join('');
+  const appProps = await App.getInitialProps(appContext);
+
+  return { ...appProps, pageProps: { ...appProps.pageProps, version: version || 'dev' } };
+};
+
+export default JPFlashCardApp;

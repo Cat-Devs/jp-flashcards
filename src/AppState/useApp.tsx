@@ -21,6 +21,34 @@ const initialGameStats: GameStats = {
   cardsStats: undefined,
 };
 
+async function fetchPrepareGameData(
+  cardMode: CardMode,
+  gameLevel: GameLevel,
+  gameMode: GameMode
+): Promise<{ cardIds: string[]; cardsStats: CardStats[] }> {
+  try {
+    const res = await fetch(`/api/prepare-game`, {
+      method: 'POST',
+      body: JSON.stringify({
+        config: {
+          cardMode,
+          gameLevel,
+          gameMode,
+        } as PrepareGameConfig,
+      }),
+    });
+    const data = await res.json();
+
+    if (!data.cardData?.cardIds) {
+      throw new Error('Missing cards. Cannot prepare the game');
+    }
+
+    return data.cardData;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export function useApp() {
   const router = useRouter();
   const context = useContext(AppContext);
@@ -59,12 +87,6 @@ export function useApp() {
     state.game.cardsStats,
   ]);
 
-  const fetchVersion = useCallback(async (): Promise<string> => {
-    return fetch('/api/version')
-      .then((response) => response.json())
-      .then((response) => response.data);
-  }, []);
-
   const getUserStats = useCallback(async () => {
     if (userLoggedIn) {
       dispatch({ type: AppActionType.LOADING_USER_STATS, payload: true });
@@ -98,30 +120,6 @@ export function useApp() {
     }
   }, [userLoggedIn, dispatch]);
 
-  async function fetchPrepareGameData(): Promise<{ cardIds: string[]; cardsStats: CardStats[] }> {
-    try {
-      const res = await fetch(`/api/prepare-game`, {
-        method: 'POST',
-        body: JSON.stringify({
-          config: {
-            cardMode: state.game.cardMode,
-            gameLevel: state.game.gameLevel,
-            gameMode: state.game.gameMode,
-          } as PrepareGameConfig,
-        }),
-      });
-      const data = await res.json();
-
-      if (!data.cardData?.cardIds) {
-        throw new Error('Missing cards. Cannot prepare the game');
-      }
-
-      return data.cardData;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   const loadData = useCallback(async () => {
     if (!state.game.cardMode || !state.game.gameLevel) {
       throw new Error('Missing required information.');
@@ -132,7 +130,8 @@ export function useApp() {
       payload: true,
     });
 
-    const cardData = await fetchPrepareGameData();
+    const { cardMode, gameLevel, gameMode } = state.game;
+    const cardData = await fetchPrepareGameData(cardMode, gameLevel, gameMode);
 
     if (!cardData) {
       console.error('Cannot fetch flashcards data');
@@ -150,7 +149,7 @@ export function useApp() {
       payload: { cardIds: cardData.cardIds, cardsStats: cardData.cardsStats, nextCard },
     });
     router.push(`/shuffle/${nextCard}`);
-  }, [dispatch, router, state.game.gameLevel, state.game.gameMode, state.game.cardMode]);
+  }, [dispatch, router, state.game]);
 
   const setCardMode = useCallback(
     (cardMode: CardMode) => {
@@ -294,7 +293,6 @@ export function useApp() {
     userStatsLoading: Boolean(state.loading.loadingUserStats),
     authenticating: Boolean(state.loading.loadingUser || (status !== 'authenticated' && status !== 'unauthenticated')),
     fetchUserData,
-    fetchVersion,
     getGameStats,
     gameStats,
     userLoggedIn,

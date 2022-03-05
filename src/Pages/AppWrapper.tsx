@@ -3,23 +3,22 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useApp } from '../AppState';
 import { Footer } from '../Components/Footer';
 import { TopBar } from '../Components/TopBar';
 import { theme } from '../theme';
 
-export const AppWrapper: React.FC = (props) => {
-  const { fetchUserData, authenticating, fetchVersion } = useApp();
-  const [version, setVersion] = useState<string>();
+interface AppWrapperProps {
+  version: string;
+}
+
+export const AppWrapper: React.FC<AppWrapperProps> = (props) => {
+  const { fetchUserData, authenticating } = useApp();
 
   useEffect(() => {
     fetchUserData();
   }, [fetchUserData]);
-
-  useEffect(() => {
-    fetchVersion().then((appVersion) => setVersion(appVersion));
-  }, [fetchVersion]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -36,7 +35,7 @@ export const AppWrapper: React.FC = (props) => {
           props.children
         )}
         <Box sx={{ flex: '1 1 auto' }} />
-        <Footer version={version} />
+        <Footer version={props.version} />
       </Box>
     </ThemeProvider>
   );

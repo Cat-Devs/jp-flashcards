@@ -1,10 +1,9 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useRef, useState } from 'react';
-import { CardStats, GameMode } from '.';
 import { PrepareGameConfig } from '../types';
 import { AppContext } from './AppContext';
-import { AppActionType, CardMode, CardResult, GameLevel } from './types';
+import { AppActionType, CardMode, CardResult, CardStats, GameLevel, GameMode } from './types';
 
 interface GameStats {
   usedCards: number;
@@ -99,6 +98,30 @@ export function useApp() {
     }
   }, [userLoggedIn, dispatch]);
 
+  async function fetchPrepareGameData(): Promise<{ cardIds: string[]; cardsStats: CardStats[] }> {
+    try {
+      const res = await fetch(`/api/prepare-game`, {
+        method: 'POST',
+        body: JSON.stringify({
+          config: {
+            cardMode: state.game.cardMode,
+            gameLevel: state.game.gameLevel,
+            gameMode: state.game.gameMode,
+          } as PrepareGameConfig,
+        }),
+      });
+      const data = await res.json();
+
+      if (!data.cardData?.cardIds) {
+        throw new Error('Missing cards. Cannot prepare the game');
+      }
+
+      return data.cardData;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const loadData = useCallback(async () => {
     if (!state.game.cardMode || !state.game.gameLevel) {
       throw new Error('Missing required information.');
@@ -109,35 +132,7 @@ export function useApp() {
       payload: true,
     });
 
-    async function fetchData(
-      cardMode: CardMode,
-      gameLevel: GameLevel,
-      gameMode: GameMode
-    ): Promise<{ cardIds: string[]; cardsStats: CardStats[] }> {
-      try {
-        const res = await fetch(`/api/prepare-game`, {
-          method: 'POST',
-          body: JSON.stringify({
-            config: {
-              cardMode,
-              gameLevel,
-              gameMode,
-            } as PrepareGameConfig,
-          }),
-        });
-        const data = await res.json();
-
-        if (!data.cardData?.cardIds) {
-          throw new Error('Missing cards. Cannot prepare the game');
-        }
-
-        return data.cardData;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    const cardData = await fetchData(state.game.cardMode, state.game.gameLevel, state.game.gameMode);
+    const cardData = await fetchPrepareGameData();
 
     if (!cardData) {
       console.error('Cannot fetch flashcards data');

@@ -1,35 +1,8 @@
-import { DynamoDB } from 'aws-sdk';
 import { createHash } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-import { isDev } from '../../lib/constants';
+import { getDbClient } from '../../lib/dynamo-db';
 import type { UserData } from '../../src/types';
-
-const TableName = process.env.NEXT_DYNAMO_TABLE_NAME;
-
-function getClient() {
-  if (isDev) {
-    return {
-      get: () => ({
-        promise: () => ({
-          Item: {},
-        }),
-      }),
-      put: () => ({
-        promise: () => ({}),
-      }),
-    };
-  }
-
-  return new DynamoDB.DocumentClient({
-    region: process.env.NEXT_AWS_REGION,
-    credentials: {
-      accessKeyId: process.env.NEXT_DYNAMO_READ_KEY,
-      secretAccessKey: process.env.NEXT_DYNAMO_READ_SECRET,
-    },
-    params: { TableName },
-  });
-}
 
 interface UserStats {
   userHash: string;
@@ -40,11 +13,11 @@ interface UserStats {
 
 const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
-  const client = getClient();
 
   if (!session) {
     return res.status(200).json({});
   }
+  const client = getDbClient();
 
   const userHash = createHash('sha256').update(session.user.email).digest('hex');
   const initialUserStats: UserStats = {
@@ -55,14 +28,11 @@ const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
   };
 
   try {
-    const data = await client
-      .get({
-        TableName,
-        Key: {
-          id: userHash,
-        },
-      })
-      .promise();
+    const data = await client.get({
+      Key: {
+        id: userHash,
+      },
+    });
 
     const userResponse = data.Item as UserData;
     const level = Number(userResponse?.current_level || initialUserStats.level);

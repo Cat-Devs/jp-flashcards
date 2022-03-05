@@ -60,6 +60,12 @@ export function useApp() {
     state.game.cardsStats,
   ]);
 
+  const fetchVersion = useCallback(async (): Promise<string> => {
+    return fetch('/api/version')
+      .then((response) => response.json())
+      .then((response) => response.data);
+  }, []);
+
   const getUserStats = useCallback(async () => {
     if (userLoggedIn) {
       dispatch({ type: AppActionType.LOADING_USER_STATS, payload: true });
@@ -293,6 +299,7 @@ export function useApp() {
     userStatsLoading: Boolean(state.loading.loadingUserStats),
     authenticating: Boolean(state.loading.loadingUser || (status !== 'authenticated' && status !== 'unauthenticated')),
     fetchUserData,
+    fetchVersion,
     getGameStats,
     gameStats,
     userLoggedIn,

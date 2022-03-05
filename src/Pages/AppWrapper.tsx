@@ -10,26 +10,21 @@ import { TopBar } from '../Components/TopBar';
 import { theme } from '../theme';
 
 export const AppWrapper: React.FC = (props) => {
-  const { fetchUserData, authenticating } = useApp();
-  const [version, setVersion] = useState();
+  const { fetchUserData, authenticating, fetchVersion } = useApp();
+  const [version, setVersion] = useState<string>();
 
   useEffect(() => {
-    function fetchVersion() {
-      fetch('/api/version')
-        .then((response) => response.json())
-        .then((response) => {
-          setVersion(response.data);
-        });
-    }
     fetchUserData();
-    fetchVersion();
   }, [fetchUserData]);
+
+  useEffect(() => {
+    fetchVersion().then((appVersion) => setVersion(appVersion));
+  }, [fetchVersion]);
 
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
         <TopBar />
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         {authenticating ? (
           <Container>

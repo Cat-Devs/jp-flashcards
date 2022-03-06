@@ -9,8 +9,7 @@ describe('getUserData', () => {
       id: '123',
       type: 'user',
       current_level: '1',
-      learned_cards: [],
-      weak_cards: {},
+      cards: [],
     };
 
     jest
@@ -29,8 +28,28 @@ describe('getUserData', () => {
       id: userId,
       type: 'user',
       current_level: '1',
-      learned_cards: [],
-      weak_cards: {},
+      cards: [],
+    };
+
+    jest
+      .spyOn(getDb, 'getDbClient')
+      .mockImplementation(() => ({ get: () => Promise.resolve({ Item: userData }) } as any));
+
+    const res = await getUserData(userId);
+
+    expect(res).toEqual(expectedUserData);
+  });
+
+  it('should merge the default user data with the one present on the database', async () => {
+    const userId = 'testUser';
+    const userData: Partial<UserData> = {
+      current_level: '2',
+    };
+    const expectedUserData: UserData = {
+      current_level: userData.current_level,
+      id: userId,
+      type: 'user',
+      cards: [],
     };
 
     jest

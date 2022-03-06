@@ -1,4 +1,4 @@
-import { FlashCardData, UserData } from '../src/types';
+import type { CardData, FlashCardData, UserData } from '../src/types';
 import { bumpUserLevel } from './bump-user-level';
 import * as getUserData from './get-user-data';
 import * as pickRandomCards from './pick-random-card';
@@ -21,8 +21,7 @@ describe('Train Cards', () => {
     id: '123',
     type: 'user',
     current_level: '1',
-    learned_cards: [],
-    weak_cards: {},
+    cards: [],
   };
   const testData: FlashCardData[] = [
     { id: '1', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
@@ -34,109 +33,125 @@ describe('Train Cards', () => {
   ];
 
   it('should only return the cards matching the current user level', async () => {
-    const expectedRes = [testData[0].id, testData[3].id];
+    const expectedRes: CardData[] = [
+      { id: testData[0].id, accuracy: '0' },
+      { id: testData[3].id, accuracy: '0' },
+    ];
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(userData);
     jest.spyOn(pickRandomCards, 'pickRandomCards').mockImplementation((cards, limit) => cards.splice(0, limit));
 
     const res = await trainCards(userHash, testData);
 
-    expect(res.cardIds.length).toEqual(2);
-    expect(res.cardIds).toEqual(expectedRes);
+    expect(res.length).toEqual(2);
+    expect(res).toEqual(expectedRes);
   });
 
   it('should include the weak cards', async () => {
     const testUserData: UserData = {
       ...userData,
-      weak_cards: {
-        '10': '50',
-        '11': '50',
-        '12': '50',
-      },
+      cards: [
+        { id: '10', accuracy: '50' },
+        { id: '11', accuracy: '50' },
+        { id: '12', accuracy: '50' },
+      ],
     };
     const cardItems = [] as FlashCardData[];
-    const expectedRes = ['10', '11', '12'];
+    const expectedRes: CardData[] = testUserData.cards;
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, cardItems);
 
-    expect(res.cardIds.length).toEqual(3);
-    expect(res.cardIds).toEqual(expectedRes);
+    expect(res.length).toEqual(testUserData.cards.length);
+    expect(res).toEqual(expectedRes);
   });
 
   it('should include a maximum of 10 weak cards when there are no learned cards available', async () => {
     const maxWeakCards = 10;
     const testUserData: UserData = {
       ...userData,
-      weak_cards: {
-        '10': '50',
-        '11': '50',
-        '12': '50',
-        '13': '50',
-        '14': '50',
-        '15': '50',
-        '16': '50',
-        '17': '50',
-        '18': '50',
-        '19': '50',
-        '20': '50',
-      },
+      cards: [
+        { id: '10', accuracy: '50' },
+        { id: '11', accuracy: '50' },
+        { id: '12', accuracy: '50' },
+        { id: '13', accuracy: '50' },
+        { id: '14', accuracy: '50' },
+        { id: '15', accuracy: '50' },
+        { id: '16', accuracy: '50' },
+        { id: '17', accuracy: '50' },
+        { id: '18', accuracy: '50' },
+        { id: '19', accuracy: '50' },
+        { id: '20', accuracy: '50' },
+      ],
     };
     const cardItems = [] as FlashCardData[];
-    const expectedRes = ['10', '11', '12', '13', '14', '15', '16', '17', '18', '19'];
+    const expectedRes: CardData[] = [...testUserData.cards].splice(0, maxWeakCards);
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, cardItems);
 
-    expect(res.cardIds.length).toBe(maxWeakCards);
-    expect(res.cardIds).toEqual(expectedRes);
+    expect(res.length).toBe(maxWeakCards);
+    expect(res).toEqual(expectedRes);
   });
 
   it('should include a maximum of 10 weak cards when there are less than 2 learned cards available', async () => {
     const maxWeakCards = 10;
     const testUserData: UserData = {
       ...userData,
-      weak_cards: {
-        '10': '50',
-        '11': '50',
-        '12': '50',
-        '13': '50',
-        '14': '50',
-        '15': '50',
-        '16': '50',
-        '17': '50',
-        '18': '50',
-        '19': '50',
-        '20': '50',
-      },
-      learned_cards: ['1', '2'],
+      cards: [
+        { id: '1', accuracy: '100' },
+        { id: '2', accuracy: '95' },
+        { id: '10', accuracy: '50' },
+        { id: '11', accuracy: '50' },
+        { id: '12', accuracy: '50' },
+        { id: '13', accuracy: '50' },
+        { id: '14', accuracy: '50' },
+        { id: '15', accuracy: '50' },
+        { id: '16', accuracy: '50' },
+        { id: '17', accuracy: '50' },
+        { id: '18', accuracy: '50' },
+        { id: '19', accuracy: '50' },
+        { id: '20', accuracy: '50' },
+      ],
     };
     const cardItems = [] as FlashCardData[];
-    const expectedRes = ['1', '2', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19'];
+    const expectedRes = [
+      ...testUserData.cards.filter((card) => Number(card.accuracy) >= 93),
+      ...testUserData.cards.filter((card) => Number(card.accuracy) < 93).splice(0, maxWeakCards),
+    ];
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, cardItems);
 
-    expect(res.cardIds.length).toBe(maxWeakCards + testUserData.learned_cards.length);
-    expect(res.cardIds).toEqual(expectedRes);
+    expect(res.length).toBe(expectedRes.length);
+    expect(res).toEqual(expectedRes);
   });
 
   it('should include at least 5 random learned cards', async () => {
     const maxWeakCards = 8;
-    const maxLearnedCards = 5;
+    const weakCards: CardData[] = [
+      { id: '3', accuracy: '50' },
+      { id: '4', accuracy: '50' },
+      { id: '5', accuracy: '50' },
+      { id: '6', accuracy: '50' },
+      { id: '7', accuracy: '50' },
+      { id: '8', accuracy: '50' },
+      { id: '9', accuracy: '50' },
+    ];
+    const learnedCards: CardData[] = [
+      { id: '1', accuracy: '100' },
+      { id: '2', accuracy: '95' },
+      { id: '10', accuracy: '100' },
+      { id: '11', accuracy: '100' },
+      { id: '12', accuracy: '100' },
+      { id: '13', accuracy: '100' },
+      { id: '14', accuracy: '100' },
+      { id: '15', accuracy: '100' },
+      { id: '16', accuracy: '100' },
+    ];
+
     const testUserData: UserData = {
       ...userData,
-      weak_cards: {
-        '1': '50',
-        '2': '50',
-        '3': '50',
-        '4': '50',
-        '5': '50',
-        '6': '50',
-        '7': '50',
-        '8': '50',
-        '9': '50',
-      },
-      learned_cards: ['10', '11', '12', '13', '14', '15', '16'],
+      cards: [...learnedCards, ...weakCards],
     };
     const newWordsData = [
       { id: '20', level: '1' },
@@ -144,68 +159,104 @@ describe('Train Cards', () => {
       { id: '22', level: '1' },
     ] as FlashCardData[];
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
-    const expectedWeakCards = Object.keys(testUserData.weak_cards).splice(0, maxWeakCards);
-    const expectedLearnedCards = [...testUserData.learned_cards].splice(0, maxLearnedCards);
-    const expectedNewCards = [newWordsData[0].id, newWordsData[1].id];
+    const expectedNewCards: CardData[] = [
+      { id: newWordsData[0].id, accuracy: '0' },
+      { id: newWordsData[1].id, accuracy: '0' },
+    ];
+    const expectedWeakCards = [...testUserData.cards]
+      .filter((card) => Number(card.accuracy) < 93)
+      .splice(0, maxWeakCards);
+    const expectedLearnedCards = [...testUserData.cards]
+      .filter((card) => Number(card.accuracy) >= 93)
+      .splice(0, maxTotalCards - expectedWeakCards.length - expectedNewCards.length);
+
     const expectedRes = [...expectedLearnedCards, ...expectedWeakCards, ...expectedNewCards];
 
     const res = await trainCards(userHash, newWordsData);
 
-    expect(res.cardIds.length).toEqual(maxTotalCards);
-    expect(res.cardIds).toEqual(expectedRes);
+    expect(res.length).toEqual(maxTotalCards);
+    expect(expectedRes.length).toEqual(maxTotalCards);
+    expect(res).toEqual(expectedRes);
   });
 
   it('should include more random learned cards when there are no new cards to learn but already learned cards available', async () => {
     const maxWeakCards = 8;
     const testUserData: UserData = {
       ...userData,
-      weak_cards: {
-        '1': '50',
-        '2': '50',
-        '3': '50',
-        '4': '50',
-        '5': '50',
-        '6': '50',
-        '7': '50',
-        '8': '50',
-        '9': '50',
-        '10': '50',
-      },
-      learned_cards: ['20', '21', '22', '23', '24', '25', '26', '27', '28', '29'],
+      cards: [
+        { id: '1', accuracy: '50' },
+        { id: '2', accuracy: '50' },
+        { id: '3', accuracy: '50' },
+        { id: '4', accuracy: '50' },
+        { id: '5', accuracy: '50' },
+        { id: '6', accuracy: '50' },
+        { id: '7', accuracy: '50' },
+        { id: '8', accuracy: '50' },
+        { id: '9', accuracy: '50' },
+        { id: '10', accuracy: '50' },
+        { id: '20', accuracy: '100' },
+        { id: '21', accuracy: '100' },
+        { id: '22', accuracy: '100' },
+        { id: '23', accuracy: '100' },
+        { id: '24', accuracy: '100' },
+        { id: '25', accuracy: '100' },
+        { id: '26', accuracy: '100' },
+        { id: '27', accuracy: '100' },
+        { id: '28', accuracy: '100' },
+        { id: '29', accuracy: '100' },
+      ],
     };
     const newWordsData = [] as FlashCardData[];
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
-    const expectedWeakCards = Object.keys(testUserData.weak_cards).splice(0, maxWeakCards);
-    const expectedLearnedCards = [...testUserData.learned_cards].splice(0, maxTotalCards - maxWeakCards);
+    const expectedWeakCards = [...testUserData.cards]
+      .filter((card) => Number(card.accuracy) < 93)
+      .splice(0, maxWeakCards);
+    const expectedLearnedCards = [...testUserData.cards]
+      .filter((card) => Number(card.accuracy) >= 93)
+      .splice(0, maxTotalCards - expectedWeakCards.length);
     const expectedRes = [...expectedLearnedCards, ...expectedWeakCards];
 
     const res = await trainCards(userHash, newWordsData);
 
-    expect(res.cardIds.length).toBe(maxTotalCards);
-    expect(res.cardIds).toEqual(expectedRes);
+    expect(res.length).toBe(maxTotalCards);
+    expect(res).toEqual(expectedRes);
   });
 
   it('should include 15 random learned cards when there are no new or weak cards', async () => {
     const testUserData: UserData = {
       ...userData,
-      weak_cards: {},
-      learned_cards: ['10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25'],
+      cards: [
+        { id: '10', accuracy: '100' },
+        { id: '11', accuracy: '100' },
+        { id: '12', accuracy: '100' },
+        { id: '13', accuracy: '100' },
+        { id: '14', accuracy: '100' },
+        { id: '15', accuracy: '100' },
+        { id: '16', accuracy: '100' },
+        { id: '17', accuracy: '100' },
+        { id: '18', accuracy: '100' },
+        { id: '19', accuracy: '100' },
+        { id: '20', accuracy: '100' },
+        { id: '21', accuracy: '100' },
+        { id: '22', accuracy: '100' },
+        { id: '23', accuracy: '100' },
+        { id: '24', accuracy: '100' },
+        { id: '25', accuracy: '100' },
+      ],
     };
     const newWordsData = [] as FlashCardData[];
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
-    const expectedLearnedCards = [...testUserData.learned_cards].splice(0, 15);
+    const expectedLearnedCards = [...testUserData.cards].splice(0, maxTotalCards);
 
     const res = await trainCards(userHash, newWordsData);
 
-    expect(res.cardIds).toEqual(expectedLearnedCards);
-    expect(res.cardIds.length).toEqual(maxTotalCards);
+    expect(res.length).toEqual(maxTotalCards);
+    expect(res).toEqual(expectedLearnedCards);
   });
 
   it('should return only new cards when there are no learned nor weak cards', async () => {
-    const testUserData: UserData = {
-      ...userData,
-      weak_cards: {},
-    };
+    const maxNewCards = 4;
+    const testUserData: UserData = { ...userData };
     const cardItems = [
       { id: '10', level: '1' },
       { id: '11', level: '1' },
@@ -213,40 +264,48 @@ describe('Train Cards', () => {
       { id: '13', level: '1' },
       { id: '14', level: '1' },
     ] as FlashCardData[];
-    const maxNewCards = 4;
+    const expectedRes: CardData[] = [...cardItems]
+      .map((cardItem) => ({
+        id: cardItem.id,
+        accuracy: '0',
+      }))
+      .splice(0, maxNewCards);
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, cardItems);
 
-    expect(res.cardIds.length).toEqual(maxNewCards);
-    expect(res.cardIds).toEqual([cardItems[0].id, cardItems[1].id, cardItems[2].id, cardItems[3].id]);
+    expect(res.length).toEqual(maxNewCards);
+    expect(res).toEqual(expectedRes);
   });
 
   it('should bump the level when there are no card left', async () => {
+    const learnedCards: FlashCardData[] = [testData[0], testData[3]];
     const testUserData: UserData = {
       ...userData,
-      learned_cards: ['1', '4'],
+      cards: learnedCards.map((learnedCards) => ({ id: learnedCards.id, accuracy: '100' })),
     };
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, testData);
 
-    expect(res.cardIds.length).toEqual(testUserData.learned_cards.length);
+    expect(res.length).toEqual(learnedCards.length);
     expect(bumpUserLevel).toHaveBeenCalledWith(userHash);
   });
 
   it('should not bump the level when there are still weak cards', async () => {
     const testUserData: UserData = {
       ...userData,
-      weak_cards: { '2': '50' },
-      learned_cards: ['1', '4'],
+      cards: [
+        { id: '1', accuracy: '100' },
+        { id: '2', accuracy: '50' },
+        { id: '4', accuracy: '100' },
+      ],
     };
-    const expectedRes = [...testUserData.learned_cards, testData[1].id];
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, testData);
 
-    expect(res.cardIds).toEqual(expectedRes);
+    expect(res.sort).toEqual(testUserData.cards.sort);
     expect(bumpUserLevel).not.toHaveBeenCalled();
   });
 
@@ -255,13 +314,16 @@ describe('Train Cards', () => {
     const testUserData: UserData = {
       ...userData,
       current_level: userLevel,
-      learned_cards: ['1', '4'],
+      cards: [
+        { id: '1', accuracy: '100' },
+        { id: '4', accuracy: '100' },
+      ],
     };
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, testData);
 
-    expect(res.cardIds.length).toEqual(testUserData.learned_cards.length);
+    expect(res.length).toEqual(testUserData.cards.length);
     expect(bumpUserLevel).not.toHaveBeenCalled();
   });
 
@@ -270,15 +332,33 @@ describe('Train Cards', () => {
     const testUserData: UserData = {
       ...userData,
       current_level: userLevel,
-      learned_cards: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17'],
+      cards: [
+        { id: '1', accuracy: '100' },
+        { id: '2', accuracy: '100' },
+        { id: '3', accuracy: '100' },
+        { id: '4', accuracy: '100' },
+        { id: '5', accuracy: '100' },
+        { id: '6', accuracy: '100' },
+        { id: '7', accuracy: '100' },
+        { id: '8', accuracy: '100' },
+        { id: '9', accuracy: '100' },
+        { id: '10', accuracy: '100' },
+        { id: '11', accuracy: '100' },
+        { id: '12', accuracy: '100' },
+        { id: '13', accuracy: '100' },
+        { id: '14', accuracy: '100' },
+        { id: '15', accuracy: '100' },
+        { id: '16', accuracy: '100' },
+        { id: '17', accuracy: '100' },
+      ],
     };
-    const expectedRes = [...testUserData.learned_cards].splice(0, maxTotalCards);
+    const expectedRes = [...testUserData.cards].splice(0, maxTotalCards);
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, testData);
 
-    expect(res.cardIds.length).toEqual(maxTotalCards);
-    expect(res.cardIds).toEqual(expectedRes);
+    expect(res.length).toEqual(maxTotalCards);
+    expect(res).toEqual(expectedRes);
   });
 
   it('should keep returning a max of 15 random learned and weak cards when the user is already at the max level', async () => {
@@ -286,37 +366,38 @@ describe('Train Cards', () => {
     const testUserData: UserData = {
       ...userData,
       current_level: userLevel,
-      weak_cards: { '20': '50', '21': '50' },
-      learned_cards: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17'],
+      cards: [
+        { id: '1', accuracy: '100' },
+        { id: '2', accuracy: '100' },
+        { id: '3', accuracy: '100' },
+        { id: '4', accuracy: '100' },
+        { id: '5', accuracy: '100' },
+        { id: '6', accuracy: '100' },
+        { id: '7', accuracy: '100' },
+        { id: '8', accuracy: '100' },
+        { id: '9', accuracy: '100' },
+        { id: '10', accuracy: '100' },
+        { id: '11', accuracy: '100' },
+        { id: '12', accuracy: '100' },
+        { id: '13', accuracy: '100' },
+        { id: '14', accuracy: '100' },
+        { id: '15', accuracy: '100' },
+        { id: '16', accuracy: '100' },
+        { id: '17', accuracy: '100' },
+        { id: '20', accuracy: '50' },
+        { id: '21', accuracy: '50' },
+      ],
     };
-    const expectedRes = [...testUserData.learned_cards]
+    const expectedWeakCards = [...testUserData.cards].filter((card) => Number(card.accuracy) < 93);
+    const expectedRes = [...testUserData.cards]
+      .filter((card) => Number(card.accuracy) >= 93)
       .splice(0, maxTotalCards - 2)
-      .concat(Object.keys(testUserData.weak_cards));
+      .concat(expectedWeakCards);
     jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
 
     const res = await trainCards(userHash, testData);
 
-    expect(res.cardIds.length).toEqual(maxTotalCards);
-    expect(res.cardIds).toEqual(expectedRes);
-  });
-
-  it('should return a generated card stats data', async () => {
-    const testUserData: UserData = {
-      ...userData,
-      weak_cards: { '2': '40' },
-      learned_cards: ['1', '4'],
-    };
-    jest.spyOn(getUserData, 'getUserData').mockResolvedValue(testUserData);
-
-    const res = await trainCards(userHash, testData);
-
-    expect(res.cardsStats).toEqual([
-      { id: testUserData.learned_cards[0], score: '100' },
-      { id: testUserData.learned_cards[1], score: '100' },
-      {
-        id: Object.keys(testUserData.weak_cards)[0],
-        score: testUserData.weak_cards[Object.keys(testUserData.weak_cards)[0]],
-      },
-    ]);
+    expect(res.length).toEqual(maxTotalCards);
+    expect(res).toEqual(expectedRes);
   });
 });

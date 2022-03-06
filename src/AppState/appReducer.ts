@@ -45,7 +45,9 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     }
 
     case AppActionType.LOAD_DATA: {
-      const remainingCards = action.payload.cardIds.filter((cardId) => cardId !== action.payload.nextCard);
+      const remainingCards = action.payload.cards
+        .filter((card) => card.id !== action.payload.nextCard)
+        .map((card) => card.id);
       const random = Math.floor(Math.random() * remainingCards.length);
       const nextCard = remainingCards.length ? remainingCards[random] : '';
 
@@ -53,10 +55,10 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         ...state,
         game: {
           ...state.game,
+          cards: action.payload.cards,
           remainingCards,
           nextCard: `${nextCard}`,
           currentCard: `${action.payload.nextCard}`,
-          cardsStats: action.payload.cardsStats,
           usedCards: [],
           wrongCards: [],
           correctCards: [],

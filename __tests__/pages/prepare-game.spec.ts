@@ -8,8 +8,7 @@ import * as practice from '../../lib/practice-all-learned-cards';
 import * as practiceWeak from '../../lib/practice-weak-cards';
 import * as trainCards from '../../lib/train-cards';
 import prepareGame from '../../pages/api/prepare-game';
-import { CardMode, GameLevel, GameMode } from '../../src/AppState';
-import type { FlashCardData } from '../../src/types';
+import type { CardData, CardMode, FlashCardData, GameLevel, GameMode } from '../../src/types';
 
 jest.mock('../../lib/dynamo-db');
 jest.mock('../../lib/guest-user-cards');
@@ -66,10 +65,8 @@ describe('Prepare game', () => {
 
   it('should return an error when the user data is invalid', async () => {
     const gameMode: GameMode = 'train';
-    const cardMode: CardMode = 'en';
-    const gameLevel: GameLevel = '2';
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({} as any);
-    const testBody = { config: { cardMode, gameLevel, gameMode } };
+    const testBody = { config: { gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
     const testRes: any = { json: jest.fn() };
     const expectedError = 'Cannot find user session';
@@ -81,12 +78,10 @@ describe('Prepare game', () => {
 
   it('should return an error when not able to fetch the cards from the DB', async () => {
     const gameMode: GameMode = 'train';
-    const cardMode: CardMode = 'en';
-    const gameLevel: GameLevel = '2';
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
     jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: [] }));
-    const testBody = { config: { cardMode, gameLevel, gameMode } };
+    const testBody = { config: { gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
     const testRes: any = { json: jest.fn() };
     const expectedError = 'Error! Missing data';
@@ -101,7 +96,7 @@ describe('Prepare game', () => {
     const gameLevel: GameLevel = '1';
     const gameMode: GameMode = 'guest';
     const testData: FlashCardData[] = [{ id: '1', en: 'test', jp: 'test', category: 'test', level: '1' }];
-    const expectedRes = { cardsStats: undefined, cardIds: testData.map((card) => card.id) };
+    const expectedRes: CardData[] = testData.map((card) => ({ id: card.id, accuracy: '50' }));
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue(undefined);
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
     jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: testData }));
@@ -111,13 +106,11 @@ describe('Prepare game', () => {
     const testRes: any = { json: jest.fn() };
     await prepareGame(testReq, testRes);
 
-    expect(testRes.json).toBeCalledWith({ cardData: expectedRes });
     expect(guestUserCards.guestUserCards).toBeCalledWith(testData, cardMode, gameLevel);
+    expect(testRes.json).toBeCalledWith({ cards: expectedRes });
   });
 
   it('should return some train cards when the user is authenticated and "learn" is the Game Mode', async () => {
-    const cardMode: CardMode = 'en';
-    const gameLevel: GameLevel = '1';
     const gameMode: GameMode = 'train';
     const testData: FlashCardData[] = [
       { id: '1', en: 'test', jp: 'test', hiragana: 'test', category: 'test', level: '1' },
@@ -126,19 +119,19 @@ describe('Prepare game', () => {
     ];
     const testUser = { email: 'test' };
     const userHash = createHash('sha256').update(testUser.email).digest('hex');
-    const expectedRes = { cardsStats: undefined, cardIds: testData.map((card) => card.id) };
+    const expectedRes: CardData[] = testData.map((card) => ({ id: card.id, accuracy: '50' }));
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
     jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: testData }));
     jest.spyOn(trainCards, 'trainCards').mockResolvedValue(expectedRes);
-    const testBody = { config: { cardMode, gameLevel, gameMode } };
+    const testBody = { config: { gameMode } };
     const testReq = { body: JSON.stringify(testBody) } as NextApiRequest;
     const testRes: any = { json: jest.fn() };
 
     await prepareGame(testReq, testRes);
 
     expect(trainCards.trainCards).toBeCalledWith(userHash, testData);
-    expect(testRes.json).toBeCalledWith({ cardData: expectedRes });
+    expect(testRes.json).toBeCalledWith({ cards: expectedRes });
   });
 
   it('should return the learned cards when the user is authenticated and "practice" is the Game Mode', async () => {
@@ -152,7 +145,7 @@ describe('Prepare game', () => {
     ];
     const testUser = { email: 'test' };
     const userHash = createHash('sha256').update(testUser.email).digest('hex');
-    const expectedRes = { cardsStats: undefined, cardIds: testData.map((card) => card.id) };
+    const expectedRes: CardData[] = testData.map((card) => ({ id: card.id, accuracy: '50' }));
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
     jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: testData }));
@@ -164,7 +157,7 @@ describe('Prepare game', () => {
     await prepareGame(testReq, testRes);
 
     expect(practice.practiceAllLearnedCards).toBeCalledWith(userHash, testData, cardMode);
-    expect(testRes.json).toBeCalledWith({ cardData: expectedRes });
+    expect(testRes.json).toBeCalledWith({ cards: expectedRes });
   });
 
   it('should return the weak cards when the user is authenticated and "weak" is the Game Mode', async () => {
@@ -179,7 +172,7 @@ describe('Prepare game', () => {
 
     const testUser = { email: 'test' };
     const userHash = createHash('sha256').update(testUser.email).digest('hex');
-    const expectedRes = { cardsStats: undefined, cardIds: testData.map((card) => card.id) };
+    const expectedRes: CardData[] = testData.map((card) => ({ id: card.id, accuracy: '0' }));
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
     jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: testData }));
@@ -191,7 +184,7 @@ describe('Prepare game', () => {
     await prepareGame(testReq, testRes);
 
     expect(practiceWeak.practiceWeakCards).toBeCalledWith(userHash, testData, cardMode);
-    expect(testRes.json).toBeCalledWith({ cardData: expectedRes });
+    expect(testRes.json).toBeCalledWith({ cards: expectedRes });
   });
 
   it('should return all the cards with the given level when the user is authenticated and "guest" is the Game Mode', async () => {
@@ -206,7 +199,7 @@ describe('Prepare game', () => {
 
     const testUser = { email: 'test' };
     const userHash = createHash('sha256').update(testUser.email).digest('hex');
-    const expectedRes = { cardsStats: undefined, cardIds: testData.map((card) => card.id) };
+    const expectedRes: CardData[] = testData.map((card) => ({ id: card.id, accuracy: '0' }));
     jest.spyOn(nextAuth, 'getSession').mockResolvedValue({ user: testUser, expires: '' });
     jest.spyOn(dbClient, 'getDbClient').mockImplementation(() => mockDBClient as any);
     jest.spyOn(mockDBClient, 'query').mockImplementation(() => ({ Items: testData }));
@@ -218,6 +211,6 @@ describe('Prepare game', () => {
     await prepareGame(testReq, testRes);
 
     expect(getAllCards.getAllCards).toBeCalledWith(userHash, testData, cardMode, gameLevel);
-    expect(testRes.json).toBeCalledWith({ cardData: expectedRes });
+    expect(testRes.json).toBeCalledWith({ cards: expectedRes });
   });
 });

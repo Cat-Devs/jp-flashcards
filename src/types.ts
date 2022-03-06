@@ -1,5 +1,10 @@
-import type { CardMode, CardResult, CardStats, GameLevel, GameMode } from './AppState';
-export type { CardMode, GameLevel, GameMode, CardResult, CardStats };
+import type { CardMode, CardResult, GameLevel, GameMode } from './AppState';
+export type { CardMode, GameLevel, GameMode, CardResult };
+
+export interface CardData {
+  id: string;
+  accuracy?: string;
+}
 
 export interface FlashCardData {
   id: string;
@@ -22,9 +27,6 @@ export interface PrepareGameConfig {
 export interface UserData {
   id: string;
   type: 'user' | 'card';
-  weak_cards: {
-    [id: string]: string;
-  };
-  learned_cards: string[];
+  cards: CardData[];
   current_level: GameLevel;
 }

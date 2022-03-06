@@ -1,42 +1,60 @@
+import { createHash } from 'crypto';
+import { getSession } from 'next-auth/react';
 import React, { useEffect } from 'react';
 import { getDbClient } from '../../lib/dynamo-db';
+import { trainCards } from '../../lib/train-cards';
 import { useApp } from '../../src/AppState';
 import { FlashcardPage } from '../../src/Pages/FlashcardPage';
-import { FlashCardData } from '../../src/types';
+import { CardData, FlashCardData } from '../../src/types';
 
 interface WordsProps {
-  cards: FlashCardData[];
+  cards: CardData[];
 }
 
-const CardPage: React.FC<WordsProps> = () => {
-  const { loadData } = useApp();
+const CardPage: React.FC<WordsProps> = ({ cards }) => {
+  const { loadTrainData } = useApp();
 
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    if (cards) {
+      loadTrainData(cards);
+    }
+  }, [cards, loadTrainData]);
 
   return <FlashcardPage />;
 };
 
-export async function getStaticProps({ params }) {
-  const client = getDbClient();
-  const { Item: item } = await client.get({
-    Key: {
-      id: params.id,
-    },
-  });
+export async function getServerSideProps(ctx) {
+  const session = await getSession(ctx);
 
-  if (!item) {
+  if (!session?.user?.email) {
     return {
       props: {},
     };
   }
 
-  // Pass data to the page via props
-  return {
-    props: {
-      card: item,
+  const client = getDbClient();
+  const { Items: items } = await client.query<FlashCardData>({
+    IndexName: 'type-index',
+    KeyConditionExpression: '#type = :type',
+    ExpressionAttributeNames: {
+      '#type': 'type',
     },
+    ExpressionAttributeValues: {
+      ':type': 'card',
+    },
+  });
+
+  if (!items.length) {
+    return {
+      props: {},
+    };
+  }
+
+  const userHash = createHash('sha256').update(session.user.email).digest('hex');
+  const cards = await trainCards(userHash, items);
+
+  return {
+    props: { cards },
   };
 }
 

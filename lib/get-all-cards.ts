@@ -1,4 +1,4 @@
-import type { CardMode, CardStats, FlashCardData, GameLevel } from '../src/types';
+import type { CardData, CardMode, FlashCardData, GameLevel, UserData } from '../src/types';
 import { getUserData } from './get-user-data';
 
 export const getAllCards = async (
@@ -6,12 +6,12 @@ export const getAllCards = async (
   items: FlashCardData[],
   cardMode: CardMode,
   gameLevel: GameLevel
-): Promise<{ cardsStats: CardStats[]; cardIds: string[] }> => {
-  const userData = await getUserData(userHash);
-  const weakCards = Object.keys(userData.weak_cards);
-  const learnedCards = userData.learned_cards;
+): Promise<CardData[]> => {
+  const userData: UserData = await getUserData(userHash);
+  const userCards = userData.cards;
 
-  const cardIds = items
+  return items
+    .filter((card: FlashCardData) => Number(gameLevel) >= Number(card.level))
     .filter((card: FlashCardData) => {
       if (cardMode === 'hiragana') {
         return card.hiragana;
@@ -20,11 +20,12 @@ export const getAllCards = async (
       }
       return true;
     })
-    .filter((card: FlashCardData) => !learnedCards.includes(card.id) && Number(gameLevel) >= Number(card.level))
-    .map((card: FlashCardData) => card.id)
-    .concat(weakCards)
+    .map(
+      (card: FlashCardData): CardData => ({
+        id: card.id,
+        accuracy: userCards.find((userCard) => userCard.id === card.id)?.accuracy || '0',
+      })
+    )
     .sort(() => Math.random() - 0.5)
     .splice(0, 15);
-
-  return { cardsStats: undefined, cardIds };
 };

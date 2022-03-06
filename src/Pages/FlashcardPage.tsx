@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import React, { memo, useEffect, useMemo } from 'react';
 import { isMobile } from 'react-device-detect';
-import { CardStats, useApp } from '../AppState';
+import { useApp } from '../AppState';
 import { CardNotFound } from '../Components/CardNotFound';
 import { Flashcard, FlashCardItem } from '../Components/Flashcard';
 import { KeyboardHelper } from '../Components/KeyboardHelper';
@@ -12,10 +12,11 @@ import { FlashCardData } from '../types';
 
 interface FlashcardPageProps {
   card?: FlashCardData;
+  accuracy?: string;
   quiz?: boolean;
 }
 
-const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
+const FlashcardPageComponent: React.FC<FlashcardPageProps> = ({ card, quiz, accuracy }) => {
   const {
     cardMode,
     nextCard,
@@ -43,13 +44,6 @@ const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
       unloadSound();
     };
   }, [cardJp, userLoggedIn, loadSound, unloadSound]);
-
-  const cardStats: CardStats = useMemo(() => {
-    if (!card || !gameStats.cardsStats) {
-      return undefined;
-    }
-    return gameStats.cardsStats.find((cardStat) => cardStat.id === card.id);
-  }, [card, gameStats.cardsStats]);
 
   const cardData: FlashCardItem = useMemo(() => {
     if (!card) {
@@ -134,11 +128,11 @@ const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
       <Box sx={{ p: 2 }}>
         <Flashcard
           card={cardData}
-          stats={cardStats}
           canPlaySounds={userLoggedIn}
           quiz={quiz}
           onPlaySound={playSound}
           onNext={nextCard}
+          accuracy={accuracy}
         />
       </Box>
       <Box sx={{ flex: '1 1 auto' }} />
@@ -147,4 +141,4 @@ const PageComponent: React.FC<FlashcardPageProps> = ({ card, quiz }) => {
   );
 };
 
-export const FlashcardPage = memo(PageComponent);
+export const FlashcardPage = memo(FlashcardPageComponent);

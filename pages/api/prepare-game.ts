@@ -7,9 +7,9 @@ import { guestUserCards } from '../../lib/guest-user-cards';
 import { practiceAllLearnedCards } from '../../lib/practice-all-learned-cards';
 import { practiceWeakCards } from '../../lib/practice-weak-cards';
 import { trainCards } from '../../lib/train-cards';
-import type { FlashCardData, PrepareGameConfig } from '../../src/types';
+import type { CardData, FlashCardData, PrepareGameConfig } from '../../src/types';
 
-const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
+const prepareGame = async (req: NextApiRequest, res: NextApiResponse<{ cards: CardData[] } | { error: string }>) => {
   const { config }: { config: PrepareGameConfig } = JSON.parse(req.body || '{}');
 
   if (!config?.gameMode) {
@@ -45,28 +45,28 @@ const prepareGame = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!session) {
     const cardData = guestUserCards(items, cardMode, gameLevel);
-    return res.json({ cardData });
+    return res.json({ cards: cardData });
   }
 
   const userHash = createHash('sha256').update(session.user.email).digest('hex');
 
   if (gameMode === 'train') {
     const cardData = await trainCards(userHash, items);
-    return res.json({ cardData });
+    return res.json({ cards: cardData });
   }
 
   if (gameMode === 'practice') {
     const cardData = await practiceAllLearnedCards(userHash, items, cardMode);
-    return res.json({ cardData });
+    return res.json({ cards: cardData });
   }
 
   if (gameMode === 'weak') {
     const cardData = await practiceWeakCards(userHash, items, cardMode);
-    return res.json({ cardData });
+    return res.json({ cards: cardData });
   }
 
   const cardData = await getAllCards(userHash, items, cardMode, gameLevel);
-  return res.json({ cardData });
+  return res.json({ cards: cardData });
 };
 
 export default prepareGame;

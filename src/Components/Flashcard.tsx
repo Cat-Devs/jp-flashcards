@@ -15,7 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React, { memo, useCallback, useState } from 'react';
-import { CardResult, CardStats } from '../AppState';
+import { CardResult } from '../AppState';
 import { useKeyPress } from '../Hooks/use-key-press';
 
 export interface FlashCardItem {
@@ -28,12 +28,12 @@ interface FlashcardProps {
   card: FlashCardItem;
   canPlaySounds: boolean;
   onPlaySound: () => void;
-  stats?: CardStats;
   quiz?: boolean;
+  accuracy?: string;
   onNext?: (cardResult: CardResult) => void;
 }
 
-const FlashcardCmp: React.FC<FlashcardProps> = ({ card, stats, quiz, canPlaySounds, onPlaySound, onNext }) => {
+const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, accuracy, canPlaySounds, onPlaySound, onNext }) => {
   const [expanded, setExpanded] = useState(!quiz);
 
   const handleCheckAnswer = useCallback(() => {
@@ -102,9 +102,9 @@ const FlashcardCmp: React.FC<FlashcardProps> = ({ card, stats, quiz, canPlaySoun
               </Box>
             </Box>
             <Box mt={2}>
-              {(stats && (
+              {(accuracy && (
                 <Typography variant="caption" lang="en-US">
-                  Card Accuracy: {stats.score}%
+                  Card Accuracy: {accuracy}%
                 </Typography>
               )) ||
                 null}

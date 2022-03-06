@@ -1,16 +1,15 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useRef, useState } from 'react';
-import { PrepareGameConfig } from '../types';
+import { CardData, PrepareGameConfig } from '../types';
 import { AppContext } from './AppContext';
-import { AppActionType, CardMode, CardResult, CardStats, GameLevel, GameMode } from './types';
+import { AppActionType, CardMode, CardResult, GameLevel, GameMode } from './types';
 
 interface GameStats {
   usedCards: number;
   totalCards: number;
   wrongCards: number;
   progress: number;
-  cardsStats?: CardStats[];
 }
 
 const initialGameStats: GameStats = {
@@ -18,14 +17,9 @@ const initialGameStats: GameStats = {
   totalCards: 0,
   usedCards: 0,
   wrongCards: 0,
-  cardsStats: undefined,
 };
 
-async function fetchPrepareGameData(
-  cardMode: CardMode,
-  gameLevel: GameLevel,
-  gameMode: GameMode
-): Promise<{ cardIds: string[]; cardsStats: CardStats[] }> {
+async function fetchPrepareGameData(cardMode: CardMode, gameLevel: GameLevel, gameMode: GameMode): Promise<CardData[]> {
   try {
     const res = await fetch(`/api/prepare-game`, {
       method: 'POST',
@@ -39,11 +33,11 @@ async function fetchPrepareGameData(
     });
     const data = await res.json();
 
-    if (!data.cardData?.cardIds) {
+    if (!data.cards?.length) {
       throw new Error('Missing cards. Cannot prepare the game');
     }
 
-    return data.cardData;
+    return data.cards;
   } catch (error) {
     console.error(error);
   }
@@ -77,15 +71,8 @@ export function useApp() {
       totalCards,
       wrongCards,
       progress,
-      cardsStats: state.game.cardsStats,
     });
-  }, [
-    state.game.currentCard,
-    state.game.remainingCards,
-    state.game.usedCards,
-    state.game.wrongCards,
-    state.game.cardsStats,
-  ]);
+  }, [state.game.currentCard, state.game.remainingCards, state.game.usedCards, state.game.wrongCards]);
 
   const getUserStats = useCallback(async () => {
     if (userLoggedIn) {
@@ -120,6 +107,18 @@ export function useApp() {
     }
   }, [userLoggedIn, dispatch]);
 
+  const loadTrainData = useCallback(
+    async (cards: CardData[]) => {
+      const nextCard = cards[Math.floor(Math.random() * cards.length)].id;
+
+      dispatch({
+        type: AppActionType.LOAD_DATA,
+        payload: { cards, nextCard },
+      });
+    },
+    [dispatch]
+  );
+
   const loadData = useCallback(async () => {
     if (!state.game.cardMode || !state.game.gameLevel) {
       throw new Error('Missing required information.');
@@ -137,16 +136,16 @@ export function useApp() {
       console.error('Cannot fetch flashcards data');
       dispatch({
         type: AppActionType.LOAD_DATA,
-        payload: { cardIds: [], cardsStats: [], nextCard: '' },
+        payload: { cards: [], nextCard: '' },
       });
       return router.push(`/shuffle/0`);
     }
 
-    const nextCard = cardData.cardIds[Math.floor(Math.random() * cardData.cardIds.length)];
+    const nextCard = cardData[Math.floor(Math.random() * cardData.length)].id;
 
     dispatch({
       type: AppActionType.LOAD_DATA,
-      payload: { cardIds: cardData.cardIds, cardsStats: cardData.cardsStats, nextCard },
+      payload: { cards: cardData, nextCard },
     });
     router.push(`/shuffle/${nextCard}`);
   }, [dispatch, router, state.game]);
@@ -284,6 +283,7 @@ export function useApp() {
   }, [dispatch]);
 
   return {
+    currentGame: state.game,
     currentCard: state.game.currentCard,
     cardMode: state.game.cardMode,
     gameLevel: state.game.gameLevel,
@@ -302,6 +302,7 @@ export function useApp() {
     setLevel,
     setGameMode,
     loadData,
+    loadTrainData,
     loadSound,
     unloadSound,
     nextCard,

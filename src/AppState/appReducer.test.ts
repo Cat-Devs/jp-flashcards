@@ -1,3 +1,4 @@
+import { CardData } from '../types';
 import { appReducer } from './appReducer';
 import { AppAction, AppActionType, AppState, CardMode, GameLevel, GameMode } from './types';
 
@@ -12,6 +13,7 @@ describe('appReducer', () => {
       loadingSound: false,
     },
     game: {
+      cards: [],
       remainingCards: [],
       usedCards: [],
       wrongCards: [],
@@ -23,6 +25,10 @@ describe('appReducer', () => {
       currentCard: '',
     },
   };
+
+  beforeEach(() => {
+    jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
+  });
 
   describe('default', () => {
     it('should return the state by default', () => {
@@ -129,7 +135,13 @@ describe('appReducer', () => {
   });
 
   describe('LOAD_DATA', () => {
-    const cardIds = ['1', '2', '3', '4', '5'];
+    const cards: CardData[] = [
+      { id: '1', accuracy: '50' },
+      { id: '2', accuracy: '50' },
+      { id: '3', accuracy: '50' },
+      { id: '4', accuracy: '50' },
+      { id: '5', accuracy: '50' },
+    ];
 
     it('should create a new state', () => {
       const currentCard = '1';
@@ -148,11 +160,7 @@ describe('appReducer', () => {
         { ...testState },
         {
           type: AppActionType.LOAD_DATA,
-          payload: {
-            cardIds,
-            cardsStats: undefined,
-            nextCard: currentCard,
-          },
+          payload: { cards, nextCard: currentCard },
         }
       );
 
@@ -161,38 +169,23 @@ describe('appReducer', () => {
 
     it('should not set a next card when there is only 1 card in total', () => {
       const currentCard = '1';
-      const testState: AppState = {
-        ...initialState,
-        game: {
-          ...initialState.game,
-          currentCard,
-          remainingCards: [],
-          usedCards: [],
-          nextCard: '',
-        },
-      };
 
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
-          cardsStats: undefined,
-          cardIds: [currentCard],
+          cards: [{ id: currentCard }],
           nextCard: currentCard,
         },
       });
 
-      expect(res).toEqual(testState);
+      expect(res.game.nextCard).toBe('');
     });
 
     it('should correctly set the current card to be displayed', () => {
       const nextCard = '1';
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
-        payload: {
-          cardsStats: undefined,
-          cardIds,
-          nextCard,
-        },
+        payload: { cards, nextCard },
       });
 
       expect(res.game.currentCard).toBe(nextCard);
@@ -200,16 +193,12 @@ describe('appReducer', () => {
 
     it('should correctly set the next card to use', () => {
       const currentCard = '1';
-      const testCardIds = ['1', '2'];
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
-        payload: {
-          cardsStats: undefined,
-          cardIds: testCardIds,
-          nextCard: currentCard,
-        },
+        payload: { cards, nextCard: currentCard },
       });
-      const expectedNextCard = testCardIds.filter((cardId) => cardId !== currentCard)[0];
+
+      const expectedNextCard = `${cards[3].id}`;
 
       expect(res.game.nextCard).toBe(expectedNextCard);
     });
@@ -219,12 +208,11 @@ describe('appReducer', () => {
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
         payload: {
-          cardsStats: undefined,
-          cardIds,
+          cards,
           nextCard: currentCard,
         },
       });
-      const remainingCards = cardIds.filter((cardId) => cardId !== currentCard);
+      const remainingCards = cards.filter((card) => card.id !== currentCard).map((card) => card.id);
 
       expect(res.game.remainingCards).toEqual(remainingCards);
       expect(res.game.currentCard).toEqual(currentCard);
@@ -234,11 +222,7 @@ describe('appReducer', () => {
       const currentCard = '1';
       const res = appReducer(initialState, {
         type: AppActionType.LOAD_DATA,
-        payload: {
-          cardsStats: undefined,
-          cardIds,
-          nextCard: currentCard,
-        },
+        payload: { cards, nextCard: currentCard },
       });
 
       expect(res.game.usedCards).toEqual([]);

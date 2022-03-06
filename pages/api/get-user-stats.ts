@@ -26,6 +26,12 @@ const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
     learnedCards: 0,
     weakCards: 0,
   };
+  const initialUserData: UserData = {
+    id: userHash,
+    type: 'user',
+    current_level: '1',
+    cards: [],
+  };
 
   try {
     const data = await client.get({
@@ -34,12 +40,14 @@ const getUserStats = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    const userResponse = data.Item as UserData;
-    const level = Number(userResponse?.current_level || initialUserStats.level);
-    const weakCards = Number(
-      userResponse?.weak_cards ? Object.keys(userResponse.weak_cards)?.length : initialUserStats.weakCards
-    );
-    const learnedCards = Number(userResponse?.learned_cards?.length || initialUserStats.learnedCards) + weakCards;
+    const userResponse = (data.Item as UserData) || initialUserData;
+    const level = Number(userResponse.current_level || initialUserStats.level);
+    const weakCards = userResponse.cards?.length
+      ? userResponse.cards.filter((card) => Number(card.accuracy) < 93).length
+      : initialUserStats.weakCards;
+    const learnedCards = userResponse.cards?.length
+      ? userResponse.cards.filter((card) => Number(card.accuracy) >= 93).length + weakCards
+      : initialUserStats.learnedCards + weakCards;
 
     const userData: UserStats = {
       userHash,

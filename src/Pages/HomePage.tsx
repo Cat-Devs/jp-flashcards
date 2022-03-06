@@ -12,6 +12,10 @@ export const HomePage: React.FC = () => {
   const router = useRouter();
 
   const handleStartGame = () => {
+    // if (userLoggedIn && gameMode === 'train') {
+    //   router.push('/train');
+    //   return;
+    // }
     router.push('/shuffle');
   };
 

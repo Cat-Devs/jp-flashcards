@@ -27,11 +27,11 @@ const initialState: AppState = {
     cardMode: 'en',
     gameMode: 'guest',
     gameLevel: '1',
+    cards: [],
     remainingCards: [],
     usedCards: [],
     wrongCards: [],
     correctCards: [],
-    cardsStats: undefined,
   },
 };
 

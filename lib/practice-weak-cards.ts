@@ -1,15 +1,19 @@
-import type { CardMode, CardStats, FlashCardData } from '../src/types';
+import type { CardData, CardMode, FlashCardData, UserData } from '../src/types';
 import { getUserData } from './get-user-data';
 
 export const practiceWeakCards = async (
   userHash: string,
   items: FlashCardData[],
   cardMode: CardMode
-): Promise<{ cardsStats: CardStats[]; cardIds: string[] }> => {
-  const userData = await getUserData(userHash);
-  const weakCards = Object.keys(userData.weak_cards);
+): Promise<CardData[]> => {
+  const userData: UserData = await getUserData(userHash);
+  const userCards: CardData[] = userData.cards;
+  const weakCards: string[] = userCards
+    .filter((userCard: CardData) => Number(userCard.accuracy) < 93)
+    .map((userCard: CardData) => userCard.id);
 
-  const cardIds = items
+  return items
+    .filter((card: FlashCardData) => weakCards.includes(card.id))
     .filter((card: FlashCardData) => {
       if (cardMode === 'hiragana') {
         return card.hiragana;
@@ -18,17 +22,12 @@ export const practiceWeakCards = async (
       }
       return true;
     })
-    .filter((card: FlashCardData) => weakCards.includes(card.id))
-    .map((card: FlashCardData) => card.id)
+    .map(
+      (card: FlashCardData): CardData => ({
+        id: card.id,
+        accuracy: userCards.find((userCard) => userCard.id === card.id).accuracy,
+      })
+    )
     .sort(() => Math.random() - 0.5)
     .splice(0, 15);
-
-  const cardsStats = cardIds.reduce((acc, curr) => {
-    if (weakCards.includes(curr)) {
-      return [...acc, { id: curr, score: userData.weak_cards[curr] }];
-    }
-    return [...acc, { id: curr, score: '0' }];
-  }, []);
-
-  return { cardsStats, cardIds };
 };

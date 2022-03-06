@@ -1,5 +1,6 @@
 import React from 'react';
 import { getDbClient } from '../../lib/dynamo-db';
+import { useApp } from '../../src/AppState';
 import { FlashcardPage } from '../../src/Pages/FlashcardPage';
 import type { FlashCardData } from '../../src/types';
 
@@ -8,7 +9,10 @@ interface ShufflePageProps {
 }
 
 const ShufflePage: React.FC<ShufflePageProps> = ({ card }) => {
-  return <FlashcardPage card={card} quiz={true} />;
+  const { currentGame } = useApp();
+  const cardAccuracy = currentGame.cards.find((cardItem) => cardItem.id === card.id).accuracy;
+
+  return <FlashcardPage card={card} quiz={true} accuracy={cardAccuracy} />;
 };
 
 export async function getStaticProps({ params }) {

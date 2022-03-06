@@ -1,3 +1,5 @@
+import { CardData } from '../types';
+
 export type CardMode = 'en' | 'hiragana' | 'kanji' | 'kana';
 export type GameLevel = '1' | '2' | '3' | '4' | '5';
 export type CardResult = 'correct' | 'wrong' | 'void';
@@ -10,13 +12,9 @@ export interface UserStats {
   level: number;
 }
 
-export interface CardStats {
-  id: string;
-  score: string;
-}
-
 export interface LoadingState {}
 export interface GameState {
+  cards: CardData[];
   currentCard: string;
   remainingCards: string[];
   usedCards: string[];
@@ -26,7 +24,6 @@ export interface GameState {
   cardMode: CardMode;
   gameLevel: GameLevel;
   gameMode: GameMode;
-  cardsStats?: CardStats[];
 }
 
 export interface LoadingState {
@@ -78,7 +75,7 @@ type LoadingUserStatsAction = {
 
 type LoadDataAction = {
   type: AppActionType.LOAD_DATA;
-  payload: { cardIds: string[]; cardsStats: { id: string; score: string }[]; nextCard: string };
+  payload: { cards: CardData[]; nextCard: string };
 };
 
 type NextCardAction = {

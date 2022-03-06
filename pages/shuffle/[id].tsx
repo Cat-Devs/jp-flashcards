@@ -1,6 +1,9 @@
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import React from 'react';
 import { getDbClient } from '../../lib/dynamo-db';
 import { useApp } from '../../src/AppState';
+import { LoadingCard } from '../../src/Components/LoadingCard';
 import { FlashcardPage } from '../../src/Pages/FlashcardPage';
 import type { FlashCardData } from '../../src/types';
 
@@ -10,7 +13,18 @@ interface ShufflePageProps {
 
 const ShufflePage: React.FC<ShufflePageProps> = ({ card }) => {
   const { currentGame } = useApp();
-  const cardAccuracy = currentGame.cards.find((cardItem) => cardItem.id === card.id).accuracy;
+
+  if (!card) {
+    return (
+      <Container maxWidth="md" disableGutters>
+        <Box sx={{ p: 2 }}>
+          <LoadingCard />
+        </Box>
+      </Container>
+    );
+  }
+
+  const cardAccuracy = currentGame.cards.find((cardItem) => cardItem.id === card.id)?.accuracy;
 
   return <FlashcardPage card={card} quiz={true} accuracy={cardAccuracy} />;
 };

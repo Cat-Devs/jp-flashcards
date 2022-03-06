@@ -15,7 +15,7 @@ const ShufflePage: React.FC<ShufflePageProps> = ({ card }) => {
   return <FlashcardPage card={card} quiz={true} accuracy={cardAccuracy} />;
 };
 
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
   const client = getDbClient();
   const { Item: item } = await client.get({
     Key: {

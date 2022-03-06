@@ -27,7 +27,7 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const learnedCards = userData.cards.filter((card) => Number(card.accuracy) >= 93);
   const weakCards = userData.cards.filter((card) => Number(card.accuracy) < 93);
 
-  const updatedUserCards: CardData[] = cards.reduce((acc, cardId) => {
+  const newUserCards: CardData[] = cards.reduce((acc, cardId) => {
     const isWeakCard = Boolean(weakCards[cardId]);
     const isLearnedCard = Boolean(learnedCards.find((card) => card.id === cardId));
     const cardAccuracy = isLearnedCard ? 100 : (isWeakCard && Number(weakCards[cardId])) || 0;
@@ -44,6 +44,7 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
     ];
   }, []);
 
+  const updatedUserCards: CardData[] = userData.cards.filter((card) => !cards.includes(card.id)).concat(newUserCards);
   const accessKeyId = process.env.NEXT_DYNAMO_WRITE_KEY;
   const secretAccessKey = process.env.NEXT_DYNAMO_WRITE_SECRET;
   const client = getDbClient(accessKeyId, secretAccessKey);

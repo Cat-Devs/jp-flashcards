@@ -168,7 +168,7 @@ describe('update', () => {
       current_level: '1',
       cards: [
         { id: '4', accuracy: '100' },
-        { id: '1', accuracy: '93' },
+        { id: '1', accuracy: '50' },
         { id: '8', accuracy: '93' },
       ],
     };
@@ -184,7 +184,7 @@ describe('update', () => {
       ...userData,
       cards: [
         userData.cards[2],
-        { id: '1', accuracy: '100' },
+        { id: '1', accuracy: '75' },
         { id: '2', accuracy: '0' },
         { id: '3', accuracy: '0' },
         { id: '4', accuracy: '100' },

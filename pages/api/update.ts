@@ -28,9 +28,9 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const weakCards = userData.cards.filter((card) => Number(card.accuracy) < 93);
 
   const newUserCards: CardData[] = cards.reduce((acc, cardId) => {
-    const isWeakCard = Boolean(weakCards[cardId]);
+    const isWeakCard = weakCards.find((weakCard) => weakCard.id === cardId);
     const isLearnedCard = Boolean(learnedCards.find((card) => card.id === cardId));
-    const cardAccuracy = isLearnedCard ? 100 : (isWeakCard && Number(weakCards[cardId])) || 0;
+    const cardAccuracy = isLearnedCard ? 100 : (isWeakCard && Number(isWeakCard.accuracy)) || 0;
     const cardResult = wrongCards.find((card) => card === cardId) ? 'wrong' : 'correct';
     const currentAccuracyScore = Number(cardResult === 'correct' ? 100 : 0);
     const newAccuracy = Math.floor(Number((cardAccuracy + currentAccuracyScore) / 2));

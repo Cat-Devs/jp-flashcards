@@ -11,7 +11,7 @@ const CardPage: React.FC<WordsProps> = ({ card }) => {
   return <FlashcardPage card={card} quiz={false} />;
 };
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const client = getDbClient();
   const { Item: item } = await client.get({
     Key: {

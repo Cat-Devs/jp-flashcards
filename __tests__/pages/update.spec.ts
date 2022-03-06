@@ -169,6 +169,7 @@ describe('update', () => {
       cards: [
         { id: '4', accuracy: '100' },
         { id: '1', accuracy: '93' },
+        { id: '8', accuracy: '93' },
       ],
     };
     const testData: InputData = {
@@ -182,6 +183,7 @@ describe('update', () => {
     const expectedItem: UserData = {
       ...userData,
       cards: [
+        userData.cards[2],
         { id: '1', accuracy: '100' },
         { id: '2', accuracy: '0' },
         { id: '3', accuracy: '0' },

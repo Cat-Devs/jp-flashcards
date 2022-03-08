@@ -4,13 +4,9 @@ import { AppAction, AppActionType, AppState, CardMode, GameLevel, GameMode } fro
 
 describe('appReducer', () => {
   const initialState: AppState = {
-    userStats: undefined,
     loading: {
       loading: false,
-      loadingUser: false,
-      loadingUserStats: false,
       loadingData: false,
-      loadingSound: false,
     },
     game: {
       cards: [],
@@ -55,82 +51,6 @@ describe('appReducer', () => {
       });
 
       expect(res.loading.loading).toBe(false);
-    });
-
-    it('should not set the loading to false when still loading a sound', () => {
-      const loadingSound = true;
-      const testState: AppState = {
-        ...initialState,
-        loading: {
-          ...initialState.loading,
-          loadingSound,
-        },
-      };
-
-      const res = appReducer(testState, {
-        type: AppActionType.LOADING,
-        payload: false,
-      });
-
-      expect(res.loading.loadingData).toBe(false);
-      expect(res.loading.loading).toBe(true);
-    });
-  });
-
-  describe('LOADING_SOUND', () => {
-    it('should set the loading to true', () => {
-      const res = appReducer(initialState, {
-        type: AppActionType.LOADING_SOUND,
-        payload: true,
-      });
-
-      expect(res.loading.loading).toBe(true);
-    });
-
-    it('should set the loading to false', () => {
-      const res = appReducer(initialState, {
-        type: AppActionType.LOADING_SOUND,
-        payload: false,
-      });
-
-      expect(res.loading.loading).toBe(false);
-    });
-
-    it('should set the loading sound to true', () => {
-      const res = appReducer(initialState, {
-        type: AppActionType.LOADING_SOUND,
-        payload: true,
-      });
-
-      expect(res.loading.loadingSound).toBe(true);
-    });
-
-    it('should set the loading sound to false', () => {
-      const res = appReducer(initialState, {
-        type: AppActionType.LOADING_SOUND,
-        payload: false,
-      });
-
-      expect(res.loading.loadingSound).toBe(false);
-    });
-
-    it('should not set the loading to false when still loading data', () => {
-      const loadingData = true;
-      const testState: AppState = {
-        ...initialState,
-        loading: {
-          ...initialState.loading,
-          loadingData,
-        },
-      };
-
-      const res = appReducer(testState, {
-        type: AppActionType.LOADING_SOUND,
-        payload: false,
-      });
-
-      expect(res.loading.loadingSound).toBe(false);
-      expect(res.loading.loading).toBe(true);
     });
   });
 

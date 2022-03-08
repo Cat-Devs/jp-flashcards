@@ -5,7 +5,7 @@ export type GameLevel = '1' | '2' | '3' | '4' | '5';
 export type CardResult = 'correct' | 'wrong' | 'void';
 export type GameMode = 'guest' | 'train' | 'weak' | 'practice';
 
-export interface UserStats {
+export interface UserState {
   userHash: string;
   learnedCards: number;
   weakCards: number;
@@ -28,27 +28,21 @@ export interface GameState {
 
 export interface LoadingState {
   loading: boolean;
-  loadingSound: boolean;
   loadingData: boolean;
-  loadingUser: boolean;
-  loadingUserStats: boolean;
 }
 export interface AppState {
   loading: LoadingState;
-  userStats: UserStats;
   game: GameState;
+  user?: UserState;
 }
 
 export enum AppActionType {
   'LOAD_DATA',
-  'LOADING_SOUND',
-  'LOADING_USER',
-  'LOADING_USER_STATS',
+  'SET_USER',
   'NEXT_CARD',
   'SET_GAME_MODE',
   'SET_CARDS',
   'SET_LEVEL',
-  'SET_USER_STATS',
   'LOADING',
   'PLAY_WRONG_CARDS',
 }
@@ -58,19 +52,9 @@ type LoadingAction = {
   payload: boolean;
 };
 
-type LoadingSoundAction = {
-  type: AppActionType.LOADING_SOUND;
-  payload: boolean;
-};
-
-type LoadingUserAction = {
-  type: AppActionType.LOADING_USER;
-  payload: boolean;
-};
-
-type LoadingUserStatsAction = {
-  type: AppActionType.LOADING_USER_STATS;
-  payload: boolean;
+type SetUserAction = {
+  type: AppActionType.SET_USER;
+  payload: UserState;
 };
 
 type LoadDataAction = {
@@ -102,20 +86,12 @@ type PlayWrongCardsAction = {
   type: AppActionType.PLAY_WRONG_CARDS;
 };
 
-type SetUserStatsAction = {
-  type: AppActionType.SET_USER_STATS;
-  payload: UserStats;
-};
-
 export type AppAction =
   | LoadingAction
-  | LoadingSoundAction
-  | LoadingUserAction
-  | LoadingUserStatsAction
   | LoadDataAction
+  | SetUserAction
   | NextCardAction
   | SetCardModeAction
   | SetGameModeAction
   | SetLevelAction
-  | PlayWrongCardsAction
-  | SetUserStatsAction;
+  | PlayWrongCardsAction;

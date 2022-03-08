@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import React, { memo, useEffect, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { useApp } from '../AppState';
 import { CardNotFound } from '../Components/CardNotFound';
@@ -17,18 +17,9 @@ interface FlashcardPageProps {
 }
 
 const FlashcardPageComponent: React.FC<FlashcardPageProps> = ({ card, quiz, accuracy }) => {
-  const {
-    cardMode,
-    nextCard,
-    goHome,
-    loading,
-    loadSound,
-    unloadSound,
-    playSound,
-    userLoggedIn,
-    getGameStats,
-    gameStats,
-  } = useApp();
+  const { cardMode, nextCard, goHome, loading, userLoggedIn, getGameStats, gameStats } = useApp();
+  const [loadingSound, setLoadingSound] = useState(true);
+  const audioPlayer = useRef<HTMLAudioElement>();
   const cardJp = card?.jp;
 
   useEffect(() => {
@@ -36,14 +27,54 @@ const FlashcardPageComponent: React.FC<FlashcardPageProps> = ({ card, quiz, accu
   }, [getGameStats]);
 
   useEffect(() => {
+    function loadSound(audio: string) {
+      fetch('/api/play', {
+        method: 'POST',
+        body: JSON.stringify({ audio }),
+      })
+        .then((response) => response.json())
+        .then((response) => response.data || '')
+        .then((response: string) => {
+          const audioData = Buffer.from(response, 'hex');
+          const blob = new Blob([audioData], { type: 'audio/mpeg' });
+          const audioSrc = webkitURL.createObjectURL(blob);
+          audioPlayer.current = new Audio(audioSrc);
+          audioPlayer.current.load();
+        })
+        .catch(() => {
+          // User unauthenticated. The audio won't work unless the users logs in
+        })
+        .finally(() => {
+          setLoadingSound(false);
+        });
+    }
+
     if (userLoggedIn && cardJp) {
+      setLoadingSound(true);
       loadSound(cardJp);
+    } else {
+      setLoadingSound(false);
     }
 
     return () => {
-      unloadSound();
+      if (!userLoggedIn) {
+        return;
+      }
+
+      audioPlayer.current?.load();
+      audioPlayer.current?.pause();
+      audioPlayer.current = undefined;
     };
-  }, [cardJp, userLoggedIn, loadSound, unloadSound]);
+  }, [cardJp, userLoggedIn]);
+
+  const playSound = useCallback(() => {
+    if (!userLoggedIn) {
+      return;
+    }
+
+    audioPlayer.current?.load();
+    audioPlayer.current?.play();
+  }, [userLoggedIn]);
 
   const cardData: FlashCardItem = useMemo(() => {
     if (!card) {
@@ -129,6 +160,7 @@ const FlashcardPageComponent: React.FC<FlashcardPageProps> = ({ card, quiz, accu
         <Flashcard
           card={cardData}
           canPlaySounds={userLoggedIn}
+          loadingSound={loadingSound}
           quiz={quiz}
           onPlaySound={playSound}
           onNext={nextCard}

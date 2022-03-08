@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../AppState';
 import { Footer } from '../Components/Footer';
 import { TopBar } from '../Components/TopBar';
@@ -14,16 +14,22 @@ interface AppWrapperProps {
 }
 
 export const AppWrapper: React.FC<AppWrapperProps> = (props) => {
-  const { fetchUserData, authenticating } = useApp();
+  const { authenticating, userLoggedIn, getUser, user } = useApp();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchUserData();
-  }, [fetchUserData]);
+    if (authenticating || user) {
+      return;
+    }
+    getUser().then(() => {
+      setLoading(false);
+    });
+  }, [userLoggedIn, getUser, authenticating, user]);
 
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-        <TopBar />
+        <TopBar loading={loading} />
         <CssBaseline />
         {authenticating ? (
           <Container>

@@ -8,8 +8,12 @@ import React from 'react';
 import { useApp } from '../AppState';
 import { UserMenu } from './UserMenu';
 
-export const TopBar: React.FC = () => {
-  const { goHome, userLoggedIn, userStats, logIn, logOut, authenticating } = useApp();
+interface TopBarProps {
+  loading: boolean;
+}
+
+export const TopBar: React.FC<TopBarProps> = ({ loading }) => {
+  const { goHome, userLoggedIn, logIn, logOut, user } = useApp();
 
   return (
     <AppBar position="static">
@@ -27,9 +31,9 @@ export const TopBar: React.FC = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <UserMenu
-              loading={authenticating}
+              loading={loading}
               signedIn={userLoggedIn}
-              userHash={userStats?.userHash}
+              userHash={user?.userHash}
               onLogIn={logIn}
               onLogOut={logOut}
             />

@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { useCallback, useContext, useRef, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { CardData, PrepareGameConfig } from '../types';
 import { AppContext } from './AppContext';
 import { AppActionType, CardMode, CardResult, GameLevel, GameMode } from './types';
@@ -46,16 +46,17 @@ async function fetchPrepareGameData(cardMode: CardMode, gameLevel: GameLevel, ga
 export function useApp() {
   const router = useRouter();
   const context = useContext(AppContext);
-  const audioPlayer = useRef<HTMLAudioElement>();
   const { data: session, status } = useSession();
   const [gameStats, setGameStats] = useState<GameStats>(initialGameStats);
-  const userLoggedIn = Boolean(session?.user?.email);
+  const authenticating = Boolean(status !== 'authenticated' && status !== 'unauthenticated');
 
   if (!context) {
     throw new Error(`useApp must be used within an AppProvider`);
   }
 
   const { state, dispatch } = context;
+
+  const userLoggedIn = Boolean(session?.user?.email && state.user);
 
   const getGameStats = useCallback(async () => {
     const usedCards = state.game.usedCards.length || 0;
@@ -74,38 +75,21 @@ export function useApp() {
     });
   }, [state.game.currentCard, state.game.remainingCards, state.game.usedCards, state.game.wrongCards]);
 
-  const getUserStats = useCallback(async () => {
-    if (userLoggedIn) {
-      dispatch({ type: AppActionType.LOADING_USER_STATS, payload: true });
+  const getUser = useCallback(async () => {
+    if (session?.user?.email) {
       try {
         const userStatsReq = await fetch('/api/get-user-stats', { method: 'POST' });
-        const userStats = await userStatsReq.json();
-        dispatch({ type: AppActionType.SET_USER_STATS, payload: userStats });
+        const user = await userStatsReq.json();
+        dispatch({ type: AppActionType.SET_USER, payload: user });
       } catch (err) {
         console.error(err?.message);
+        dispatch({ type: AppActionType.SET_USER, payload: undefined });
       } finally {
-        dispatch({ type: AppActionType.LOADING_USER_STATS, payload: false });
-      }
-    }
-  }, [dispatch, userLoggedIn]);
-
-  const fetchUserData = useCallback(async () => {
-    if (userLoggedIn) {
-      dispatch({ type: AppActionType.LOADING_USER, payload: true });
-      try {
-        const userStatsReq = await fetch('/api/get-user-stats', { method: 'POST' });
-        const userStats = await userStatsReq.json();
-        dispatch({ type: AppActionType.SET_USER_STATS, payload: userStats });
-      } catch (err) {
-        console.error(err?.message);
-        dispatch({ type: AppActionType.SET_USER_STATS, payload: undefined });
-      } finally {
-        dispatch({ type: AppActionType.LOADING_USER, payload: false });
       }
     } else {
-      dispatch({ type: AppActionType.SET_USER_STATS, payload: undefined });
+      dispatch({ type: AppActionType.SET_USER, payload: undefined });
     }
-  }, [userLoggedIn, dispatch]);
+  }, [dispatch, session?.user?.email]);
 
   const loadTrainData = useCallback(
     async (cards: CardData[]) => {
@@ -181,70 +165,15 @@ export function useApp() {
   );
 
   const goHome = useCallback(() => {
-    getUserStats();
     router.push(`/`);
-  }, [router, getUserStats]);
+  }, [router]);
 
   const openSettings = useCallback(() => {
     router.push('/profile');
   }, [router]);
 
-  const loadSound = useCallback(
-    async (audio: string) => {
-      dispatch({
-        type: AppActionType.LOADING_SOUND,
-        payload: true,
-      });
-
-      fetch('/api/play', {
-        method: 'POST',
-        body: JSON.stringify({ audio }),
-      })
-        .then((response) => response.json())
-        .then((response) => response.data || '')
-        .then((response: string) => {
-          const audioData = Buffer.from(response, 'hex');
-          const blob = new Blob([audioData], { type: 'audio/mpeg' });
-          const audioSrc = webkitURL.createObjectURL(blob);
-          audioPlayer.current = new Audio(audioSrc);
-          audioPlayer.current.load();
-        })
-        .catch(() => {
-          // User unauthenticated. The audio won't work unless the users logs in
-        })
-        .finally(() => {
-          dispatch({
-            type: AppActionType.LOADING_SOUND,
-            payload: false,
-          });
-        });
-    },
-    [dispatch]
-  );
-
-  const playSound = useCallback(() => {
-    if (!userLoggedIn) {
-      return;
-    }
-
-    audioPlayer.current?.load();
-    audioPlayer.current?.play();
-  }, [userLoggedIn]);
-
-  const unloadSound = useCallback(() => {
-    if (!userLoggedIn) {
-      return;
-    }
-
-    audioPlayer.current?.load();
-    audioPlayer.current?.pause();
-    audioPlayer.current = undefined;
-  }, [userLoggedIn]);
-
   const nextCard = useCallback(
     async (cardResult: CardResult) => {
-      unloadSound();
-
       if (userLoggedIn && state.game.gameMode !== 'guest' && cardResult !== 'void' && !state.game.nextCard) {
         await fetch('/api/update', {
           method: 'POST',
@@ -253,6 +182,7 @@ export function useApp() {
             cards: [...state.game.usedCards, state.game.currentCard],
           }),
         });
+        getUser();
         router.push(`/shuffle/summary`);
       }
 
@@ -262,7 +192,7 @@ export function useApp() {
         router.push(`/shuffle/${state.game.nextCard}`);
       }
     },
-    [dispatch, router, unloadSound, userLoggedIn, state.game]
+    [dispatch, router, userLoggedIn, getUser, state.game]
   );
 
   const playWrongCards = useCallback(() => {
@@ -288,11 +218,11 @@ export function useApp() {
     cardMode: state.game.cardMode,
     gameLevel: state.game.gameLevel,
     gameMode: state.game.gameMode,
-    userStats: state.userStats,
+    user: state.user,
     loading: Boolean(state.loading.loading),
-    userStatsLoading: Boolean(state.loading.loadingUserStats),
-    authenticating: Boolean(state.loading.loadingUser || (status !== 'authenticated' && status !== 'unauthenticated')),
-    fetchUserData,
+    status,
+    authenticating,
+    getUser,
     getGameStats,
     gameStats,
     userLoggedIn,
@@ -303,12 +233,9 @@ export function useApp() {
     setGameMode,
     loadData,
     loadTrainData,
-    loadSound,
-    unloadSound,
     nextCard,
     goHome,
     openSettings,
-    playSound,
     playWrongCards,
   };
 }

@@ -1,48 +1,46 @@
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import { useMemo } from 'react';
-import { UserStats as UserStatsData } from '../AppState';
+import { UserState } from '../AppState';
 
 interface UserStatsProps {
-  userStats: UserStatsData;
-  loading: boolean;
+  user?: UserState;
 }
 
-export const UserStats: React.FC<UserStatsProps> = ({ userStats, loading }) => {
+export const UserStats: React.FC<UserStatsProps> = ({ user }) => {
   const weakCardsCopy = useMemo(() => {
-    if (!userStats.weakCards) {
+    if (!user?.weakCards) {
       return null;
     }
-    if (userStats.weakCards === 1) {
+    if (user.weakCards === 1) {
       return 'You only have 1 word to improve';
     }
-    return `You have ${userStats.weakCards} words to improve`;
-  }, [userStats?.weakCards]);
+    return `You have ${user.weakCards} words to improve`;
+  }, [user?.weakCards]);
 
   const learnedCardsCopy = useMemo(() => {
-    if (!userStats?.learnedCards) {
+    if (!user?.learnedCards) {
       return null;
     }
-    if (!userStats.learnedCards) {
+    if (!user.learnedCards) {
       return "You haven't learned any word yet";
     }
-    if (userStats.learnedCards === 1) {
+    if (user.learnedCards === 1) {
       return 'You know only 1 word for now';
     }
-    return `You have studied a total of ${userStats.learnedCards} words so far`;
-  }, [userStats?.learnedCards]);
+    return `You have studied a total of ${user.learnedCards} words so far`;
+  }, [user?.learnedCards]);
 
-  if (loading) {
-    return <CircularProgress size={80} />;
+  if (!user) {
+    return null;
   }
 
   return (
     <Box sx={{ my: 4 }}>
       <Box sx={{ pb: 2 }}>
-        <Typography>Your current level is {userStats.level}</Typography>
+        <Typography>Your current level is {user.level}</Typography>
         <Typography>{learnedCardsCopy}</Typography>
-        {(userStats.learnedCards && userStats.weakCards && <Typography>{weakCardsCopy}</Typography>) || null}
+        {(user.learnedCards && user.weakCards && <Typography>{weakCardsCopy}</Typography>) || null}
       </Box>
       <Typography>That{"'"}s amazing. Keep learning!</Typography>
     </Box>

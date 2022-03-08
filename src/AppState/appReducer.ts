@@ -8,39 +8,15 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         loading: {
           ...state.loading,
           loadingData: Boolean(action.payload),
-          loading: Boolean(action.payload || state.loading.loadingSound),
+          loading: Boolean(action.payload),
         },
       };
     }
 
-    case AppActionType.LOADING_SOUND: {
+    case AppActionType.SET_USER: {
       return {
         ...state,
-        loading: {
-          ...state.loading,
-          loadingSound: Boolean(action.payload),
-          loading: Boolean(action.payload || state.loading.loadingData),
-        },
-      };
-    }
-
-    case AppActionType.LOADING_USER: {
-      return {
-        ...state,
-        loading: {
-          ...state.loading,
-          loadingUser: Boolean(action.payload),
-        },
-      };
-    }
-
-    case AppActionType.LOADING_USER_STATS: {
-      return {
-        ...state,
-        loading: {
-          ...state.loading,
-          loadingUserStats: Boolean(action.payload),
-        },
+        user: action.payload,
       };
     }
 
@@ -147,13 +123,6 @@ export function appReducer(state: AppState, action: AppAction): AppState {
           usedCards: [],
           wrongCards: [],
         },
-      };
-    }
-
-    case AppActionType.SET_USER_STATS: {
-      return {
-        ...state,
-        userStats: action.payload,
       };
     }
 

@@ -1,8 +1,10 @@
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SendIcon from '@mui/icons-material/Send';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -27,21 +29,33 @@ export interface FlashCardItem {
 interface FlashcardProps {
   card: FlashCardItem;
   canPlaySounds: boolean;
+  loadingSound: boolean;
   onPlaySound: () => void;
   quiz?: boolean;
   accuracy?: string;
   onNext?: (cardResult: CardResult) => void;
 }
 
-const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, accuracy, canPlaySounds, onPlaySound, onNext }) => {
+const FlashcardCmp: React.FC<FlashcardProps> = ({
+  card,
+  quiz,
+  accuracy,
+  canPlaySounds,
+  loadingSound,
+  onPlaySound,
+  onNext,
+}) => {
   const [expanded, setExpanded] = useState(!quiz);
 
   const handleCheckAnswer = useCallback(() => {
+    if (loadingSound) {
+      return;
+    }
     if (!expanded) {
       setExpanded(true);
       canPlaySounds && onPlaySound();
     }
-  }, [expanded, onPlaySound, canPlaySounds]);
+  }, [expanded, onPlaySound, canPlaySounds, loadingSound]);
 
   const handleWrong = useCallback(() => {
     if (expanded && quiz) {
@@ -115,9 +129,15 @@ const FlashcardCmp: React.FC<FlashcardProps> = ({ card, quiz, accuracy, canPlayS
 
       {!expanded && (
         <CardActions>
-          <Button color="primary" onClick={handleCheckAnswer}>
+          <LoadingButton
+            loading={loadingSound}
+            loadingPosition="end"
+            endIcon={<SendIcon />}
+            variant="outlined"
+            onClick={handleCheckAnswer}
+          >
             Check answer
-          </Button>
+          </LoadingButton>
         </CardActions>
       )}
       {quiz && expanded && (

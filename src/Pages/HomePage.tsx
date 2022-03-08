@@ -8,7 +8,7 @@ import { Settings } from '../Components/Settings';
 import { UserStats } from '../Components/UserStats';
 
 export const HomePage: React.FC = () => {
-  const { userLoggedIn, userStats, gameMode, userStatsLoading } = useApp();
+  const { gameMode, user, userLoggedIn } = useApp();
   const router = useRouter();
 
   const handleStartGame = () => {
@@ -20,8 +20,8 @@ export const HomePage: React.FC = () => {
   };
 
   const userStatsEnabled = useMemo(() => {
-    return userLoggedIn && userStats && gameMode === 'train';
-  }, [userLoggedIn, userStats, gameMode]);
+    return userLoggedIn && gameMode === 'train';
+  }, [gameMode, userLoggedIn]);
 
   return (
     <main aria-labelledby="title">
@@ -31,7 +31,7 @@ export const HomePage: React.FC = () => {
         </Typography>
       </Box>
       <Settings />
-      {userStatsEnabled && <UserStats userStats={userStats} loading={userStatsLoading} />}
+      {userStatsEnabled && <UserStats user={user} />}
       <Box my={4}>
         <Button variant="outlined" onClick={handleStartGame}>
           Play

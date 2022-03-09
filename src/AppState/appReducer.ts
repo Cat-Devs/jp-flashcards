@@ -5,11 +5,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case AppActionType.LOADING: {
       return {
         ...state,
-        loading: {
-          ...state.loading,
-          loadingData: Boolean(action.payload),
-          loading: Boolean(action.payload),
-        },
+        loading: Boolean(action.payload),
       };
     }
 
@@ -43,6 +39,9 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     }
 
     case AppActionType.NEXT_CARD: {
+      if (!state.game.currentCard) {
+        return state;
+      }
       const newCurrentCard = state.game.nextCard;
       const newRemainingCards = state.game.remainingCards.filter((card) => card !== newCurrentCard);
       const random = Math.floor(Math.random() * newRemainingCards.length);

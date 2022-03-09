@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import { getDbClient } from '../../lib/dynamo-db';
 import { trainCards } from '../../lib/train-cards';
 import { useApp } from '../../src/AppState';
-import { FlashcardPage } from '../../src/Pages/FlashcardPage';
 import { CardData, FlashCardData } from '../../src/types';
 
 interface WordsProps {
@@ -20,7 +19,8 @@ const CardPage: React.FC<WordsProps> = ({ cards }) => {
     }
   }, [cards, loadTrainData]);
 
-  return <FlashcardPage />;
+  return null;
+  // return <FlashcardPage />;
 };
 
 export async function getServerSideProps(ctx) {

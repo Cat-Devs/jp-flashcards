@@ -1,24 +1,23 @@
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useApp } from '../../src/AppState';
-import { CardNotFound } from '../../src/Components/CardNotFound';
+import { LoadingCard } from '../../src/Components/LoadingCard';
 import { ResultPage } from '../../src/Pages/ResultPage';
 
 const Summary: React.FC = () => {
-  const { currentCard, loading, goHome } = useApp();
-  const [prepareRound, setPrepareRound] = useState(false);
+  const { currentCard, loading } = useApp();
+
   const router = useRouter();
 
   useEffect(() => {
     if (currentCard) {
       router.push(`/shuffle/${currentCard}`);
-      setPrepareRound(true);
     }
   }, [currentCard, router]);
 
-  if ((!loading && !Boolean(currentCard)) || prepareRound) {
+  if (!loading && !currentCard) {
     return (
       <Container maxWidth="md" disableGutters>
         <Box sx={{ p: 2 }}>
@@ -31,7 +30,7 @@ const Summary: React.FC = () => {
   return (
     <Container maxWidth="md" disableGutters>
       <Box sx={{ p: 2 }}>
-        <CardNotFound onGoHome={goHome} />
+        <LoadingCard />
       </Box>
     </Container>
   );

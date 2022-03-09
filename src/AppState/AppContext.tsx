@@ -13,10 +13,7 @@ export const AppContext = createContext<{
 });
 
 const initialState: AppState = {
-  loading: {
-    loading: false,
-    loadingData: false,
-  },
+  loading: false,
   game: {
     nextCard: '',
     currentCard: '',

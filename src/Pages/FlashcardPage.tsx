@@ -3,24 +3,22 @@ import Container from '@mui/material/Container';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { useApp } from '../AppState';
-import { CardNotFound } from '../Components/CardNotFound';
 import { Flashcard, FlashCardItem } from '../Components/Flashcard';
 import { KeyboardHelper } from '../Components/KeyboardHelper';
-import { LoadingCard } from '../Components/LoadingCard';
 import { Progress } from '../Components/Progress';
 import { FlashCardData } from '../types';
 
 interface FlashcardPageProps {
-  card?: FlashCardData;
+  card: FlashCardData;
   accuracy?: string;
   quiz?: boolean;
 }
 
 const FlashcardPageComponent: React.FC<FlashcardPageProps> = ({ card, quiz, accuracy }) => {
-  const { cardMode, nextCard, goHome, loading, userLoggedIn, getGameStats, gameStats } = useApp();
+  const { cardMode, nextCard, userLoggedIn, getGameStats, gameStats } = useApp();
   const [loadingSound, setLoadingSound] = useState(true);
   const audioPlayer = useRef<HTMLAudioElement>();
-  const cardJp = card?.jp;
+  const cardJp = card.jp;
 
   useEffect(() => {
     getGameStats();
@@ -126,27 +124,6 @@ const FlashcardPageComponent: React.FC<FlashcardPageProps> = ({ card, quiz, accu
       };
     }
   }, [card, cardMode]);
-
-  if (loading) {
-    return (
-      <Container maxWidth="md" disableGutters>
-        <Progress status={gameStats.progress} />
-        <Box sx={{ p: 2 }}>
-          <LoadingCard />
-        </Box>
-      </Container>
-    );
-  }
-
-  if (!card?.en) {
-    return (
-      <Container maxWidth="md" disableGutters>
-        <Box sx={{ p: 2 }}>
-          <CardNotFound onGoHome={goHome} />
-        </Box>
-      </Container>
-    );
-  }
 
   return (
     <Container

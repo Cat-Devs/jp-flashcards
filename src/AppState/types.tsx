@@ -2,7 +2,7 @@ import { CardData } from '../types';
 
 export type CardMode = 'en' | 'hiragana' | 'kanji' | 'kana';
 export type GameLevel = '1' | '2' | '3' | '4' | '5';
-export type CardResult = 'correct' | 'wrong' | 'void';
+export type CardResult = 'correct' | 'wrong';
 export type GameMode = 'guest' | 'train' | 'weak' | 'practice';
 
 export interface UserState {
@@ -12,7 +12,6 @@ export interface UserState {
   level: number;
 }
 
-export interface LoadingState {}
 export interface GameState {
   cards: CardData[];
   currentCard: string;
@@ -26,12 +25,8 @@ export interface GameState {
   gameMode: GameMode;
 }
 
-export interface LoadingState {
-  loading: boolean;
-  loadingData: boolean;
-}
 export interface AppState {
-  loading: LoadingState;
+  loading: boolean;
   game: GameState;
   user?: UserState;
 }

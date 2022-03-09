@@ -4,10 +4,7 @@ import { AppAction, AppActionType, AppState, CardMode, GameLevel, GameMode } fro
 
 describe('appReducer', () => {
   const initialState: AppState = {
-    loading: {
-      loading: false,
-      loadingData: false,
-    },
+    loading: false,
     game: {
       cards: [],
       remainingCards: [],
@@ -41,7 +38,7 @@ describe('appReducer', () => {
         payload: true,
       });
 
-      expect(res.loading.loading).toBe(true);
+      expect(res.loading).toBe(true);
     });
 
     it('should set the loading to false', () => {
@@ -50,7 +47,7 @@ describe('appReducer', () => {
         payload: false,
       });
 
-      expect(res.loading.loading).toBe(false);
+      expect(res.loading).toBe(false);
     });
   });
 

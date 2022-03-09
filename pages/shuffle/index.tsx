@@ -1,13 +1,15 @@
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import React, { useEffect } from 'react';
 import { useApp } from '../../src/AppState';
-import { FlashcardPage } from '../../src/Pages/FlashcardPage';
+import { LoadingCard } from '../../src/Components/LoadingCard';
 import { FlashCardData } from '../../src/types';
 
-interface WordsProps {
+interface ShufflePageProps {
   cards: FlashCardData[];
 }
 
-const CardPage: React.FC<WordsProps> = () => {
+const ShufflePage: React.FC<ShufflePageProps> = () => {
   const { loadData, loading } = useApp();
 
   useEffect(() => {
@@ -16,7 +18,13 @@ const CardPage: React.FC<WordsProps> = () => {
     }
   }, [loadData, loading]);
 
-  return <FlashcardPage />;
+  return (
+    <Container maxWidth="md" disableGutters>
+      <Box sx={{ p: 2 }}>
+        <LoadingCard />
+      </Box>
+    </Container>
+  );
 };
 
-export default CardPage;
+export default ShufflePage;

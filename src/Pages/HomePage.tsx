@@ -30,7 +30,7 @@ export const HomePage: React.FC = () => {
           Japanese Flashcards
         </Typography>
       </Box>
-      <Settings />
+      <Settings user={user} />
       {userStatsEnabled && <UserStats user={user} />}
       <Box my={4}>
         <Button variant="outlined" onClick={handleStartGame}>

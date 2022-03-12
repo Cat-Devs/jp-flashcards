@@ -10,7 +10,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import type { CardMode, GameLevel, GameMode } from '../AppState';
+import type { CardMode, GameLevel, GameMode, UserState } from '../AppState';
 import { useApp } from '../AppState';
 
 const enum GAME_MODE_LABELS {
@@ -27,7 +27,11 @@ const enum CARD_MODE_LABELS {
   KANJI = 'Show cards in Kanji',
 }
 
-export const Settings: React.FC = () => {
+interface SettingsProps {
+  user?: UserState;
+}
+
+export const Settings: React.FC<SettingsProps> = ({ user }) => {
   const { cardMode, gameLevel, gameMode, setGameMode, setLevel, setCardMode, userLoggedIn } = useApp();
   const [cardModeExpanded, setCardModeExpanded] = useState(false);
   const [gameModeExpanded, setGameModeExpanded] = useState(false);
@@ -106,7 +110,9 @@ export const Settings: React.FC = () => {
                 <RadioGroup name="game-mode-buttons-group" value={gameMode} onChange={handleGameMode}>
                   <FormControlLabel value="train" control={<Radio />} label={GAME_MODE_LABELS.TRAIN} />
                   <FormControlLabel value="practice" control={<Radio />} label={GAME_MODE_LABELS.PRACTICE} />
-                  <FormControlLabel value="weak" control={<Radio />} label={GAME_MODE_LABELS.WEAK} />
+                  {user.weakCards > 0 && (
+                    <FormControlLabel value="weak" control={<Radio />} label={GAME_MODE_LABELS.WEAK} />
+                  )}
                   <FormControlLabel value="guest" control={<Radio />} label={GAME_MODE_LABELS.GUEST} />
                 </RadioGroup>
               </FormControl>

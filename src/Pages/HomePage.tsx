@@ -8,7 +8,7 @@ import { Settings } from '../Components/Settings';
 import { UserStats } from '../Components/UserStats';
 
 export const HomePage: React.FC = () => {
-  const { gameMode, user, userLoggedIn } = useApp();
+  const { gameMode, userLoggedIn } = useApp();
   const router = useRouter();
 
   const handleStartGame = () => {
@@ -30,8 +30,8 @@ export const HomePage: React.FC = () => {
           Japanese Flashcards
         </Typography>
       </Box>
-      <Settings user={user} />
-      {userStatsEnabled && <UserStats user={user} />}
+      <Settings />
+      {userStatsEnabled && <UserStats />}
       <Box my={4}>
         <Button variant="outlined" onClick={handleStartGame}>
           Play

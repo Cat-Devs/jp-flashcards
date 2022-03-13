@@ -10,7 +10,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import type { CardMode, GameLevel, GameMode, UserState } from '../AppState';
+import type { CardMode, GameLevel, GameMode } from '../AppState';
 import { useApp } from '../AppState';
 
 const enum GAME_MODE_LABELS {
@@ -27,12 +27,8 @@ const enum CARD_MODE_LABELS {
   KANJI = 'Show cards in Kanji',
 }
 
-interface SettingsProps {
-  user?: UserState;
-}
-
-export const Settings: React.FC<SettingsProps> = ({ user }) => {
-  const { cardMode, gameLevel, gameMode, setGameMode, setLevel, setCardMode, userLoggedIn } = useApp();
+export const Settings: React.FC = () => {
+  const { cardMode, gameLevel, gameMode, setGameMode, setLevel, setCardMode, userLoggedIn, user } = useApp();
   const [cardModeExpanded, setCardModeExpanded] = useState(false);
   const [gameModeExpanded, setGameModeExpanded] = useState(false);
 

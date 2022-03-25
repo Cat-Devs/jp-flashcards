@@ -8,6 +8,9 @@
 cypress/videos
 cypress/screenshots
 
+# local
+data/localDb.json
+
 # next.js
 /.next/
 /out/

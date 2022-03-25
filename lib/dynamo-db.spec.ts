@@ -1,5 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
 import { getDbClient } from './dynamo-db';
+import { LocalDb } from './local-db';
 
 const isDev = jest.fn();
 const isProd = jest.fn();
@@ -11,7 +12,6 @@ jest.mock('./constants', () => ({
     return isProd();
   },
 }));
-jest.mock('../data/table-data-local.json', () => [{ id: '1' }]);
 
 describe('getDbClient', () => {
   it('should initialise a Document Client on production', () => {
@@ -47,6 +47,9 @@ describe('getDbClient', () => {
     isProd.mockReturnValue(false);
     isDev.mockReturnValue(true);
     jest.spyOn(DynamoDB as any, 'DocumentClient').mockResolvedValue({});
+    jest.spyOn(LocalDb as any, 'get').mockReturnValueOnce({
+      id: '1',
+    });
 
     const client = getDbClient();
     const data = await client.get({

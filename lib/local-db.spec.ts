@@ -90,6 +90,27 @@ describe('LocalDatabase', () => {
       jest.spyOn(fs, 'readFileSync').mockReturnValueOnce('[{"id": "123","current_level": "1"}]');
       expect(() => LocalDb.update({ Key: { id: '000' } })).toThrow();
     });
+
+    it('should throw when readDb fails', () => {
+      jest.spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+      expect(() => {
+        LocalDb.update({ Key: { id: '123' } });
+      }).toThrow();
+    });
+
+    it('should throw when updateDb fails', () => {
+      jest.spyOn(fs, 'readFileSync').mockReturnValueOnce('[{"id": "123","current_level": "1"}]');
+      jest.spyOn(fs, 'writeFileSync').mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+      expect(() => {
+        LocalDb.update({ Key: { id: '123' } });
+      }).toThrow();
+    });
   });
 
   describe('Query', () => {

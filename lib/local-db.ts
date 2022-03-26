@@ -8,10 +8,17 @@ type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
 
 export class LocalDb {
   private static readonly pathToLocalDb = join(process.cwd(), 'data', 'localDb.json');
-  private static readonly pathToLocalDbTemplate = join(process.cwd(), 'data', 'table-data-local.json');
+  private static readonly pathToLocalDbTemplate = join(process.cwd(), 'data', 'db-template.json');
 
   private static readDb(): LocalDatabase {
-    const file = readFileSync(this.pathToLocalDb, { encoding: 'utf-8' });
+    let file: string;
+
+    try {
+      file = readFileSync(this.pathToLocalDb, { encoding: 'utf-8' });
+    } catch (e) {
+      console.error(e);
+      throw new Error(`Failed to read DB. File at path: ${this.pathToLocalDb} does not exist.`);
+    }
 
     try {
       return JSON.parse(file);
@@ -22,7 +29,13 @@ export class LocalDb {
 
   private static updateDb(data: LocalDatabase) {
     const file = JSON.stringify(data);
-    return writeFileSync(this.pathToLocalDb, file, { encoding: 'utf-8' });
+
+    try {
+      return writeFileSync(this.pathToLocalDb, file, { encoding: 'utf-8' });
+    } catch (e) {
+      console.error(e);
+      throw new Error(`Failed to update DB. Cannot write to file at path: ${this.pathToLocalDb}`);
+    }
   }
 
   static create(): void {
@@ -66,7 +79,7 @@ export class LocalDb {
       throw new Error('Item does not exist in local db');
     }
 
-    db[itemIndex].current_level = (parseInt(db[itemIndex].current_level, 10) + 1).toString();
+    db[itemIndex].current_level = (parseInt(db[itemIndex].current_level) + 1).toString();
     this.updateDb(db);
     return db[itemIndex] as DynamoDB.DocumentClient.UpdateItemOutput;
   }

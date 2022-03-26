@@ -181,7 +181,7 @@ export function useApp() {
         router.push(`/shuffle/${state.game.nextCard}`);
       }
 
-      if (userLoggedIn && !state.game.nextCard) {
+      if (userLoggedIn && state.game.gameMode !== 'guest' && !state.game.nextCard) {
         const cards = [...state.game.usedCards];
         const wrongCards = [...state.game.wrongCards];
 
@@ -197,14 +197,13 @@ export function useApp() {
           return;
         }
 
+        getUser();
         await fetch('/api/update', {
           method: 'POST',
           body: JSON.stringify({ wrongCards, cards }),
         });
-        getUser();
+        router.push(`/shuffle/summary`);
       }
-
-      router.push(`/shuffle/summary`);
     },
     [dispatch, getUser, router, userLoggedIn, state.game]
   );

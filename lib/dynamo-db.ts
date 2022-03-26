@@ -1,6 +1,6 @@
 import { DynamoDB } from 'aws-sdk';
 import { isDev, isProd } from './constants';
-const localDB = require('../data/table-data-local.json');
+import { LocalDb } from './local-db';
 
 export function getDbClient(
   accessKeyId: string = process.env.NEXT_DYNAMO_READ_KEY,
@@ -17,16 +17,20 @@ export function getDbClient(
     });
   }
 
+  if (isDev) {
+    LocalDb.create();
+  }
+
   return {
     get: async (
       params: Omit<DynamoDB.DocumentClient.GetItemInput, 'TableName'>
     ): Promise<DynamoDB.DocumentClient.GetItemOutput> => {
       try {
         if (isDev) {
-          const item = localDB.find((itemDb) => itemDb.id === params.Key.id);
-          return {
+          const item = LocalDb.get(params);
+          return Promise.resolve({
             Item: item,
-          };
+          });
         }
 
         const getItem = await client.get({ TableName, ...params }).promise();
@@ -44,9 +48,9 @@ export function getDbClient(
     query: async <T>(params: Omit<DynamoDB.DocumentClient.QueryInput, 'TableName'>): Promise<{ Items: T[] }> => {
       try {
         if (isDev) {
-          return {
-            Items: localDB,
-          };
+          return Promise.resolve({
+            Items: LocalDb.query() as unknown as T[],
+          });
         }
 
         const queryItems: unknown = await client.query({ TableName, ...params }).promise();
@@ -66,7 +70,7 @@ export function getDbClient(
     ): Promise<DynamoDB.DocumentClient.PutItemOutput> => {
       try {
         if (isDev) {
-          return {};
+          return Promise.resolve(LocalDb.put(params));
         }
 
         const putItem = await client.put({ TableName, ...params }).promise();
@@ -84,7 +88,7 @@ export function getDbClient(
     ): Promise<DynamoDB.DocumentClient.UpdateItemOutput> => {
       try {
         if (isDev) {
-          return {};
+          return Promise.resolve(LocalDb.update(params));
         }
 
         const updateItem = await client.update({ TableName, ...params }).promise();

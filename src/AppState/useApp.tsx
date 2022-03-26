@@ -131,7 +131,6 @@ export function useApp() {
       type: AppActionType.LOAD_DATA,
       payload: { cards: cardData, nextCard },
     });
-
     router.push(`/shuffle/${nextCard}`);
   }, [dispatch, router, state.game]);
 
@@ -175,37 +174,25 @@ export function useApp() {
 
   const nextCard = useCallback(
     async (cardResult: CardResult) => {
+      if (userLoggedIn && state.game.gameMode !== 'guest' && !state.game.nextCard) {
+        await fetch('/api/update', {
+          method: 'POST',
+          body: JSON.stringify({
+            wrongCards: state.game.wrongCards,
+            cards: [...state.game.usedCards, state.game.currentCard],
+          }),
+        });
+        getUser();
+        router.push(`/shuffle/summary`);
+      }
+
       dispatch({ type: AppActionType.NEXT_CARD, payload: cardResult });
 
       if (state.game.nextCard) {
         router.push(`/shuffle/${state.game.nextCard}`);
       }
-
-      if (userLoggedIn && state.game.gameMode !== 'guest' && !state.game.nextCard) {
-        const cards = [...state.game.usedCards];
-        const wrongCards = [...state.game.wrongCards];
-
-        if (state.game.currentCard) {
-          cards.push(state.game.currentCard);
-        }
-        if (cardResult === 'wrong' && state.game.currentCard) {
-          wrongCards.push(state.game.currentCard);
-        }
-
-        if (!state.game.currentCard) {
-          router.push(`/shuffle/summary`);
-          return;
-        }
-
-        getUser();
-        await fetch('/api/update', {
-          method: 'POST',
-          body: JSON.stringify({ wrongCards, cards }),
-        });
-        router.push(`/shuffle/summary`);
-      }
     },
-    [dispatch, getUser, router, userLoggedIn, state.game]
+    [dispatch, router, userLoggedIn, getUser, state.game]
   );
 
   const playWrongCards = useCallback(() => {

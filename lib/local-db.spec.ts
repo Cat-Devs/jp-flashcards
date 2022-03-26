@@ -33,6 +33,12 @@ describe('LocalDatabase', () => {
       expect(LocalDb.get({ Key: { id: '000' } })).toStrictEqual(undefined);
     });
 
+    it('should not get an item when DB is empty', () => {
+      jest.spyOn(fs, 'readFileSync').mockReturnValueOnce('[]');
+
+      expect(LocalDb.get({ Key: { id: '000' } })).toStrictEqual(undefined);
+    });
+
     it('should throw', () => {
       jest.spyOn(fs, 'readFileSync').mockReturnValueOnce('much cat');
 

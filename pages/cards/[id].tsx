@@ -49,7 +49,9 @@ export async function getStaticProps({ params }) {
 
   if (!item) {
     return {
-      props: {},
+      props: {
+        error: true,
+      },
     };
   }
 

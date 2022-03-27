@@ -23,7 +23,7 @@ const enum GAME_MODE_LABELS {
 const enum CARD_MODE_LABELS {
   EN = 'Show cards in English',
   HIRAGANA = 'Show cards in Hiragana',
-  KANA = 'Show cards in Any Kana',
+  KANA = 'Show cards in any Kana',
   KANJI = 'Show cards in Kanji',
 }
 
@@ -90,7 +90,7 @@ export const Settings: React.FC = () => {
   );
 
   return (
-    <Box sx={{ my: 4 }}>
+    <Box sx={{ my: 4 }} data-testid="Settings">
       {userLoggedIn && (
         <Box sx={{ pb: 4 }}>
           <Accordion
@@ -124,7 +124,11 @@ export const Settings: React.FC = () => {
             expanded={cardModeExpanded}
             onChange={() => setCardModeExpanded(!cardModeExpanded)}
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} data-cy="card-mode-settings">
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              data-cy="card-mode-settings"
+              data-testid="card-mode-settings"
+            >
               <Typography>{cardModeLabel}</Typography>
             </AccordionSummary>
             <AccordionDetails data-cy="card-mode-details">
@@ -132,24 +136,28 @@ export const Settings: React.FC = () => {
                 <RadioGroup name="card-mode-buttons-group" value={cardMode} onChange={handleCardMode}>
                   <FormControlLabel
                     data-cy="card-mode-settings-en"
+                    data-testid="card-mode-settings-en"
                     value="en"
                     control={<Radio />}
                     label={CARD_MODE_LABELS.EN}
                   />
                   <FormControlLabel
                     data-cy="card-mode-settings-hiragana"
+                    data-testid="card-mode-settings-hiragana"
                     value="hiragana"
                     control={<Radio />}
                     label={CARD_MODE_LABELS.HIRAGANA}
                   />
                   <FormControlLabel
                     data-cy="card-mode-settings-kana"
+                    data-testid="card-mode-settings-kana"
                     value="kana"
                     control={<Radio />}
                     label={CARD_MODE_LABELS.KANA}
                   />
                   <FormControlLabel
                     data-cy="card-mode-settings-kanji"
+                    data-testid="card-mode-settings-kanji"
                     value="kanji"
                     control={<Radio />}
                     label={CARD_MODE_LABELS.KANJI}
@@ -163,13 +171,14 @@ export const Settings: React.FC = () => {
 
       {gameMode === 'guest' && (
         <FormControl sx={{ pb: 4 }}>
-          <FormLabel id="game-level-group-label" data-cy="game-level-settings">
+          <FormLabel id="game-level-group-label" data-cy="game-level-settings" data-testid="game-level">
             Level
           </FormLabel>
           <RadioGroup
             row
             aria-labelledby="game-level-group-label"
             name="game-level-buttons-group"
+            data-testid="game-level-buttons-group"
             value={gameLevel}
             onChange={handleGameLevel}
           >

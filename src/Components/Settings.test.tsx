@@ -10,7 +10,7 @@ jest.mock('../AppState');
 describe('Settings', () => {
   let component: ReturnType<typeof render>;
 
-  it('should render the Settings component', async () => {
+  it('should render the Settings component', () => {
     (useApp as jest.Mock).mockImplementation(() => ({}));
 
     const component = render(<Settings />);
@@ -35,24 +35,24 @@ describe('Settings', () => {
       component = render(<Settings />);
     });
 
-    it('should render the Settings component', async () => {
+    it('should render the Settings component', () => {
       expect(component.getByTestId('Settings')).toBeVisible();
     });
 
-    it('should render the card Level selector', async () => {
+    it('should render the card Level selector', () => {
       expect(component.getByTestId('game-level')).toHaveTextContent('Level');
       expect(component.getByTestId('game-level-buttons-group')).toBeVisible();
     });
 
-    it('should render the card mode selector', async () => {
+    it('should render the card mode selector', () => {
       expect(component.getByTestId('card-mode-settings')).toBeVisible();
     });
 
-    it('should default the card mode to English', async () => {
+    it('should default the card mode to English', () => {
       expect(component.getByTestId('card-mode-settings')).toHaveTextContent(CARD_MODE_LABELS.EN);
     });
 
-    it('should change the card mode to Hiragana', async () => {
+    it('should change the card mode to Hiragana', () => {
       const hiraganaSelector = component.getByTestId('card-mode-settings-hiragana');
       const cardModeSettings = component.getByTestId('card-mode-settings');
       const expectedCardMode: CardMode = 'hiragana';
@@ -66,7 +66,7 @@ describe('Settings', () => {
       expect(component.getByTestId('card-mode-settings')).toHaveTextContent(CARD_MODE_LABELS.HIRAGANA);
     });
 
-    it('should change the card mode to Kana', async () => {
+    it('should change the card mode to Kana', () => {
       const kanaSelector = component.getByTestId('card-mode-settings-kana');
       const cardModeSettings = component.getByTestId('card-mode-settings');
       const expectedCardMode: CardMode = 'kana';
@@ -80,7 +80,7 @@ describe('Settings', () => {
       expect(component.getByTestId('card-mode-settings')).toHaveTextContent(CARD_MODE_LABELS.KANA);
     });
 
-    it('should change the card mode to Kanji', async () => {
+    it('should change the card mode to Kanji', () => {
       const kanjiSelector = component.getByTestId('card-mode-settings-kanji');
       const cardModeSettings = component.getByTestId('card-mode-settings');
       const expectedCardMode: CardMode = 'kanji';
@@ -92,7 +92,7 @@ describe('Settings', () => {
       expect(cardModeSettings).toHaveTextContent(CARD_MODE_LABELS.KANJI);
     });
 
-    it('should change the card mode back to English after selecting a different one', async () => {
+    it('should change the card mode back to English after selecting a different one', () => {
       const cardModeHiragana: CardMode = 'hiragana';
       const cardModeEnglish: CardMode = 'en';
       const cardModeSettings = component.getByTestId('card-mode-settings');
@@ -182,19 +182,19 @@ describe('Settings', () => {
       component = render(<Settings />);
     });
 
-    it('should render the Settings component', async () => {
+    it('should render the Settings component', () => {
       expect(component.getByTestId('Settings')).toBeVisible();
     });
 
-    it('should render the game mode selector', async () => {
+    it('should render the game mode selector', () => {
       expect(component.getByTestId('game-mode-settings')).toBeVisible();
     });
 
-    it('should set the game mode to Train', async () => {
+    it('should set the game mode to Train', () => {
       expect(component.getByTestId('game-mode-settings')).toHaveTextContent(GAME_MODE_LABELS.TRAIN);
     });
 
-    it('should change the game mode to Practice', async () => {
+    it('should change the game mode to Practice', () => {
       const gameModeSettings = component.getByTestId('game-mode-settings');
       const practiceSelector = component.getByTestId('game-mode-settings-practice');
       const expectedGameMode: GameMode = 'practice';
@@ -206,7 +206,7 @@ describe('Settings', () => {
       expect(gameModeSettings).toHaveTextContent(GAME_MODE_LABELS.PRACTICE);
     });
 
-    it('should change the game mode to Weak cards', async () => {
+    it('should change the game mode to Weak cards', () => {
       const gameModeSettings = component.getByTestId('game-mode-settings');
       const weakSelector = component.getByTestId('game-mode-settings-weak');
       const expectedGameMode: GameMode = 'weak';

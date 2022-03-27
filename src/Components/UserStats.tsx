@@ -1,13 +1,11 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useMemo } from 'react';
-import { UserState } from '../AppState';
+import { useApp } from '../AppState';
 
-interface UserStatsProps {
-  user?: UserState;
-}
+export const UserStats: React.FC = () => {
+  const { user } = useApp();
 
-export const UserStats: React.FC<UserStatsProps> = ({ user }) => {
   const weakCardsCopy = useMemo(() => {
     if (!user?.weakCards) {
       return null;

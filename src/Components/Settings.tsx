@@ -28,7 +28,7 @@ const enum CARD_MODE_LABELS {
 }
 
 export const Settings: React.FC = () => {
-  const { cardMode, gameLevel, gameMode, setGameMode, setLevel, setCardMode, userLoggedIn } = useApp();
+  const { cardMode, gameLevel, gameMode, setGameMode, setLevel, setCardMode, userLoggedIn, user } = useApp();
   const [cardModeExpanded, setCardModeExpanded] = useState(false);
   const [gameModeExpanded, setGameModeExpanded] = useState(false);
 
@@ -106,7 +106,9 @@ export const Settings: React.FC = () => {
                 <RadioGroup name="game-mode-buttons-group" value={gameMode} onChange={handleGameMode}>
                   <FormControlLabel value="train" control={<Radio />} label={GAME_MODE_LABELS.TRAIN} />
                   <FormControlLabel value="practice" control={<Radio />} label={GAME_MODE_LABELS.PRACTICE} />
-                  <FormControlLabel value="weak" control={<Radio />} label={GAME_MODE_LABELS.WEAK} />
+                  {user.weakCards > 0 && (
+                    <FormControlLabel value="weak" control={<Radio />} label={GAME_MODE_LABELS.WEAK} />
+                  )}
                   <FormControlLabel value="guest" control={<Radio />} label={GAME_MODE_LABELS.GUEST} />
                 </RadioGroup>
               </FormControl>

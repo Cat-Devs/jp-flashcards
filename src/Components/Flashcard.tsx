@@ -92,7 +92,7 @@ const FlashcardCmp: React.FC<FlashcardProps> = ({
               </Typography>
             </Box>
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails data-cy="card-details">
             <Box sx={{ display: 'flex' }}>
               <Box sx={{ flex: '1 1 auto' }}>
                 {card.solution.map((solutionItem, index) => (
@@ -135,6 +135,7 @@ const FlashcardCmp: React.FC<FlashcardProps> = ({
             endIcon={<SendIcon />}
             variant="outlined"
             onClick={handleCheckAnswer}
+            data-cy="check-answer-btn"
           >
             Check answer
           </LoadingButton>

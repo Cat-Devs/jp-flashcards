@@ -13,7 +13,8 @@
     "db:create": "AWS_USERS_TABLE=$AWS_USERS_TABLE AWS_REGION=$AWS_REGION node ./data/upload.js",
     "prepare": "husky install",
     "cypress:open": "cypress open -b chrome",
-    "cypress:run": "cypress run -b chrome"
+    "cypress:run": "cypress run -b chrome",
+    "test:visual": "percy exec -- cypress run -s cypress/integration/vrt/**.spec.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.8.1",
@@ -35,6 +36,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
+    "@percy/cli": "^1.0.0-beta.76",
+    "@percy/cypress": "^3.1.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@types/node": "^17.0.18",

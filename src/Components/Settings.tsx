@@ -103,7 +103,12 @@ export const Settings: React.FC = () => {
             </AccordionSummary>
             <AccordionDetails>
               <FormControl>
-                <RadioGroup name="game-mode-buttons-group" value={gameMode} onChange={handleGameMode}>
+                <RadioGroup
+                  data-cy="game-mode-option-container"
+                  name="game-mode-buttons-group"
+                  value={gameMode}
+                  onChange={handleGameMode}
+                >
                   <FormControlLabel value="train" control={<Radio />} label={GAME_MODE_LABELS.TRAIN} />
                   <FormControlLabel value="practice" control={<Radio />} label={GAME_MODE_LABELS.PRACTICE} />
                   {user.weakCards > 0 && (

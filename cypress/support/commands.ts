@@ -1,3 +1,5 @@
+import '@percy/cypress';
+
 Cypress.Commands.add('hideCookieBanner', () => {
   cy.setCookie('cookie-consent', 'true');
 });

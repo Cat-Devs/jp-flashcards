@@ -4,7 +4,11 @@
     "types": ["cypress", "node", "./support"],
     "isolatedModules": false,
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"]
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": ".",
+    "paths": {
+      "pages/*": ["pages/*"]
+    }
   },
   "include": ["./**/*.ts"]
 }

@@ -217,13 +217,8 @@ export function useApp() {
   }, []);
 
   const logOut = useCallback(() => {
-    dispatch({
-      type: AppActionType.SET_GAME_MODE,
-      payload: 'guest',
-    });
-
     signOut();
-  }, [dispatch]);
+  }, []);
 
   return {
     currentGame: state.game,

@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { createContext, Dispatch, useEffect, useMemo, useReducer } from 'react';
-import { GameState } from '.';
 import { appReducer } from './appReducer';
-import { AppAction, AppActionType, AppState } from './types';
+import type { AppAction, AppState, GameState } from './types';
+import { AppActionType } from './types';
 
 export const AppContext = createContext<{
   state: AppState;

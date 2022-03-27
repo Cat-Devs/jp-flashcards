@@ -13,6 +13,10 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       return {
         ...state,
         user: action.payload,
+        game: {
+          ...state.game,
+          gameMode: action.payload?.userHash ? 'train' : 'guest',
+        },
       };
     }
 

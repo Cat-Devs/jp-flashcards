@@ -91,7 +91,12 @@ export const Settings: React.FC = () => {
             </AccordionSummary>
             <AccordionDetails>
               <FormControl>
-                <RadioGroup name="game-mode-buttons-group" value={gameMode} onChange={handleGameMode}>
+                <RadioGroup
+                  name="game-mode-buttons-group"
+                  data-cy="game-mode-option-container"
+                  value={gameMode}
+                  onChange={handleGameMode}
+                >
                   <FormControlLabel
                     value="train"
                     data-testid="game-mode-settings-train"
@@ -145,7 +150,12 @@ export const Settings: React.FC = () => {
             </AccordionSummary>
             <AccordionDetails data-cy="card-mode-details">
               <FormControl>
-                <RadioGroup name="card-mode-buttons-group" value={cardMode} onChange={handleCardMode}>
+                <RadioGroup
+                  name="card-mode-buttons-group"
+                  data-cy="game-mode-option-container"
+                  value={cardMode}
+                  onChange={handleCardMode}
+                >
                   <FormControlLabel
                     data-cy="card-mode-settings-en"
                     data-testid="card-mode-settings-en"

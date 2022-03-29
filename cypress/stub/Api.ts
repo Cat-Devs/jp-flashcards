@@ -16,7 +16,7 @@ export class ApiStub {
   getAuthSession(config: { hasSession: boolean }): Session {
     const response: Session = {
       user: { name: 'J Smith', email: 'jsmith@example.com' },
-      expires: '2022-04-25T19:48:55.075Z',
+      expires: new Date(Date.now() + 60000 * 10).toJSON(),
     };
 
     cy.intercept('GET', `${this.baseUrl}/api/auth/session`, {

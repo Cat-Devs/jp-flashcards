@@ -1,0 +1,26 @@
+name: Percy
+
+on: [deployment_status]
+
+jobs:
+  cypress-run:
+    if: github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Percy Run
+        run: yarn percy snapshot ./public
+        env:
+          CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      - name: save screenshots
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: percy-screenshots
+          path: public

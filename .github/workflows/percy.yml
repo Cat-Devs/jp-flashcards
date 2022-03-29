@@ -1,4 +1,4 @@
-name: ci
+name: Percy
 
 on: [deployment_status]
 
@@ -13,24 +13,16 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - name: Cypress Run
-        uses: cypress-io/github-action@v2
-        timeout-minutes: 5
-        with:
-          browser: chrome
-          spec: cypress/integration/functional/*.spec.ts
+      - name: Yarn Install
+        run: yarn
+      - name: Percy Run
+        run: yarn test:visual
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
-      - name: save videos
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: cypress-videos
-          path: cypress/videos
-
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
       - name: save screenshots
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: cypress-screenshots
-          path: cypress/screenshots
+          name: percy-screenshots
+          path: public

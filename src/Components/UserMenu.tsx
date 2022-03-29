@@ -42,7 +42,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ loading, signedIn, userHash,
   return (
     <>
       <Tooltip title="Open settings">
-        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+        <IconButton data-cy="open-profile-btn" onClick={handleOpenUserMenu} sx={{ p: 0 }}>
           <Avatar alt="User avatar" src={`https://avatars.dicebear.com/api/bottts/${userHash}.svg`} />
         </IconButton>
       </Tooltip>
@@ -62,7 +62,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ loading, signedIn, userHash,
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        <MenuItem onClick={onLogOut}>
+        <MenuItem data-cy="logout-btn" onClick={onLogOut}>
           <Typography textAlign="center">Log Out</Typography>
         </MenuItem>
       </Menu>

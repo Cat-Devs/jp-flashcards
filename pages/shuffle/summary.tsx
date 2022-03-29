@@ -20,7 +20,7 @@ const Summary: React.FC = () => {
   if (!loading && !currentCard) {
     return (
       <Container maxWidth="md" disableGutters>
-        <Box sx={{ p: 2 }}>
+        <Box data-cy="card-summary-wrap" sx={{ p: 2 }}>
           <ResultPage />
         </Box>
       </Container>
